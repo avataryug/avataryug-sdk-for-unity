@@ -2,8 +2,8 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
-/[Ll]ibrary/
-/[Tt]emp/
+/[Av]ataryugUnitySDK/[Ll]ibrary/
+/[Av]ataryugUnitySDK/[Tt]emp/
 /[Oo]bj/
 /[Bb]uild/
 /[Bb]uilds/
@@ -69,3 +69,4 @@ crashlytics-build.properties
 
 # Temporary auto-generated Android Assets
 
+AvataryugUnitySDK/Library/Artifacts/22/225ea8e40ca1add08840fab3ede40cc7
