@@ -29,7 +29,7 @@ This document is designed for individuals who are already acquainted with the fo
 
 ##### New Users:
 
-* Check out our Tutorials, Samples and more [here](https://api.playfab.com/docs/tutorials)
+* Check out our Tutorials, Samples and more [here](https://avataryug.com)
 
 #### Contact Us
 * We highly value input from our developer community! Are you brimming with ideas on how we can enhance our products and services?
@@ -37,7 +37,7 @@ This document is designed for individuals who are already acquainted with the fo
 * Count on our dedicated Developer Success Team to not only address your queries but also to carefully consider and act upon any feedback you wish to share regarding Avataryug services.
 
 [ContactUS](https://avataryug.com/contact)
-[Portal](https://portal.avataryug.com)
+
 
 ## 6. Copyright and Licensing Information:
 
