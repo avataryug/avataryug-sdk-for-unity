@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HeadMaterial
+  m_Shader: {fileID: 4800000, guid: 8c725d2628bcb4340b96dddee3f7cc6d, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BeardTexture:
+        m_Texture: {fileID: 2800000, guid: b1dccfeadde924eeabfa3b88e21ff44e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EyebrowTexture:
+        m_Texture: {fileID: 2800000, guid: 56a15e8de28eb4b2a9d4d712fc7bbf40, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EyelinerTexture:
+        m_Texture: {fileID: 2800000, guid: 21af2603e65d0436687d729bee0797fa, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _HairTexture:
+        m_Texture: {fileID: 2800000, guid: b1dccfeadde924eeabfa3b88e21ff44e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LipsTexture:
+        m_Texture: {fileID: 2800000, guid: 5e319a9ab65f94ba69af6d9ebc6ac39f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: b9468bf498b804dc595b15e55a2acefd, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TatooTexture:
+        m_Texture: {fileID: 2800000, guid: b1dccfeadde924eeabfa3b88e21ff44e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Glossiness: 0.1
+    m_Colors:
+    - _BeardColor: {r: 0.23137255, g: 0.23137255, b: 0.23137255, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EyebrowColor: {r: 0.15294118, g: 0.15294118, b: 0.15294118, a: 1}
+    - _EyelinerColor: {r: 1, g: 1, b: 1, a: 0.54509807}
+    - _HairColor: {r: 0.16470589, g: 0.16470589, b: 0.16470589, a: 1}
+    - _LipsColor: {r: 1, g: 0.61960787, b: 0.49411765, a: 1}
+    - _TatooColor: {r: 0.3726415, g: 0.56620216, b: 1, a: 0}
+  m_BuildTextureStacks: []
