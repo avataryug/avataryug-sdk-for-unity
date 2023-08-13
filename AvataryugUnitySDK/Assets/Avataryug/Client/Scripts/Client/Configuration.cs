@@ -53,6 +53,12 @@ namespace Com.Avataryug.Client
             get
             {
                 var settingsList = Resources.LoadAll<AvatarProjectSettings>("AvatarProjectSettings");
+                if (settingsList.Length == 0)
+                {
+                    Debug.LogError("No Project Setting File Found!");
+                    return null;
+                }
+
                 if (settingsList.Length != 1)
                 {
                     Debug.LogWarning("Multiple of no Project Setting");
