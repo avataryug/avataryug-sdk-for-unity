@@ -23,8 +23,8 @@ namespace Com.Avataryug
             return true;
         }
 
-        public static List<string> bodytattos = new List<string>() {
-            "FrontBodyTattoo","BackBodyTattoo","RightArmTattoo","LeftArmTattoo","FrontRightLegTattoo","FrontLeftLegTattoo",
+        public static List<string> bodytattos = new List<string>() { // "FrontBodyTattoo","BackBodyTattoo",
+           "RightArmTattoo","LeftArmTattoo","FrontRightLegTattoo","FrontLeftLegTattoo",
             "BackRightLegTattoo","BackLeftLegTattoo","RightHandTattoo","LeftHandTattoo","RightFootTattoo","LeftFootTattoo"
         };
 
@@ -117,8 +117,8 @@ namespace Com.Avataryug
         "FrontLeftLegTattoo",
         "FrontRightLegTattoo",
 
-        "BackBodyTattoo",
-        "FrontBodyTattoo",
+        //"BackBodyTattoo",
+        //"FrontBodyTattoo",
 
         "BackLeftLegTattoo",
         "BackRightLegTattoo",

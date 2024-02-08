@@ -172,12 +172,14 @@ namespace Com.Avataryug.Handler
         public string category;
         public int status;
         public int gender;
+        public int offset;
+        public int limit;
         public override void CallApi(Action<object> result, Action<ApiException> error)
         {
             if (Configuration.ProjectIdPresent)
             {
                 Configuration.SetApi();
-                new EconomyApi().GetEconomyItems(category, status, gender, (res) => { result?.Invoke(res); }, error);
+                new EconomyApi().GetEconomyItems(category, status, gender, offset, limit, (res) => { result?.Invoke(res); }, error);
             }
         }
     }

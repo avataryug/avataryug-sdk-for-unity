@@ -17,14 +17,23 @@ MonoBehaviour:
   HeadMaterial: {fileID: 2100000, guid: 0f6f3b638d49140b5949a7f8a477a3aa, type: 2}
   EyeballMaterial: {fileID: 2100000, guid: f170563c2ab144f8bbfcae2ad5165466, type: 2}
   FacialHairMaterial: {fileID: 2100000, guid: f886cce46824e4ce18ff24a8e22cc320, type: 2}
+  InnerMouthMaterial: {fileID: 2100000, guid: f3c1ad472db0f4922bba442912ada0a5, type: 2}
   empty: {fileID: 2800000, guid: b1dccfeadde924eeabfa3b88e21ff44e, type: 3}
-  baseSkinTexture: {fileID: 2800000, guid: b9468bf498b804dc595b15e55a2acefd, type: 3}
-  eyelineTexture: {fileID: 2800000, guid: 21af2603e65d0436687d729bee0797fa, type: 3}
+  baseSkinTexture: {fileID: 2800000, guid: ac2815613d2464344837ae32485203a0, type: 3}
   eyeballTexture: {fileID: 2800000, guid: 80dd86b938f21400b89330b9b9eb57dc, type: 3}
-  bodyTexture: {fileID: 2800000, guid: bdfd5aa1c265f447ba4fbbb1eb4d244e, type: 3}
+  bodyTexture: {fileID: 2800000, guid: bc82dd62f37738f4ab61ea5698837170, type: 3}
   DefaultLipTexture: {fileID: 2800000, guid: 5e319a9ab65f94ba69af6d9ebc6ac39f, type: 3}
   DefaultEyebrowTexture: {fileID: 2800000, guid: 56a15e8de28eb4b2a9d4d712fc7bbf40, type: 3}
   DefaultFacialHairColor: '#3b3b3b'
   DefaultEyebrowColor: '#272727'
   DefaultHairColor: '#2a2a2a'
   DefaultLipColor: '#ff9e7e'
+  DefaultMaleLipColor: '#ff9e7e'
+  headModel: {fileID: 6635245195314443262, guid: ca30b69ef4a31f346bdf44973ee01343, type: 3}
+  female_standard_top: {fileID: 4527062261214958364, guid: 984521aba94dc47378c2da0c825bf258, type: 3}
+  female_standard_bottom: {fileID: 1398125374305086310, guid: 16cd2c2da19c24a62bce605dbaa4308b, type: 3}
+  male_standard_top: {fileID: 5292398747434892516, guid: 920d46dae123347dbb95c5a47dff4da7, type: 3}
+  male_standard_bottom: {fileID: 5931213902772079893, guid: de0f0829f83544dd1a13637aa0031664, type: 3}
+  standard_footwear: {fileID: 5636277397024935326, guid: b2bc03ed4febe4ff08c12d14219f73a1, type: 3}
+  standard_hand: {fileID: 7165147417191593336, guid: eee5ff7f41bca46ce8ca93439f524b08, type: 3}
+  vertexData: {fileID: 4900000, guid: 5ecacd27e65258c4483bc7ef2c0dd6d5, type: 3}

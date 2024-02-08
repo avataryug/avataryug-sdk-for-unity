@@ -148,6 +148,12 @@ namespace Com.Avataryug.Handler
         {
             baseApiCall.CallApi((r) => { result?.Invoke((RenderAvatarImageResponse)r); }, error);
         }
+
+        public void GetUserAvatarAllData(Action<GetUserAvatarAllDataResponse> result, Action<ApiException> error)
+        {
+            baseApiCall.CallApi((r) => { result?.Invoke((GetUserAvatarAllDataResponse)r); }, error);
+        }
+
     }
 
     /// <summary>
@@ -171,6 +177,20 @@ namespace Com.Avataryug.Handler
                     Platform = Platform,
                 }
                 , (res) => { result?.Invoke(res); }, error);
+            }
+        }
+    }
+    public class GetUserAvatarAllData : Base
+    {
+        public string Platfrom;
+        public string AvatarID;
+        public override void CallApi(Action<object> result, Action<ApiException> error)
+        {
+            if (Configuration.ProjectIdPresent)
+            {
+                Configuration.SetApi();
+                var authApi = new AvatarManagementApi();
+                authApi.GetUserAvatarAllData(AvatarID, Platfrom, (res) => { result?.Invoke(res); }, error);
             }
         }
     }

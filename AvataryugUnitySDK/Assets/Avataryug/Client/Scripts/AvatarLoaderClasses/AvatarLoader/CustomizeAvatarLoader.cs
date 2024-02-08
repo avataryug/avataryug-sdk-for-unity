@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Com.Avataryug.Model;
-using Siccity.GLTFUtility;
 using UnityEngine;
 using Com.Avataryug.Handler;
 using Com.Avataryug.UI;
@@ -216,17 +215,14 @@ namespace Com.Avataryug
                 item.GetComponent<Animator>().enabled = true;
                 item.avatar = animationAvatar;
             }
-
             foreach (var item in m_ModelForAnimation)
             {
-                if (item.GetComponent<Animation>() != null)
-                {
-
-                    Animation animation = item.GetComponent<Animation>();
-                    animation.enabled = tpose;
-                    animation.Play();
-
-                }
+                    if (item.GetComponent<Animation>() != null)
+                    {
+                        Animation animation = item.GetComponent<Animation>();
+                        animation.enabled = tpose;
+                        animation.Play();
+                    }
             }
         }
 
@@ -322,14 +318,15 @@ namespace Com.Avataryug
                         currentClip = avatarPoseClip;
                         FileDownloder.GetByteData(avatarPoseClip.Artifacts[0].url, (res) =>
                         {
-                            AnimationClip[] clips;
-                            GameObject model = Importer.LoadFromBytes(res, new ImportSettings() { useLegacyClips = true }, out clips);
-                            Destroy(model);
-                            ApiEvents.OnApiResponce?.Invoke(null, null);
-                            if (clips.Length > 0)
+                            GltfFastLoader.GetClips(res, (clips) =>
                             {
-                                SetPose(clips[0]);
-                            }
+                                ApiEvents.OnApiResponce?.Invoke(null, null);
+                                if (clips.Length > 0)
+                                {
+                                    SetPose(clips[clips.Length-1]);
+                                }
+                            });
+                        
                         },
                         (err) =>
                         {
@@ -353,14 +350,14 @@ namespace Com.Avataryug
                     currentClip = avatarPoseClip;
                     FileDownloder.GetByteData(avatarPoseClip.Artifacts[0].url, (res) =>
                     {
-                        AnimationClip[] clips;
-                        GameObject model = Importer.LoadFromBytes(res, new ImportSettings() { useLegacyClips = true }, out clips);
-                        Destroy(model);
-                        ApiEvents.OnApiResponce?.Invoke(null, null);
-                        if (clips.Length > 0)
+                        GltfFastLoader.GetClips(res, (clips) =>
                         {
-                            SetPose(clips[0]);
-                        }
+                            ApiEvents.OnApiResponce?.Invoke(null, null);
+                            if (clips.Length > 0)
+                            {
+                                SetPose(clips[clips.Length-1]);
+                            }
+                        });
                     }, (err) =>
                     {
                         ApiEvents.OnShowTextPopup?.Invoke(null, "Error in download file");
@@ -425,10 +422,14 @@ namespace Com.Avataryug
         {
             foreach (var item in m_ModelForAnimation)
             {
-                //AddMixamo(item.transform);
                 if (item.GetComponent<Animator>() != null)
                 {
                     item.GetComponent<Animator>().enabled = false;
+                }
+                if(item.GetComponent<SetArmature>() == null)
+                {
+                    SetArmature armature = item.AddComponent<SetArmature>();
+                    armature.AddExtraArmature();
                 }
                 if (item.GetComponent<Animation>() != null)
                 {

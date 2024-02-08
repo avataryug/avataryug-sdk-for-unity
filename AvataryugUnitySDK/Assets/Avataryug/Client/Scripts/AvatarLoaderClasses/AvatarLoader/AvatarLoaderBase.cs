@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using UnityEngine;
 using Com.Avataryug.Model;
-using Siccity.GLTFUtility;
 using Com.Avataryug.Handler;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -32,6 +31,7 @@ namespace Com.Avataryug
         [HideInInspector] public Material m_HeadMaterial;
         [HideInInspector] public Material m_BodyMaterial;
         [HideInInspector] public Material m_EyeballMaterial;
+        [HideInInspector] public Material m_InnerMaterial;
 
         //Hold selected model data
         //Used for removing same model and compare with next model
@@ -71,7 +71,7 @@ namespace Com.Avataryug
 
         //Hold models animator controller
         [HideInInspector] public List<Animator> animatorControllers = new List<Animator>();
-        [HideInInspector] public List<GameObject> m_ModelForAnimation = new List<GameObject>();
+ public List<GameObject> m_ModelForAnimation = new List<GameObject>();
 
         //Hold all loaded tattoo in this list
         [HideInInspector] public List<LoadedTattoo> lastLoadedTattoos = new List<LoadedTattoo>();
@@ -151,9 +151,20 @@ namespace Com.Avataryug
             m_HeadMaterial = avatarLocalData.HeadMaterial;
             m_EyeballMaterial = avatarLocalData.EyeballMaterial;
             m_BodyMaterial = avatarLocalData.BodyMaterial;
+            m_InnerMaterial = avatarLocalData.InnerMouthMaterial;
             m_HeadMaterial.SetTexture("_MainTex", avatarLocalData.baseSkinTexture);
             m_HeadMaterial.SetColor("_EyebrowColor", Utility.GetColor(avatarLocalData.DefaultEyebrowColor));
-            m_HeadMaterial.SetColor("_LipsColor", Utility.GetColor(avatarLocalData.DefaultLipColor));
+            switch (GetGender())
+            {
+                case Gender.Male:
+                    m_HeadMaterial.SetColor("_LipsColor", Utility.GetColor(avatarLocalData.DefaultMaleLipColor));
+                    break;
+                case Gender.Female:
+                    m_HeadMaterial.SetColor("_LipsColor", Utility.GetColor(avatarLocalData.DefaultLipColor));
+                    break;
+            }
+
+
             m_HeadMaterial.SetTexture("_TatooTexture", avatarLocalData.empty);
             m_HeadMaterial.SetTexture("_HairTexture", avatarLocalData.empty);
             m_HeadMaterial.SetTexture("_BeardTexture", avatarLocalData.empty);
@@ -262,7 +273,6 @@ namespace Com.Avataryug
                 }
                 if (isTOpPresent || isbottomPresent)
                 {
-                    Debug.Log("Conflicts not available");
                     ApiEvents.OnShowTextPopup?.Invoke(null, "Conflicts not available");
                 }
                 loadFootwear = !isFootwearPresent;
@@ -325,8 +335,8 @@ namespace Com.Avataryug
         {
             if (loadDefaultModellist.Count == 0)
             {
-                Debug.Log("OnLoadQueDefaultModel");
                 ApiEvents.OnApiResponce?.Invoke(null, null);
+                Utility.ClearCatche();
             }
             else
             {
@@ -342,25 +352,44 @@ namespace Com.Avataryug
         /// <param name="modelData"></param>
         public void DownloadDefaultModel(ModelData modelData)
         {
-            if (FileHandler.CheckFileExistence(modelData.GlbPath))
+            if (loadLocal)
             {
-                byte[] data = FileHandler.LoadFile(modelData.GlbPath);
-                Importer.ImportGLBAsync(data, new ImportSettings() { useLegacyClips = true }, (obj) =>
+                GameObject objtospawn = null;
+
+                switch (modelData.LocalPath)
                 {
-                    AddDefaultBodypart(obj, modelData, () =>
-                    {
-                        OnLoadQueDefaultModel();
-                    });
+                    case "female_standard_top":
+                        objtospawn = avatarLocalData.female_standard_top;
+                        break;
+                    case "female_standard_bottom":
+                        objtospawn = avatarLocalData.female_standard_bottom;
+                        break;
+                    case "male_standard_top":
+                        objtospawn = avatarLocalData.male_standard_top;
+                        break;
+                    case "male_standard_bottom":
+                        objtospawn = avatarLocalData.male_standard_bottom;
+                        break;
+                    case "standard_footwear":
+                        objtospawn = avatarLocalData.standard_footwear;
+                        break;
+                    case "standard_hand":
+                        objtospawn = avatarLocalData.standard_hand;
+                        break;
+                }
+                var obj = Instantiate(objtospawn);
+                AddDefaultBodypart(obj, modelData, () =>
+                {
+                    OnLoadQueDefaultModel();
                 });
+
             }
             else
             {
                 FileDownloder.GetByteData(modelData.GlbPath, (result) =>
                 {
-                    FileHandler.SaveFile(result, modelData.GlbPath, () =>
-                    {
-                    });
-                    Importer.ImportGLBAsync(result, new ImportSettings() { useLegacyClips = true }, (obj) =>
+                    FileHandler.SaveFile(result, modelData.GlbPath, () => { });
+                    GltfFastLoader.LoadModel(result, (obj) =>
                     {
                         AddDefaultBodypart(obj, modelData, () =>
                         {
@@ -550,7 +579,6 @@ namespace Com.Avataryug
                         isFootwearPresent = item.transform.childCount > 0;
                     }
                 }
-
                 loadTop = !isTopPresent;
                 loadBottom = !isbottomPresent;
                 loadFootwear = !isFootwearPresent;
@@ -764,7 +792,13 @@ namespace Com.Avataryug
                 DownloadDefaultModel(modelData, OnComplete);
             }
         }
+        public bool loadLocal = true;
 
+        //async void GetDefaultmodel(string path, Action<byte[]> outdata)
+        //{
+        //    byte[] bytedata = await FileDownloder.GetGlbByte(path);
+        //    outdata?.Invoke(bytedata);
+        //}
         /// <summary>
         /// Download model from netwrok
         /// </summary>
@@ -772,25 +806,42 @@ namespace Com.Avataryug
         /// <param name="OnComplete"></param>
         public void DownloadDefaultModel(ModelData modelData, Action OnComplete)
         {
-            if (FileHandler.CheckFileExistence(modelData.GlbPath))
+            if (loadLocal)
             {
-                byte[] data = FileHandler.LoadFile(modelData.GlbPath);
-                Importer.ImportGLBAsync(data, new ImportSettings() { useLegacyClips = true }, (obj) =>
+                GameObject objtospawn = null;
+
+                switch (modelData.LocalPath)
                 {
-                    AddDefaultBodypart(obj, modelData, () =>
-                    {
-                        OnLoadQueueDefaultModel(OnComplete);
-                    });
+                    case "female_standard_top":
+                        objtospawn = avatarLocalData.female_standard_top;
+                        break;
+                    case "female_standard_bottom":
+                        objtospawn = avatarLocalData.female_standard_bottom;
+                        break;
+                    case "male_standard_top":
+                        objtospawn = avatarLocalData.male_standard_top;
+                        break;
+                    case "male_standard_bottom":
+                        objtospawn = avatarLocalData.male_standard_bottom;
+                        break;
+                    case "standard_footwear":
+                        objtospawn = avatarLocalData.standard_footwear;
+                        break;
+                    case "standard_hand":
+                        objtospawn = avatarLocalData.standard_hand;
+                        break;
+                }
+                var obj = Instantiate(objtospawn);
+                AddDefaultBodypart(obj, modelData, () =>
+                {
+                    OnLoadQueueDefaultModel(OnComplete);
                 });
             }
             else
             {
                 FileDownloder.GetByteData(modelData.GlbPath, (result) =>
                 {
-                    FileHandler.SaveFile(result, modelData.GlbPath, () =>
-                    {
-                    });
-                    Importer.ImportGLBAsync(result, new ImportSettings() { useLegacyClips = true }, (obj) =>
+                    GltfFastLoader.LoadModel(result, (obj) =>
                     {
                         AddDefaultBodypart(obj, modelData, () =>
                         {
@@ -890,12 +941,13 @@ namespace Com.Avataryug
                             {
                                 OnLoadQueueModel();
                             });
-                        }, (err) => { }, (pr) => { });
+                        }, (err) =>
+                        {
+                            OnLoadQueueModel();
+                        }, (pr) => { });
                     }
                     else
                     {
-                        Debug.Log("Tattoo not available");
-                        ApiEvents.OnShowTextPopup?.Invoke(null, "Tattoo not available");
                         Utility.DelayCall(delayTime, () =>
                         {
                             OnLoadQueueModel();
@@ -904,7 +956,6 @@ namespace Com.Avataryug
                 }
                 else
                 {
-                    Debug.Log("Tattoo not available");
                     ApiEvents.OnShowTextPopup?.Invoke(null, "Tattoo not available");
                     Utility.DelayCall(delayTime, () =>
                     {
@@ -939,7 +990,7 @@ namespace Com.Avataryug
                 }
             }
         }
-
+   
         /// <summary>
         /// Load skintone and add to the avatar 
         /// </summary>
@@ -973,9 +1024,12 @@ namespace Com.Avataryug
                                 FileDownloder.GetNetworkTexture(artifact.face_path,
                                 (facetex) =>
                                 {
+                                    facetex.filterMode = FilterMode.Point;
+
                                     FileDownloder.GetNetworkTexture(artifact.body_path,
                                     (bodytex) =>
                                     {
+                                        bodytex.filterMode = FilterMode.Point;
                                         currentskintoneData = modelData;
 #if DEMO_AVATARYUG
                                         AvatarHandler.Instance.AddCurrentBodyPart(modelData);
@@ -988,16 +1042,15 @@ namespace Com.Avataryug
                                         EconomyItemHolder.Instance.AddCurrentTexture(modelData.ID, facetex, bodytex);
 #endif
                                         Utility.DelayCall(delayTime, () =>
-                                {
-                                    OnLoadQueueModel();
-                                });
+                                        {
+                                            OnLoadQueueModel();
+                                        });
                                     });
                                 });
                             }
                         }
                         else
                         {
-                            Debug.Log("SkinTone not available");
                             ApiEvents.OnShowTextPopup?.Invoke(null, "SkinTone not available");
                             Utility.DelayCall(delayTime, () =>
                             {
@@ -1007,7 +1060,6 @@ namespace Com.Avataryug
                     }
                     else
                     {
-                        Debug.Log("SkinTone not available");
                         ApiEvents.OnShowTextPopup?.Invoke(null, "SkinTone not available");
                         Utility.DelayCall(delayTime, () =>
                         {
@@ -1017,7 +1069,6 @@ namespace Com.Avataryug
                 }
                 else
                 {
-                    Debug.Log("SkinTone not available");
                     ApiEvents.OnShowTextPopup?.Invoke(null, "SkinTone not available");
                     Utility.DelayCall(delayTime, () =>
                     {
@@ -1302,21 +1353,21 @@ namespace Com.Avataryug
                             FileDownloder.GetByteData(artifact.url, (result) =>
                             {
                                 byte[] byteData = ModelDecryptionHandler.GetGlbByte(result);
-
-                                Importer.ImportGLBAsync(byteData, new ImportSettings() { useLegacyClips = true }, (obj) =>
+                                GltfFastLoader.LoadModel(byteData,  (obj) =>
                                 {
                                     foreach (var item in objToDestroy)
                                     {
                                         DestroyImmediate(item);
                                     }
                                     objToDestroy.Clear();
+                                    obj.name = modelData.ID;
                                     AddNetworkBodyPart(obj, modelData, () =>
-                                    {
-                                        Utility.DelayCall(delayTime, () =>
                                         {
-                                            OnLoadQueueModel();
+                                            Utility.DelayCall(delayTime, () =>
+                                            {
+                                                OnLoadQueueModel();
+                                            });
                                         });
-                                    });
                                 });
                             }, (error) =>
                             {
@@ -1329,7 +1380,6 @@ namespace Com.Avataryug
                         }
                         else
                         {
-                            Debug.Log("Data not available");
                             ApiEvents.OnShowTextPopup?.Invoke(null, "Data not available");
                             Utility.DelayCall(delayTime, () =>
                             {
@@ -1339,7 +1389,6 @@ namespace Com.Avataryug
                     }
                     else
                     {
-                        Debug.Log("Data not available");
                         ApiEvents.OnShowTextPopup?.Invoke(null, "Data not available");
                         Utility.DelayCall(delayTime, () =>
                         {
@@ -1349,7 +1398,6 @@ namespace Com.Avataryug
                 }
                 else
                 {
-                    Debug.Log("Data not available");
                     ApiEvents.OnShowTextPopup?.Invoke(null, "Data not available");
                     Utility.DelayCall(delayTime, () =>
                     {
@@ -1410,9 +1458,9 @@ namespace Com.Avataryug
                             EconomyItemHolder.Instance.AddCurrentTexture(modelData.ID, texture, null);
 #endif
                             Utility.DelayCall(delayTime, () =>
-                    {
-                        OnLoadQueueModel();
-                    });
+                            {
+                                OnLoadQueueModel();
+                            });
                         }, (err) => { }, (pr) => { });
                     }
                     else
@@ -1556,6 +1604,9 @@ namespace Com.Avataryug
                     {
                         if (item.transform.childCount > 0)
                         {
+#if DEMO_AVATARYUG
+                            AvatarHandler.Instance.AddCurrentBodyPartWithid(new EconomyItems() { ID = item.transform.GetChild(0).gameObject.name });
+#endif
                             objToDestroy.Add(item.transform.GetChild(0).gameObject);
                             break;
                         }
@@ -1642,6 +1693,7 @@ namespace Com.Avataryug
                 bodyTexture.bodyMaterial = m_BodyMaterial;
                 bodyTexture.Initialize();
                 model.name = modelData.ID;
+                model.gameObject.name = modelData.ID;
                 model.transform.SetParent(ppin.transform);
                 model.transform.localPosition = Vector3.zero;
                 model.transform.localEulerAngles = Vector3.zero;
@@ -1650,10 +1702,12 @@ namespace Com.Avataryug
             else
             {
                 model.name = modelData.ID;
+                model.gameObject.name = modelData.ID;
                 model.transform.SetParent(ppin.transform);
                 model.transform.localPosition = Vector3.zero;
                 model.transform.localEulerAngles = Vector3.zero;
             }
+            model.name = modelData.ID;
             if (objToDestroy.Count > 0)
             {
                 foreach (var item in objToDestroy)
@@ -1705,7 +1759,15 @@ namespace Com.Avataryug
             m_HeadMaterial.SetTexture("_MainTex", avatarLocalData.baseSkinTexture);
             m_EyeballMaterial.SetTexture("_MainTex", avatarLocalData.eyeballTexture);
             m_HeadMaterial.SetColor("_EyebrowColor", Utility.GetColor(avatarLocalData.DefaultEyebrowColor));
-            m_HeadMaterial.SetColor("_LipsColor", Utility.GetColor(avatarLocalData.DefaultLipColor));
+            switch (GetGender())
+            {
+                case Gender.Male:
+                    m_HeadMaterial.SetColor("_LipsColor", Utility.GetColor(avatarLocalData.DefaultMaleLipColor));
+                    break;
+                case Gender.Female:
+                    m_HeadMaterial.SetColor("_LipsColor", Utility.GetColor(avatarLocalData.DefaultLipColor));
+                    break;
+            }
             m_HeadMaterial.SetColor("_HairColor", Utility.GetColor(avatarLocalData.DefaultHairColor));
             m_HeadMaterial.SetColor("_BeardColor", Utility.GetColor(avatarLocalData.DefaultFacialHairColor));
             m_BodyMaterial.SetTexture("_MainTex", avatarLocalData.bodyTexture);
@@ -1776,6 +1838,7 @@ namespace Com.Avataryug
                     headModelScript.SetBlendShape(item);
                     CurrentAvatarChanges.Instance.changeblendShapes.Add(item);
                 }
+
                 foreach (var item in CurrentAvatarChanges.Instance.currentProps.props)
                 {
                     var data = EconomyItemHolder.Instance.GetEconomyItemWithId(item.ID);
@@ -1806,7 +1869,15 @@ namespace Com.Avataryug
             m_EyeballMaterial.SetTexture("_MainTex", avatarLocalData.eyeballTexture);
 
             m_HeadMaterial.SetColor("_EyebrowColor", Utility.GetColor(avatarLocalData.DefaultEyebrowColor));
-            m_HeadMaterial.SetColor("_LipsColor", Utility.GetColor(avatarLocalData.DefaultLipColor));
+            switch (GetGender())
+            {
+                case Gender.Male:
+                    m_HeadMaterial.SetColor("_LipsColor", Utility.GetColor(avatarLocalData.DefaultMaleLipColor));
+                    break;
+                case Gender.Female:
+                    m_HeadMaterial.SetColor("_LipsColor", Utility.GetColor(avatarLocalData.DefaultLipColor));
+                    break;
+            }
             m_HeadMaterial.SetColor("_HairColor", Utility.GetColor(avatarLocalData.DefaultHairColor));
             m_HeadMaterial.SetColor("_BeardColor", Utility.GetColor(avatarLocalData.DefaultFacialHairColor));
 
@@ -1893,7 +1964,6 @@ namespace Com.Avataryug
         /// </summary>
         public void OnLoadQueueModel()
         {
-            Debug.Log(networkModelQueue.Count);
             if (networkModelQueue.Count > 0)
             {
                 EconomyItems modelData = networkModelQueue[0];
@@ -1902,6 +1972,7 @@ namespace Com.Avataryug
 #if DEMO_AVATARYUG
                 AvatarHandler.Instance.currentSelectedProp = modelData;
 #endif
+                Utility.ClearCatche();
             }
             else
             {
@@ -1929,266 +2000,271 @@ namespace Com.Avataryug
             }
             else
             {
-                if (modelData.ItemCategory == "FaceShape")
+                if (headModelScript != null && headModelScript.headRenderer != null)
                 {
-                    for (int a = 0; a < headModelScript.headRenderer.sharedMesh.blendShapeCount; a++)
+
+                    if (modelData.ItemCategory == "FaceShape")
                     {
-                        string blendshapename = headModelScript.headRenderer.sharedMesh.GetBlendShapeName(a);
-                        if (blendshapename.Contains("Face_"))
+
+                        for (int a = 0; a < headModelScript.headRenderer.sharedMesh.blendShapeCount; a++)
                         {
+                            string blendshapename = headModelScript.headRenderer.sharedMesh.GetBlendShapeName(a);
+                            if (blendshapename.Contains("Face_"))
+                            {
 #if DEMO_AVATARYUG
-                            CurrentAvatarChanges.Instance.ChangeBlendshapevalue(new BlendShapeValue() { shapekeys = blendshapename, value = 0 });
+                                CurrentAvatarChanges.Instance.ChangeBlendshapevalue(new BlendShapeValue() { shapekeys = blendshapename, sliderValue = 0 });
 #endif
-                            headModelScript.SetBlendShape(new Blendshape() { shapekeys = blendshapename, value = 0 });
+                                headModelScript.SetBlendShape(new Blendshape() { shapekeys = blendshapename, value = 0 });
+                                if (facialHairScript != null)
+                                {
+                                    facialHairScript.SetBlendshape(blendshapename, 0);
+                                }
+                            }
+                        }
+                        if (currentFaceshapeData.ID == modelData.ID)
+                        {
+                            currentFaceshapeData = new EconomyItems();
+                        }
+                        else
+                        {
+                            currentFaceshapeData = modelData;
                             if (facialHairScript != null)
                             {
-                                facialHairScript.SetBlendshape(blendshapename, 0);
+                                facialHairScript.Clearshape();
+                            }
+                            foreach (var item in modelData.BlendshapeKeys.blendShapes)
+                            {
+#if DEMO_AVATARYUG
+                                CurrentAvatarChanges.Instance.ChangeBlendshapevalue(item);
+#endif
+                                headModelScript.SetBlendShape(new Blendshape() { shapekeys = item.shapekeys, value = item.sliderValue });
+                                if (facialHairScript != null)
+                                {
+                                    facialHairScript.SetBlendshape(item.shapekeys, item.sliderValue);
+                                }
                             }
                         }
                     }
-                    if (currentFaceshapeData.ID == modelData.ID)
+
+                    if (modelData.ItemCategory == "EyeShape")
                     {
-                        currentFaceshapeData = new EconomyItems();
-                    }
-                    else
-                    {
-                        currentFaceshapeData = modelData;
-                        if (facialHairScript != null)
+                        for (int a = 0; a < headModelScript.headRenderer.sharedMesh.blendShapeCount; a++)
                         {
-                            facialHairScript.Clearshape();
-                        }
-                        foreach (var item in modelData.BlendshapeKeys.blendShapes)
-                        {
+                            string blendshapename = headModelScript.headRenderer.sharedMesh.GetBlendShapeName(a);
+                            if (blendshapename.Contains("Eyeshape_") || blendshapename.Contains("Iris") || blendshapename.Contains("Pupil"))
+                            {
 #if DEMO_AVATARYUG
-                            CurrentAvatarChanges.Instance.ChangeBlendshapevalue(item);
+                                CurrentAvatarChanges.Instance.ChangeBlendshapevalue(new BlendShapeValue() { shapekeys = blendshapename, sliderValue = 0 });
 #endif
-                            headModelScript.SetBlendShape(new Blendshape() { shapekeys = item.shapekeys, value = item.value });
+                                headModelScript.SetBlendShape(new Blendshape() { shapekeys = blendshapename, value = 0 });
+                                if (facialHairScript != null)
+                                {
+                                    facialHairScript.SetBlendshape(blendshapename, 0);
+                                }
+                            }
+                        }
+
+                        if (currentEyeshapeData.ID == modelData.ID)
+                        {
+                            currentEyeshapeData = new EconomyItems();
+                        }
+                        else
+                        {
+                            currentEyeshapeData = modelData;
                             if (facialHairScript != null)
                             {
-                                facialHairScript.SetBlendshape(item.shapekeys, item.value);
+                                facialHairScript.Clearshape();
+                            }
+                            foreach (var item in modelData.BlendshapeKeys.blendShapes)
+                            {
+#if DEMO_AVATARYUG
+                                CurrentAvatarChanges.Instance.ChangeBlendshapevalue(item);
+#endif
+                                headModelScript.SetBlendShape(new Blendshape() { shapekeys = item.shapekeys, value = item.sliderValue });
+                                if (facialHairScript != null)
+                                {
+                                    facialHairScript.SetBlendshape(item.shapekeys, item.sliderValue);
+                                }
                             }
                         }
                     }
+
+                    if (modelData.ItemCategory == "EyebrowShape")
+                    {
+                        for (int a = 0; a < headModelScript.headRenderer.sharedMesh.blendShapeCount; a++)
+                        {
+                            string blendshapename = headModelScript.headRenderer.sharedMesh.GetBlendShapeName(a);
+                            if (blendshapename.Contains("Eyebrows_"))
+                            {
+#if DEMO_AVATARYUG
+                                CurrentAvatarChanges.Instance.ChangeBlendshapevalue(new BlendShapeValue() { shapekeys = blendshapename, sliderValue = 0 });
+#endif
+                                headModelScript.SetBlendShape(new Blendshape() { shapekeys = blendshapename, value = 0 });
+                                if (facialHairScript != null)
+                                {
+                                    facialHairScript.SetBlendshape(blendshapename, 0);
+                                }
+
+                            }
+                        }
+
+                        if (currentEyebrowshapeData.ID == modelData.ID)
+                        {
+                            currentEyebrowshapeData = new EconomyItems();
+                        }
+                        else
+                        {
+                            currentEyebrowshapeData = modelData;
+                            if (facialHairScript != null)
+                            {
+                                facialHairScript.Clearshape();
+                            }
+                            foreach (var item in modelData.BlendshapeKeys.blendShapes)
+                            {
+#if DEMO_AVATARYUG
+                                CurrentAvatarChanges.Instance.ChangeBlendshapevalue(item);
+#endif
+                                headModelScript.SetBlendShape(new Blendshape() { shapekeys = item.shapekeys, value = item.sliderValue });
+                                if (facialHairScript != null)
+                                {
+                                    facialHairScript.SetBlendshape(item.shapekeys, item.sliderValue);
+                                }
+                            }
+                        }
+                    }
+
+                    if (modelData.ItemCategory == "NoseShape")
+                    {
+                        for (int a = 0; a < headModelScript.headRenderer.sharedMesh.blendShapeCount; a++)
+                        {
+                            string blendshapename = headModelScript.headRenderer.sharedMesh.GetBlendShapeName(a);
+                            if (blendshapename.Contains("Nose_"))
+                            {
+#if DEMO_AVATARYUG
+                                CurrentAvatarChanges.Instance.ChangeBlendshapevalue(new BlendShapeValue() { shapekeys = blendshapename, sliderValue = 0 });
+#endif
+                                headModelScript.SetBlendShape(new Blendshape() { shapekeys = blendshapename, value = 0 });
+                                if (facialHairScript != null)
+                                {
+                                    facialHairScript.SetBlendshape(blendshapename, 0);
+                                }
+                            }
+                        }
+
+                        if (currentNoseshapeData.ID == modelData.ID)
+                        {
+                            currentNoseshapeData = new EconomyItems();
+                        }
+                        else
+                        {
+                            currentNoseshapeData = modelData;
+                            if (facialHairScript != null)
+                            {
+                                facialHairScript.Clearshape();
+                            }
+                            foreach (var item in modelData.BlendshapeKeys.blendShapes)
+                            {
+#if DEMO_AVATARYUG
+                                CurrentAvatarChanges.Instance.ChangeBlendshapevalue(item);
+#endif
+                                headModelScript.SetBlendShape(new Blendshape() { shapekeys = item.shapekeys, value = item.sliderValue });
+                                if (facialHairScript != null)
+                                {
+                                    facialHairScript.SetBlendshape(item.shapekeys, item.sliderValue);
+                                }
+                            }
+                        }
+                    }
+
+                    if (modelData.ItemCategory == "LipShape")
+                    {
+                        for (int a = 0; a < headModelScript.headRenderer.sharedMesh.blendShapeCount; a++)
+                        {
+                            string blendshapename = headModelScript.headRenderer.sharedMesh.GetBlendShapeName(a);
+                            if (blendshapename.Contains("Lips_"))
+                            {
+#if DEMO_AVATARYUG
+                                CurrentAvatarChanges.Instance.ChangeBlendshapevalue(new BlendShapeValue() { shapekeys = blendshapename, sliderValue = 0 });
+#endif
+                                headModelScript.SetBlendShape(new Blendshape() { shapekeys = blendshapename, value = 0 });
+                                if (facialHairScript != null)
+                                {
+                                    facialHairScript.SetBlendshape(blendshapename, 0);
+                                }
+                            }
+                        }
+                        if (currentLipshapeData.ID == modelData.ID)
+                        {
+                            currentLipshapeData = new EconomyItems();
+                        }
+                        else
+                        {
+                            currentLipshapeData = modelData;
+                            if (facialHairScript != null)
+                            {
+                                facialHairScript.Clearshape();
+                            }
+                            foreach (var item in modelData.BlendshapeKeys.blendShapes)
+                            {
+#if DEMO_AVATARYUG
+                                CurrentAvatarChanges.Instance.ChangeBlendshapevalue(item);
+#endif
+                                headModelScript.SetBlendShape(new Blendshape() { shapekeys = item.shapekeys, value = item.sliderValue });
+                                if (facialHairScript != null)
+                                {
+                                    facialHairScript.SetBlendshape(item.shapekeys, item.sliderValue);
+                                }
+                            }
+                        }
+                    }
+
+                    if (modelData.ItemCategory == "EarShape")
+                    {
+                        for (int a = 0; a < headModelScript.headRenderer.sharedMesh.blendShapeCount; a++)
+                        {
+                            string blendshapename = headModelScript.headRenderer.sharedMesh.GetBlendShapeName(a);
+                            if (blendshapename.Contains("Ears_"))
+                            {
+#if DEMO_AVATARYUG
+                                CurrentAvatarChanges.Instance.ChangeBlendshapevalue(new BlendShapeValue() { shapekeys = blendshapename, sliderValue = 0 });
+#endif
+                                headModelScript.SetBlendShape(new Blendshape() { shapekeys = blendshapename, value = 0 });
+                                if (facialHairScript != null)
+                                {
+                                    facialHairScript.SetBlendshape(blendshapename, 0);
+                                }
+                            }
+                        }
+                        if (currentEarshapeData.ID == modelData.ID)
+                        {
+                            currentEarshapeData = new EconomyItems();
+                        }
+                        else
+                        {
+                            currentEarshapeData = modelData;
+                            if (facialHairScript != null)
+                            {
+                                facialHairScript.Clearshape();
+                            }
+                            foreach (var item in modelData.BlendshapeKeys.blendShapes)
+                            {
+#if DEMO_AVATARYUG
+                                CurrentAvatarChanges.Instance.ChangeBlendshapevalue(item);
+#endif
+                                headModelScript.SetBlendShape(new Blendshape() { shapekeys = item.shapekeys, value = item.sliderValue });
+                                if (facialHairScript != null)
+                                {
+                                    facialHairScript.SetBlendshape(item.shapekeys, item.sliderValue);
+                                }
+                            }
+
+                        }
+                    }
+                    Utility.DelayCall(delayTime, () =>
+                    {
+                        OnLoadQueueModel();
+                    });
                 }
-
-
-                if (modelData.ItemCategory == "EyeShape")
-                {
-                    for (int a = 0; a < headModelScript.headRenderer.sharedMesh.blendShapeCount; a++)
-                    {
-                        string blendshapename = headModelScript.headRenderer.sharedMesh.GetBlendShapeName(a);
-                        if (blendshapename.Contains("Eyeshape_") || blendshapename.Contains("Iris") || blendshapename.Contains("Pupil"))
-                        {
-#if DEMO_AVATARYUG
-                            CurrentAvatarChanges.Instance.ChangeBlendshapevalue(new BlendShapeValue() { shapekeys = blendshapename, value = 0 });
-#endif
-                            headModelScript.SetBlendShape(new Blendshape() { shapekeys = blendshapename, value = 0 });
-                            if (facialHairScript != null)
-                            {
-                                facialHairScript.SetBlendshape(blendshapename, 0);
-                            }
-                        }
-                    }
-
-                    if (currentEyeshapeData.ID == modelData.ID)
-                    {
-                        currentEyeshapeData = new EconomyItems();
-                    }
-                    else
-                    {
-                        currentEyeshapeData = modelData;
-                        if (facialHairScript != null)
-                        {
-                            facialHairScript.Clearshape();
-                        }
-                        foreach (var item in modelData.BlendshapeKeys.blendShapes)
-                        {
-#if DEMO_AVATARYUG
-                            CurrentAvatarChanges.Instance.ChangeBlendshapevalue(item);
-#endif
-                            headModelScript.SetBlendShape(new Blendshape() { shapekeys = item.shapekeys, value = item.value });
-                            if (facialHairScript != null)
-                            {
-                                facialHairScript.SetBlendshape(item.shapekeys, item.value);
-                            }
-                        }
-                    }
-                }
-
-                if (modelData.ItemCategory == "EyebrowShape")
-                {
-                    for (int a = 0; a < headModelScript.headRenderer.sharedMesh.blendShapeCount; a++)
-                    {
-                        string blendshapename = headModelScript.headRenderer.sharedMesh.GetBlendShapeName(a);
-                        if (blendshapename.Contains("Eyebrows_"))
-                        {
-#if DEMO_AVATARYUG
-                            CurrentAvatarChanges.Instance.ChangeBlendshapevalue(new BlendShapeValue() { shapekeys = blendshapename, value = 0 });
-#endif
-                            headModelScript.SetBlendShape(new Blendshape() { shapekeys = blendshapename, value = 0 });
-                            if (facialHairScript != null)
-                            {
-                                facialHairScript.SetBlendshape(blendshapename, 0);
-                            }
-
-                        }
-                    }
-
-                    if (currentEyebrowshapeData.ID == modelData.ID)
-                    {
-                        currentEyebrowshapeData = new EconomyItems();
-                    }
-                    else
-                    {
-                        currentEyebrowshapeData = modelData;
-                        if (facialHairScript != null)
-                        {
-                            facialHairScript.Clearshape();
-                        }
-                        foreach (var item in modelData.BlendshapeKeys.blendShapes)
-                        {
-#if DEMO_AVATARYUG
-                            CurrentAvatarChanges.Instance.ChangeBlendshapevalue(item);
-#endif
-                            headModelScript.SetBlendShape(new Blendshape() { shapekeys = item.shapekeys, value = item.value });
-                            if (facialHairScript != null)
-                            {
-                                facialHairScript.SetBlendshape(item.shapekeys, item.value);
-                            }
-                        }
-                    }
-                }
-
-                if (modelData.ItemCategory == "NoseShape")
-                {
-                    for (int a = 0; a < headModelScript.headRenderer.sharedMesh.blendShapeCount; a++)
-                    {
-                        string blendshapename = headModelScript.headRenderer.sharedMesh.GetBlendShapeName(a);
-                        if (blendshapename.Contains("Nose_"))
-                        {
-#if DEMO_AVATARYUG
-                            CurrentAvatarChanges.Instance.ChangeBlendshapevalue(new BlendShapeValue() { shapekeys = blendshapename, value = 0 });
-#endif
-                            headModelScript.SetBlendShape(new Blendshape() { shapekeys = blendshapename, value = 0 });
-                            if (facialHairScript != null)
-                            {
-                                facialHairScript.SetBlendshape(blendshapename, 0);
-                            }
-                        }
-                    }
-
-                    if (currentNoseshapeData.ID == modelData.ID)
-                    {
-                        currentNoseshapeData = new EconomyItems();
-                    }
-                    else
-                    {
-                        currentNoseshapeData = modelData;
-                        if (facialHairScript != null)
-                        {
-                            facialHairScript.Clearshape();
-                        }
-                        foreach (var item in modelData.BlendshapeKeys.blendShapes)
-                        {
-#if DEMO_AVATARYUG
-                            CurrentAvatarChanges.Instance.ChangeBlendshapevalue(item);
-#endif
-                            headModelScript.SetBlendShape(new Blendshape() { shapekeys = item.shapekeys, value = item.value });
-                            if (facialHairScript != null)
-                            {
-                                facialHairScript.SetBlendshape(item.shapekeys, item.value);
-                            }
-                        }
-                    }
-                }
-
-                if (modelData.ItemCategory == "LipShape")
-                {
-                    for (int a = 0; a < headModelScript.headRenderer.sharedMesh.blendShapeCount; a++)
-                    {
-                        string blendshapename = headModelScript.headRenderer.sharedMesh.GetBlendShapeName(a);
-                        if (blendshapename.Contains("Lips_"))
-                        {
-#if DEMO_AVATARYUG
-                            CurrentAvatarChanges.Instance.ChangeBlendshapevalue(new BlendShapeValue() { shapekeys = blendshapename, value = 0 });
-#endif
-                            headModelScript.SetBlendShape(new Blendshape() { shapekeys = blendshapename, value = 0 });
-                            if (facialHairScript != null)
-                            {
-                                facialHairScript.SetBlendshape(blendshapename, 0);
-                            }
-                        }
-                    }
-                    if (currentLipshapeData.ID == modelData.ID)
-                    {
-                        currentLipshapeData = new EconomyItems();
-                    }
-                    else
-                    {
-                        currentLipshapeData = modelData;
-                        if (facialHairScript != null)
-                        {
-                            facialHairScript.Clearshape();
-                        }
-                        foreach (var item in modelData.BlendshapeKeys.blendShapes)
-                        {
-#if DEMO_AVATARYUG
-                            CurrentAvatarChanges.Instance.ChangeBlendshapevalue(item);
-#endif
-                            headModelScript.SetBlendShape(new Blendshape() { shapekeys = item.shapekeys, value = item.value });
-                            if (facialHairScript != null)
-                            {
-                                facialHairScript.SetBlendshape(item.shapekeys, item.value);
-                            }
-                        }
-                    }
-                }
-                if (modelData.ItemCategory == "EarShape")
-                {
-                    for (int a = 0; a < headModelScript.headRenderer.sharedMesh.blendShapeCount; a++)
-                    {
-                        string blendshapename = headModelScript.headRenderer.sharedMesh.GetBlendShapeName(a);
-                        if (blendshapename.Contains("Ears_"))
-                        {
-#if DEMO_AVATARYUG
-                            CurrentAvatarChanges.Instance.ChangeBlendshapevalue(new BlendShapeValue() { shapekeys = blendshapename, value = 0 });
-#endif
-                            headModelScript.SetBlendShape(new Blendshape() { shapekeys = blendshapename, value = 0 });
-                            if (facialHairScript != null)
-                            {
-                                facialHairScript.SetBlendshape(blendshapename, 0);
-                            }
-                        }
-                    }
-                    if (currentEarshapeData.ID == modelData.ID)
-                    {
-                        currentEarshapeData = new EconomyItems();
-                    }
-                    else
-                    {
-                        currentEarshapeData = modelData;
-                        if (facialHairScript != null)
-                        {
-                            facialHairScript.Clearshape();
-                        }
-                        foreach (var item in modelData.BlendshapeKeys.blendShapes)
-                        {
-#if DEMO_AVATARYUG
-                            CurrentAvatarChanges.Instance.ChangeBlendshapevalue(item);
-#endif
-                            headModelScript.SetBlendShape(new Blendshape() { shapekeys = item.shapekeys, value = item.value });
-                            if (facialHairScript != null)
-                            {
-                                facialHairScript.SetBlendshape(item.shapekeys, item.value);
-                            }
-                        }
-
-                    }
-                }
-                Utility.DelayCall(delayTime, () =>
-                {
-                    OnLoadQueueModel();
-                });
             }
         }
 
@@ -2216,6 +2292,7 @@ namespace Com.Avataryug
                 else
                 if (AvataryugData.IsFacewearAccessary(modelData.ItemCategory))
                 {
+                    headModelScript?.UpdateFacePoints();
                     LoadFacewearAccessary(modelData);
                 }
                 else
@@ -2226,6 +2303,7 @@ namespace Com.Avataryug
                 else
                 if (AvataryugData.IsHeadCategoty(modelData.ItemCategory))
                 {
+                    headModelScript?.UpdateFacePoints();
                     LoadFaceAccessary(modelData);
                 }
                 else if (AvataryugData.IsBlendshapeCategory(modelData.ItemCategory))
@@ -2251,7 +2329,7 @@ namespace Com.Avataryug
                 bucketname = buc[1];
             }
             bool isModelPresent = false;
-            //{ "Mouthwear", "Earwear", "Eyebrowswear", "Facewear", "Neckwear", "Nosewear" };
+
             if (headModelScript != null)
             {
                 for (int i = 0; i < headModelScript.m_VertexPointerData.Count; i++)
@@ -2338,7 +2416,7 @@ namespace Com.Avataryug
 #endif
                                 FileDownloder.GetByteData(artifact.url, (result) =>
                                 {
-                                    Importer.ImportGLBAsync(ModelDecryptionHandler.GetGlbByte(result), new ImportSettings() { useLegacyClips = true }, (obj) =>
+                                    GltfFastLoader.LoadModel(ModelDecryptionHandler.GetGlbByte(result), (obj) =>
                                     {
                                         for (int i = 0; i < headModelScript.m_VertexPointerData.Count; i++)
                                         {
@@ -2445,6 +2523,12 @@ namespace Com.Avataryug
                                     currentHairData = new EconomyItems(); ;
                                     m_HeadMaterial.SetTexture("_HairTexture", avatarLocalData.empty);
                                 }
+
+                                if (modelData.ItemCategory == "Facialhair")
+                                {
+                                    m_HeadMaterial.SetTexture("_BeardTexture", avatarLocalData.empty);
+                                }
+
                                 if (modelData.ItemCategory == "Headwear")
                                 {
                                     currentHadwearData = new EconomyItems();
@@ -2488,7 +2572,7 @@ namespace Com.Avataryug
                                     if (headModelScript.m_VertexPointerData[i].pointTransform.childCount > 0)
                                     {
                                         Destroy(headModelScript.m_VertexPointerData[i].pointTransform.GetChild(0).gameObject);
-                                        if (bucketname.Contains("hair"))
+                                        if (bucketname == "hair")
                                         {
                                             m_HeadMaterial.SetTexture("_HairTexture", avatarLocalData.empty);
                                         }
@@ -2500,7 +2584,7 @@ namespace Com.Avataryug
                                 if (headModelScript.m_VertexPointerData[i].pointTransform.childCount > 0)
                                 {
                                     Destroy(headModelScript.m_VertexPointerData[i].pointTransform.GetChild(0).gameObject);
-                                    if (bucketname.Contains("hair"))
+                                    if (bucketname == "hair")
                                     {
                                         m_HeadMaterial.SetTexture("_HairTexture", avatarLocalData.empty);
                                     }
@@ -2521,7 +2605,7 @@ namespace Com.Avataryug
 #endif
                                 FileDownloder.GetByteData(artifact.url, (result) =>
                                 {
-                                    Importer.ImportGLBAsync(ModelDecryptionHandler.GetGlbByte(result), new ImportSettings() { useLegacyClips = true }, (obj) =>
+                                    GltfFastLoader.LoadModel(ModelDecryptionHandler.GetGlbByte(result), (obj) =>
                                     {
                                         for (int i = 0; i < headModelScript.m_VertexPointerData.Count; i++)
                                         {
@@ -2562,7 +2646,7 @@ namespace Com.Avataryug
                                             if (modelData.Config.isTwoD == 1)
                                             {
                                                 obj.SetActive(false);
-                                                Texture texture = obj.GetComponentInChildren<MeshRenderer>().material.GetTexture("_MainTex");
+                                                Texture texture = obj.GetComponentInChildren<MeshRenderer>().material.mainTexture;
                                                 m_HeadMaterial.SetTexture("_HairTexture", texture);
                                                 m_HeadMaterial.SetColor("_HairColor", avatarLocalData.HairMaterial.GetColor("_Color"));
 #if DEMO_AVATARYUG
@@ -2618,7 +2702,7 @@ namespace Com.Avataryug
                                             if (modelData.Config.isTwoD == 1)
                                             {
                                                 obj.SetActive(false);
-                                                Texture texture = obj.GetComponentInChildren<MeshRenderer>().material.GetTexture("_MainTex");
+                                                Texture texture = obj.GetComponentInChildren<MeshRenderer>().material.mainTexture;
 #if DEMO_AVATARYUG
                                                 EconomyItemHolder.Instance.AddCurrentTexture(modelData.ID, (Texture)texture, null);
 #endif
@@ -2682,21 +2766,39 @@ namespace Com.Avataryug
             ApiEvents.OnApiRequest?.Invoke(null, false);
             if (headModelScript == null)
             {
-                FileDownloder.GetByteData("https://avataryug.b-cdn.net/standards/head/unity/head_generic_rig_unity_v5.glb", (result) =>
+                if (loadLocal)
                 {
                     ApiEvents.OnApiRequest?.Invoke(null, false);
-                    Importer.ImportGLBAsync(result, new ImportSettings() { useLegacyClips = true }, (obj) =>
+                    var obj = Instantiate(avatarLocalData.headModel);
+                    obj.transform.parent = transform;
+                    obj.transform.localPosition = Vector3.zero;
+                    obj.name = "Head";
+                    headModelScript = obj.AddComponent<HeadModel>();
+                    headModelScript.headMaterial = m_HeadMaterial;
+                    headModelScript.eyeballmaterial = m_EyeballMaterial;
+                    headModelScript.innermaterial = m_InnerMaterial;
+                    AfterFileImport(obj, 0);
+                    headModelScript.LoadHeadwearPoints(OnComplete);
+                }
+                else
+                {
+                    FileDownloder.GetByteData("https://avataryug.b-cdn.net/standards/head/unity/head_generic_rig_unity_v5.glb", (result) =>
                     {
-                        obj.transform.parent = transform;
-                        obj.transform.localPosition = Vector3.zero;
-                        obj.name = "Head";
-                        headModelScript = obj.AddComponent<HeadModel>();
-                        headModelScript.headMaterial = m_HeadMaterial;
-                        headModelScript.eyeballmaterial = m_EyeballMaterial;
-                        AfterFileImport(obj, 0);
-                        headModelScript.LoadHeadwearPoints(OnComplete);
-                    });
-                }, (error) => { Debug.LogError(error); });
+                        ApiEvents.OnApiRequest?.Invoke(null, false);
+                        GltfFastLoader.LoadModel(result, (obj) =>
+                        {
+                            obj.transform.parent = transform;
+                            obj.transform.localPosition = Vector3.zero;
+                            obj.name = "Head";
+                            headModelScript = obj.AddComponent<HeadModel>();
+                            headModelScript.headMaterial = m_HeadMaterial;
+                            headModelScript.eyeballmaterial = m_EyeballMaterial;
+                            headModelScript.innermaterial = m_InnerMaterial;
+                            AfterFileImport(obj, 0);
+                            headModelScript.LoadHeadwearPoints(OnComplete);
+                        });
+                    }, (error) => { Debug.LogError(error); });
+                }
             }
             else
             {
@@ -2749,7 +2851,16 @@ namespace Com.Avataryug
         {
 
             m_HeadMaterial.SetColor("_EyebrowColor", Utility.GetColor(avatarLocalData.DefaultEyebrowColor));
-            m_HeadMaterial.SetColor("_LipsColor", Utility.GetColor(avatarLocalData.DefaultLipColor));
+            switch (GetGender())
+            {
+                case Gender.Male:
+                    m_HeadMaterial.SetColor("_LipsColor", Utility.GetColor(avatarLocalData.DefaultMaleLipColor));
+                    break;
+                case Gender.Female:
+                    m_HeadMaterial.SetColor("_LipsColor", Utility.GetColor(avatarLocalData.DefaultLipColor));
+                    break;
+            }
+
             m_HeadMaterial.SetColor("_HairColor", Utility.GetColor(avatarLocalData.DefaultHairColor));
             m_HeadMaterial.SetTexture("_TatooTexture", avatarLocalData.empty);
             m_HeadMaterial.SetTexture("_HairTexture", avatarLocalData.empty);
@@ -2765,8 +2876,12 @@ namespace Com.Avataryug
             {
                 m_BodyMaterial.SetTexture("_" + AvataryugData.bodytattos[i], avatarLocalData.empty);
             }
-
 #if DEMO_AVATARYUG
+            m_HeadMaterial.SetColor("_EyebrowColor", Utility.GetColor(CurrentAvatarChanges.Instance.currentpropColors.EyebrowColor));
+            m_HeadMaterial.SetColor("_LipsColor", Utility.GetColor(CurrentAvatarChanges.Instance.currentpropColors.LipColor));
+            m_HeadMaterial.SetColor("_HairColor", Utility.GetColor(CurrentAvatarChanges.Instance.currentpropColors.HairColor));
+
+
             foreach (var item in CurrentAvatarChanges.Instance.currentProps.props)
             {
                 var modelData = EconomyItemHolder.Instance.GetEconomyCurrentItemWithId(item.ID);

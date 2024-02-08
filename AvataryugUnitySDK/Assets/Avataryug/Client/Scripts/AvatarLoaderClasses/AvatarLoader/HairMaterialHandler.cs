@@ -67,12 +67,8 @@ namespace Com.Avataryug
                     skinner.GetMaterials(hairMat);
                     for (int i = 0; i < hairMat.Count; i++)
                     {
-                        hairmaterials.Add(hairMaterial);
-                        hairmaterials[i].mainTexture = hairMat[i].mainTexture;
-                        if (hairMat[i].HasProperty("_BumpMap"))
-                        {
-                            hairmaterials[i].SetTexture("_BumpMap", hairMat[i].GetTexture("_BumpMap"));
-                        }
+                        Material material = new Material(hairMat[i]);
+                        hairmaterials.Add(material);
 #if DEMO_AVATARYUG
                         hairmaterials[i].color = GetColor(CurrentAvatarChanges.Instance.changePropColors.HairColor);
 #endif
@@ -87,17 +83,8 @@ namespace Com.Avataryug
                     meshRenderer.GetMaterials(hairMat);
                     for (int i = 0; i < hairMat.Count; i++)
                     {
-                        hairmaterials.Add(hairMaterial);
-                        hairmaterials[i].mainTexture = hairMat[i].mainTexture;
-                        if (hairMat[i].HasProperty("_BumpMap"))
-                        {
-                            hairmaterials[i].SetTexture("_BumpMap", hairMat[i].GetTexture("_BumpMap"));
-                        }
-
-                        if (hairMat[i].HasProperty("_Metallic"))
-                        {
-                            hairmaterials[i].SetTexture("_Metallic", hairMat[i].GetTexture("_Metallic"));
-                        }
+                        Material material = new Material(hairMat[i]);
+                        hairmaterials.Add(material);
 #if DEMO_AVATARYUG
                         if (CurrentAvatarChanges.Instance.changePropColors.HairColor.Contains("#"))
                         {

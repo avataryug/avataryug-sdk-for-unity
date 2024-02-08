@@ -556,7 +556,7 @@ namespace Com.Avataryug.Model
 
         [DataMember(Name = "value", EmitDefaultValue = false)]
         [JsonProperty(PropertyName = "value")]
-        public float value;
+        public float sliderValue;
 
         // <summary>
         /// Get the string presentation of the object
@@ -567,7 +567,7 @@ namespace Com.Avataryug.Model
             var sb = new StringBuilder();
             sb.Append("class BlendShapeValue {\n");
             sb.Append("  shapekeys: ").Append(shapekeys).Append("\n");
-            sb.Append("  value: ").Append(value).Append("\n");
+            sb.Append("  sliderValue: ").Append(sliderValue).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -617,6 +617,7 @@ namespace Com.Avataryug.Model
             sb.Append("  device: ").Append(device).Append("\n");
             sb.Append("  face_path: ").Append(face_path).Append("\n");
             sb.Append("  selected: ").Append(selected).Append("\n");
+            sb.Append("  body_path: ").Append(body_path).Append("\n");
             sb.Append("  texture_size: ").Append(texture_size).Append("\n");
             sb.Append("}\n");
             return sb.ToString();

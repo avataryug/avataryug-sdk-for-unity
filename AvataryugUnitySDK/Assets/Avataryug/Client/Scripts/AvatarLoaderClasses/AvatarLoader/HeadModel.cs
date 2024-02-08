@@ -3,6 +3,24 @@ using UnityEngine;
 using Com.Avataryug.Model;
 using System.Collections.Generic;
 using Com.Avataryug.Handler;
+using System.IO;
+[System.Serializable]
+public class VertexDataClass
+{
+    public int Code;
+    public string Status;
+    public List<VetexDetail> Data = new List<VetexDetail>();
+}
+[System.Serializable]
+public class VetexDetail
+{
+    public string BucketName;
+    public string MainCatID;
+    public string Platform;
+    public string VertexArray;
+    public string Meta;
+    public string ID;
+}
 
 namespace Com.Avataryug
 {
@@ -17,6 +35,7 @@ namespace Com.Avataryug
         /// Face Material
         [HideInInspector] public Material headMaterial;
         [HideInInspector] public Material eyeballmaterial;
+        [HideInInspector] public Material innermaterial;
         //  public BlendShapePoint m_BlendShapePoint;
 
         /// Renderers to modify shape and material
@@ -24,7 +43,7 @@ namespace Com.Avataryug
         public SkinnedMeshRenderer eyeRenderer;
         public SkinnedMeshRenderer mouthRenderer;
 
-        GetAllBucketVerticesResult verticesResult;
+       public VertexDataClass verticesResult;
 
 #if DEMO_AVATARYUG
         public EyeBlink m_EyeBlink;
@@ -35,12 +54,6 @@ namespace Com.Avataryug
 
         /// Current Avatar script reference
         public CustomizeAvatarLoader customizeAvatarLoader;
-
-        /// Store last time difference
-        private float lastTime = 0;
-
-        /// Update rate per second
-        readonly float TicksPerSecond = 35;
 
         /// Head parent to calcualte facewear vertex point world position
         public Transform headParent;
@@ -78,6 +91,10 @@ namespace Com.Avataryug
             {
                 eyeRenderer.material = eyeballmaterial;
             }
+            if (mouthRenderer != null)
+            {
+                mouthRenderer.material = innermaterial;
+            }
             if (headRenderer != null)
             {
                 headMaterial.SetTexture("_MainTex", customizeAvatarLoader.avatarLocalData.baseSkinTexture);
@@ -98,30 +115,18 @@ namespace Com.Avataryug
         /// <summary>
         /// Update facewear point position when changes
         /// </summary>
-        private void FixedUpdate()
-        {
-            if (headParent != null)
-            {
-                float dur = 1f / this.TicksPerSecond;
-                lastTime += Time.deltaTime;
-                int cnt = 3;
-                while (lastTime > dur && cnt > 0)
-                {
-                    lastTime -= dur;
-                    cnt--;
-                    Mesh mesh = new Mesh();
-                    headRenderer.BakeMesh(mesh);
-                    mesh.GetVertices(headPosition);
-                    mesh.Clear();
-                    lastTime = Time.timeSinceLevelLoad;
-                    foreach (var item in m_VertexPointerData)
-                    {
-                        Vector3 worldPosVertex = transform.localToWorldMatrix.MultiplyPoint3x4(headPosition[item.SinglePointIndex]);
-                        item.pointTransform.position = worldPosVertex;
-                        item.pointTransform.localEulerAngles = Vector3.zero;
-                    }
-                }
 
+        public void  UpdateFacePoints()
+        {
+            Mesh mesh = new Mesh();
+            headRenderer.BakeMesh(mesh);
+            mesh.GetVertices(headPosition);
+            mesh.Clear();
+            foreach (var item in m_VertexPointerData)
+            {
+                Vector3 worldPosVertex = transform.localToWorldMatrix.MultiplyPoint3x4(headPosition[item.SinglePointIndex]);
+                item.pointTransform.position = worldPosVertex;
+                item.pointTransform.localEulerAngles = Vector3.zero;
             }
         }
 
@@ -142,9 +147,8 @@ namespace Com.Avataryug
                 }
             }
 
-            var defauth = new AvatarManagementHandler(new GetAllBucketVertices() { platform = "unity" });
-            defauth.GetAllBucketVertices((result) =>
-            {
+            VertexDataClass result = JsonUtility.FromJson<VertexDataClass>(customizeAvatarLoader.avatarLocalData.vertexData.text);
+            
                 verticesResult = result;
                 for (int i = 0; i < verticesResult.Data.Count; i++)
                 {
@@ -221,11 +225,6 @@ namespace Com.Avataryug
                     }
                 }
                 OnComplete?.Invoke();
-            },
-            (error) =>
-            {
-                Debug.Log(error);
-            });
         }
 
         /// <summary>
@@ -412,14 +411,52 @@ namespace Com.Avataryug
                         StartCoroutine(Utility.ValueTo(headRenderer.GetBlendShapeWeight(a), (float)blendShape.value, 0.5f, (value) =>
                         {
                             headRenderer.SetBlendShapeWeight(a, value);
-                            eyeRenderer.SetBlendShapeWeight(a, value);
-                            mouthRenderer.SetBlendShapeWeight(a, value);
+                            //eyeRenderer.SetBlendShapeWeight(a, value);
+                          //  mouthRenderer.SetBlendShapeWeight(a, value);
                         }));
                     }
                     else
                     {
                         headRenderer.SetBlendShapeWeight(a, (float)blendShape.value);
+                       // eyeRenderer.SetBlendShapeWeight(a, (float)blendShape.value);
+                       // mouthRenderer.SetBlendShapeWeight(a, (float)blendShape.value);
+                    }
+                    break;
+                }
+            }
+            for (int a = 0; a < eyeRenderer.sharedMesh.blendShapeCount; a++)
+            {
+                string blendshapename = eyeRenderer.sharedMesh.GetBlendShapeName(a);
+                if (blendshapename == blendShape.shapekeys)
+                {
+                    if (shootheffect)
+                    {
+                        StartCoroutine(Utility.ValueTo(eyeRenderer.GetBlendShapeWeight(a), (float)blendShape.value, 0.5f, (value) =>
+                        {
+                            eyeRenderer.SetBlendShapeWeight(a, value);
+                        }));
+                    }
+                    else
+                    {
                         eyeRenderer.SetBlendShapeWeight(a, (float)blendShape.value);
+                    }
+                    break;
+                }
+            }
+            for (int a = 0; a < mouthRenderer.sharedMesh.blendShapeCount; a++)
+            {
+                string blendshapename = mouthRenderer.sharedMesh.GetBlendShapeName(a);
+                if (blendshapename == blendShape.shapekeys)
+                {
+                    if (shootheffect)
+                    {
+                        StartCoroutine(Utility.ValueTo(mouthRenderer.GetBlendShapeWeight(a), (float)blendShape.value, 0.5f, (value) =>
+                        {
+                            mouthRenderer.SetBlendShapeWeight(a, value);
+                        }));
+                    }
+                    else
+                    {
                         mouthRenderer.SetBlendShapeWeight(a, (float)blendShape.value);
                     }
                     break;

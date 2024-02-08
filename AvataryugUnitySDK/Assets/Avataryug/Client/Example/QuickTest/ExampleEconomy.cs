@@ -23,7 +23,7 @@ namespace Com.Avataryug
         readonly string[] ItemCategory = new string[]
             {
             "LeftHandTattoo","RightHandTattoo","LeftArmTattoo","RightArmTattoo","LeftFootTattoo","RightFootTattoo","FrontLeftLegTattoo",
-            "FrontRightLegTattoo","BackBodyTattoo","FrontBodyTattoo","BackLeftLegTattoo","BackRightLegTattoo","HeadTattoo","FaceShape",
+            "FrontRightLegTattoo","BackLeftLegTattoo","BackRightLegTattoo","HeadTattoo","FaceShape",//"BackBodyTattoo","FrontBodyTattoo",
             "EyeShape","EyebrowShape","NoseShape","LipShape","EarShape","Hair","Eyebrow","Lips","Facialhair","Headwear","Eyewear",
             "Eyeball","Mouthwear","Earwear","Eyebrowswear","Facewear","Neckwear","Nosewear","Top",
             "Bottom","Outfit","Footwear","Handwear","Wristwear", "SkinTone",
@@ -94,7 +94,9 @@ namespace Com.Avataryug
             {
                 category = category,
                 status = 1,
-                gender = gender
+                gender = gender,
+                limit = 500,
+                offset = 0
             });
             auth.GetEconomyItems((result) =>
             {

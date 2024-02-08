@@ -31,6 +31,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: b1dccfeadde924eeabfa3b88e21ff44e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 2800000, guid: 9f910c52fd0381f4192cf09100d06882, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _FrontBodyTattoo:
         m_Texture: {fileID: 2800000, guid: b1dccfeadde924eeabfa3b88e21ff44e, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -56,7 +60,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: bdfd5aa1c265f447ba4fbbb1eb4d244e, type: 3}
+        m_Texture: {fileID: 2800000, guid: bc82dd62f37738f4ab61ea5698837170, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RightArmTattoo:
@@ -71,8 +75,13 @@ Material:
         m_Texture: {fileID: 2800000, guid: b1dccfeadde924eeabfa3b88e21ff44e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _RoughnessMap:
+        m_Texture: {fileID: 2800000, guid: 14b201851c51f3247b8da369cd3c00bc, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Glossiness: 0.1
+    - _RoughnessRange: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

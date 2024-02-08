@@ -12,8 +12,8 @@ namespace Com.Avataryug.UI
     public enum ItemCategory
     {
         Top, Bottom, Outfit, Footwear, Handwear, Wristwear, LeftHandTattoo, RightHandTattoo,
-        LeftArmTattoo, RightArmTattoo, LeftFootTattoo, RightFootTattoo, FrontLeftLegTattoo, FrontRightLegTattoo,
-        BackBodyTattoo, FrontBodyTattoo, BackLeftLegTattoo, BackRightLegTattoo, HeadTattoo, SkinTone, Hair, Eyebrow,
+        LeftArmTattoo, RightArmTattoo, LeftFootTattoo, RightFootTattoo, FrontLeftLegTattoo, FrontRightLegTattoo, //BackBodyTattoo, FrontBodyTattoo,
+        BackLeftLegTattoo, BackRightLegTattoo, HeadTattoo, SkinTone, Hair, Eyebrow,
         Eyeball, Lips, Facialhair, Headwear, Eyewear, Mouthwear, Earwear, Eyebrowswear, Facewear, Neckwear, Nosewear,
         FaceShape, EyeShape, EyebrowShape, NoseShape, LipShape, EarShape
     }
@@ -71,7 +71,7 @@ namespace Com.Avataryug.UI
             {
                 gender = 3; //Apart from Top, Bottom, Outfit reset all category maintain as gender 3
             }
-            var auth = new EconomyHandler(new GetEconomyItems() { category = category, gender = gender, status = 1 });
+            var auth = new EconomyHandler(new GetEconomyItems() { category = category, gender = gender, status = 1, limit = 500, offset = 0 });
 
             auth.GetEconomyItems((result) =>
             {

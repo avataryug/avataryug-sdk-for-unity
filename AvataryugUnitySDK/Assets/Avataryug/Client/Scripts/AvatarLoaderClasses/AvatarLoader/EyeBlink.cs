@@ -14,6 +14,7 @@ namespace Com.Avataryug
         private string blinkBlendShapeName = "eyesClosed";  // Name of the blink blend shape
         private int blinkBlendShapeIndex;
         private float nextBlinkTime;
+        public bool stopBlink = false;
 
         /// <summary>
         /// Assign the blendshape index and timer 
@@ -29,11 +30,18 @@ namespace Com.Avataryug
         /// </summary>
         private void Update()
         {
-            if (Time.time >= nextBlinkTime)
+            if (stopBlink)
             {
-                Blink(); //Call blink process 
-                m_BlinkInterval = Random.Range(2, 6); //Used to blink eye on random interval
-                nextBlinkTime = Time.time + m_BlinkInterval; //Setting next interval time
+                return;
+            }
+            else
+            {
+                if (Time.time >= nextBlinkTime)
+                {
+                    Blink(); //Call blink process 
+                    m_BlinkInterval = Random.Range(2, 6); //Used to blink eye on random interval
+                    nextBlinkTime = Time.time + m_BlinkInterval; //Setting next interval time
+                }
             }
         }
 
@@ -95,6 +103,12 @@ namespace Com.Avataryug
         {
             // Apply ease-in-out function
             return t < 0.5f ? 4f * t * t * t : 1f - Mathf.Pow(-2f * t + 2f, 3f) / 2f;
+        }
+
+        public void ResetBlinkBlendshape()
+        {
+            skinnedMeshRenderer.SetBlendShapeWeight(blinkBlendShapeIndex, 0);
+            stopBlink = true;
         }
     }
 }

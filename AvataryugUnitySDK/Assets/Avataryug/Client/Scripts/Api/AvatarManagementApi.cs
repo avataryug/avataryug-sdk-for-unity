@@ -95,6 +95,8 @@ namespace Com.Avataryug.Api
         /// </summary>
         /// <returns>GetExpressionsResponse</returns>
         void GetExpressions(int Status, Action<GetExpressionsResponse> result, Action<ApiException> error);
+
+        void GetUserAvatarAllData(string AvatarID, string Platform, Action<GetUserAvatarAllDataResponse> result, Action<ApiException> error);
     }
 
     /// <summary>
@@ -527,7 +529,6 @@ namespace Com.Avataryug.Api
                 error?.Invoke(new ApiException((int)response.StatusCode, "Error calling GetAvatarPresets: " + response.ErrorMessage, response.ErrorMessage));
                 return;
             }
-            Debug.Log(response.Content);
             result?.Invoke((GetAvatarPresetsResult)ApiClient.Deserialize(response.Content, typeof(GetAvatarPresetsResult), response.Headers));
         }
 
@@ -721,6 +722,49 @@ namespace Com.Avataryug.Api
                 return;
             }
             result?.Invoke(response.Content);
+        }
+
+        public async void GetUserAvatarAllData(string AvatarID, string Platform, Action<GetUserAvatarAllDataResponse> result, Action<ApiException> error)
+        {
+            if (!Configuration.ProjectIdPresent)
+            {
+                if (Configuration.avatarProjectSettings.DebugLog)
+                {
+                    Debug.LogError("ProjectId is not present");
+                }
+                ApiEvents.OnShowTextPopup?.Invoke(null, "Project Id is not set");
+                return;
+            }
+
+            var path = "/GetUserAvatarAllData";
+            path = path.Replace("{format}", "json");
+
+            var queryParams = new Dictionary<String, String>();
+            var headerParams = new Dictionary<String, String>();
+            var formParams = new Dictionary<String, String>();
+            var fileParams = new Dictionary<String, FileParameter>();
+            String postBody = null;
+
+            queryParams.Add("AvatarID", ApiClient.ParameterToString(AvatarID));
+            queryParams.Add("Platform", ApiClient.ParameterToString(Platform));
+
+            // authentication setting, if any
+            String[] authSettings = new String[] { "bearerAuth" };
+
+            // make the HTTP request
+            IRestResponse response = (IRestResponse)await ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+
+            if (((int)response.StatusCode) >= 400)
+            {
+                error?.Invoke(new ApiException((int)response.StatusCode, "Error calling GetAvatarPresets: " + response.Content, response.Content));
+                return;
+            }
+            else if (((int)response.StatusCode) == 0)
+            {
+                error?.Invoke(new ApiException((int)response.StatusCode, "Error calling GetAvatarPresets: " + response.ErrorMessage, response.ErrorMessage));
+                return;
+            }
+            result?.Invoke((GetUserAvatarAllDataResponse)ApiClient.Deserialize(response.Content, typeof(GetUserAvatarAllDataResponse), response.Headers));
         }
 
     }

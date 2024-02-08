@@ -44,12 +44,13 @@ namespace Com.Avataryug
         /// </summary>
         public void SetBodySkinMeshMaterial()
         {
-            SkinnedMeshRenderer skinmeshRenderers = GetComponentInChildren<SkinnedMeshRenderer>();
-            if (skinmeshRenderers != null)
-            {
-                List<Material> materials = new List<Material>();
-                skinmeshRenderers.GetMaterials(materials);
+            SkinnedMeshRenderer[] skinmeshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
 
+            foreach (var item in skinmeshRenderers)
+            {
+                item.quality = SkinQuality.Bone4;
+                List<Material> materials = new List<Material>();
+                item.GetMaterials(materials);
                 for (int j = 0; j < materials.Count; j++)
                 {
                     if (CheckIsBodyMaterial(materials[j].name.ToLower()))
@@ -57,8 +58,9 @@ namespace Com.Avataryug
                         materials[j] = bodyMaterial;
                     }
                 }
-                skinmeshRenderers.materials = materials.ToArray();
+                item.materials = materials.ToArray();
             }
+           
         }
 
         /// <summary>
@@ -68,7 +70,7 @@ namespace Com.Avataryug
         /// <returns></returns>
         private bool CheckIsBodyMaterial(string bodymaterialname)
         {
-            if (bodymaterialname == "body (instance)" || bodymaterialname == "bodymaterial")
+            if (bodymaterialname == "body (instance)" || bodymaterialname == "bodymaterial" || bodymaterialname == "body" || bodymaterialname == "bodymaterial (instance)")
             {
                 return true;
             }

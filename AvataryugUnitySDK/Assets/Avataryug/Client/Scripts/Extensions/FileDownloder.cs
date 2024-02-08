@@ -15,6 +15,12 @@ namespace Com.Avataryug
     /// </summary>
     public class FileDownloder
     {
+        public static async Task<byte[]> GetGlbByte(string path)
+        {
+            byte[] imgdata = File.ReadAllBytes(path);
+            await Task.Delay(1);
+            return imgdata;
+        }
         /// <summary>
         /// The "GetByteData" is used to download byte data from a specified URL.
         /// It takes parameters such as the URL,
@@ -72,7 +78,7 @@ namespace Com.Avataryug
                     await Task.Yield();
                 }
                 if (www.result != UnityWebRequest.Result.Success)
-                    Debug.LogError($"Failed: {www.error}");
+                    Debug.LogError($"Failed: {www.error}" + url);
 
                 var texResult = DownloadHandlerTexture.GetContent(www);
                 _result.Invoke(texResult);

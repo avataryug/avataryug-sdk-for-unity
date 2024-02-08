@@ -16,6 +16,7 @@ namespace Com.Avataryug
 
     public static class ExtensionMethods
     {
+      
         public static string ToJson(this object obj)
         {
             return JsonUtility.ToJson(obj);
@@ -137,9 +138,21 @@ namespace Com.Avataryug
         {
             return JsonUtility.FromJson<Configs>(result.Config);
         }
+        public static Configs GetConfig(this GetUserAvatarAllDataResponseDataInner result)
+        {
+            return JsonUtility.FromJson<Configs>(result.Config);
+        }
         public static ConflictingBuckets GetConflictingBuckets(this GetEconomyItemsResultDataInner result)
         {
             return JsonUtility.FromJson<ConflictingBuckets>("{" + "\"buckets\":" + result.ConflictingBuckets + "}");
+        }
+        public static ConflictingBuckets GetConflictingBuckets(this GetUserAvatarAllDataResponseDataInner result)
+        {
+            return JsonUtility.FromJson<ConflictingBuckets>("{" + "\"buckets\":" + result.ConflictingBuckets + "}");
+        }
+        public static BlendShapes GetEconomyItemBlendShapes(this GetUserAvatarAllDataResponseDataInner result)
+        {
+            return JsonUtility.FromJson<BlendShapes>("{" + "\"blendShapes\":" + result.BlendshapeKeys + "}");
         }
 
         public static Tags GetTags(this GetAvatarPresetsResultDataInner result)
@@ -196,6 +209,11 @@ namespace Com.Avataryug
     /// <returns></returns>
     public class Utility
     {
+        public static void ClearCatche()
+        {
+            Resources.UnloadUnusedAssets();
+            Caching.ClearCache();
+        }
         public static Platfroms GetPlatfrom()
         {
             Platfroms platfroms = Platfroms.Android;

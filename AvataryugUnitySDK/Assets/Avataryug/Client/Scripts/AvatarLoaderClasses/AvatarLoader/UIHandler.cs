@@ -96,6 +96,7 @@ namespace Com.Avataryug
 
         private void LoadModel()
         {
+            Debug.LogError("LoginwithCustomID----LoadModel->>");
             if (customizeAvatarLoader == null)
             {
                 customizeAvatarLoader = FindObjectOfType<CustomizeAvatarLoader>();

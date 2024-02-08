@@ -224,7 +224,6 @@ namespace Com.Avataryug.Client
         {
             try
             {
-                UnityEngine.Debug.Log("==  " + JsonConvert.SerializeObject(obj));
                 return obj != null ? JsonConvert.SerializeObject(obj) : null;
             }
             catch (Exception e)

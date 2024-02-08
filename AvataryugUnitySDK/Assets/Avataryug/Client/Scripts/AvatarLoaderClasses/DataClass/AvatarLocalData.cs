@@ -10,9 +10,9 @@ namespace Com.Avataryug
         public Material HeadMaterial;
         public Material EyeballMaterial;
         public Material FacialHairMaterial;
+        public Material InnerMouthMaterial;
         public Texture empty;
         public Texture baseSkinTexture;
-        public Texture eyelineTexture;
         public Texture eyeballTexture;
         public Texture bodyTexture;
 
@@ -23,6 +23,17 @@ namespace Com.Avataryug
         public string DefaultEyebrowColor;
         public string DefaultHairColor;
         public string DefaultLipColor;
+        public string DefaultMaleLipColor;
+        public GameObject headModel;
+
+        public GameObject female_standard_top;
+        public GameObject female_standard_bottom;
+        public GameObject male_standard_top;
+        public GameObject male_standard_bottom;
+        public GameObject standard_footwear;
+        public GameObject standard_hand;
+        public TextAsset vertexData;
+
     }
 
 }

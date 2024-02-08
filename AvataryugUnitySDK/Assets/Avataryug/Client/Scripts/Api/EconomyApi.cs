@@ -45,7 +45,7 @@ namespace Com.Avataryug.Api
         /// <param name="status"></param>
         /// <param name="gender"></param>
         /// <returns>GetEconomyItemsResult</returns>
-        void GetEconomyItems(string category, int status, int gender, Action<GetEconomyItemsResult> result, Action<ApiException> error);
+        void GetEconomyItems(string category, int status, int gender, int offset, int limit, Action<GetEconomyItemsResult> result, Action<ApiException> error);
 
         /// <summary>
         /// Get Economy Item by ID Get Economy Item by ID
@@ -331,7 +331,7 @@ namespace Com.Avataryug.Api
         /// <param name="status"></param>
         /// <param name="gender"></param>
         /// <returns>GetEconomyItemsResult</returns>
-        public async void GetEconomyItems(string category, int status, int gender, Action<GetEconomyItemsResult> result, Action<ApiException> error)
+        public async void GetEconomyItems(string category, int status, int gender, int offset, int limit, Action<GetEconomyItemsResult> result, Action<ApiException> error)
         {
             if (!Configuration.ProjectIdPresent)
             {
@@ -361,7 +361,8 @@ namespace Com.Avataryug.Api
             if (category != null) queryParams.Add("Category", ApiClient.ParameterToString(category)); // query parameter
             queryParams.Add("Status", ApiClient.ParameterToString(status)); // query parameter
             queryParams.Add("Gender", ApiClient.ParameterToString(gender)); // query parameter
-
+            queryParams.Add("Offset", ApiClient.ParameterToString(offset));
+            queryParams.Add("Limit", ApiClient.ParameterToString(limit));
             // authentication setting, if any
             String[] authSettings = new String[] { "bearerAuth" };
 
