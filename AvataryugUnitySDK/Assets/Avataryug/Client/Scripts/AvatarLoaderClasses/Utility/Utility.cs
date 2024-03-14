@@ -150,6 +150,7 @@ namespace Com.Avataryug
         {
             return JsonUtility.FromJson<ConflictingBuckets>("{" + "\"buckets\":" + result.ConflictingBuckets + "}");
         }
+   
         public static BlendShapes GetEconomyItemBlendShapes(this GetUserAvatarAllDataResponseDataInner result)
         {
             return JsonUtility.FromJson<BlendShapes>("{" + "\"blendShapes\":" + result.BlendshapeKeys + "}");
@@ -199,6 +200,36 @@ namespace Com.Avataryug
         }
 
         public static ItemThumbUrls GetItemThumbnailsUrls(this GetEconomyItemsResultDataInner result)
+        {
+            return JsonUtility.FromJson<ItemThumbUrls>("{" + "\"itemThumbnails\":" + result.ItemThumbnailsUrl + "}");
+        }
+
+        public static ConflictingBuckets GetConflictingBuckets(this GetEconomyItemsByIDResultData result)
+        {
+            return JsonUtility.FromJson<ConflictingBuckets>("{" + "\"buckets\":" + result.ConflictingBuckets + "}");
+        }
+        public static Configs GetConfig(this GetEconomyItemsByIDResultData result)
+        {
+            return JsonUtility.FromJson<Configs>(result.Config);
+        }
+        public static Entitlements GetEntitlement(this GetEconomyItemsByIDResultData result)
+        {
+            return JsonUtility.FromJson<Entitlements>(result.Entitlement);
+        }
+
+        public static Tags GetTags(this GetEconomyItemsByIDResultData result)
+        {
+            return JsonUtility.FromJson<Tags>("{" + "\"tags\":" + result.Tags + "}");
+        }
+        public static BlendShapes GetEconomyItemBlendShapes(this GetEconomyItemsByIDResultData result)
+        {
+            return JsonUtility.FromJson<BlendShapes>("{" + "\"blendShapes\":" + result.BlendshapeKeys + "}");
+        }
+        public static VirtualCurrencysResult GetVirtualCurrencys(this GetEconomyItemsByIDResultData result)
+        {
+            return JsonUtility.FromJson<VirtualCurrencysResult>("{" + "\"virtualCurrencys\":" + result.VirtualCurrency + "}");
+        }
+        public static ItemThumbUrls GetItemThumbnailsUrls(this GetEconomyItemsByIDResultData result)
         {
             return JsonUtility.FromJson<ItemThumbUrls>("{" + "\"itemThumbnails\":" + result.ItemThumbnailsUrl + "}");
         }

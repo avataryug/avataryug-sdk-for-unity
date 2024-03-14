@@ -62,7 +62,7 @@
       "BucketName": "mouth_inside_right",
       "MainCatID": "Mouth",
       "Platform": "unity",
-      "VertexArray": "[1212]",
+      "VertexArray": "[1213]",
       "Meta": "",
       "ID": "1be5f447-debf-4ebc-a5cb-dc72e0f7a7d3"
     },
@@ -190,7 +190,7 @@
       "BucketName": "eyebrows_right",
       "MainCatID": "Eyebrows",
       "Platform": "unity",
-      "VertexArray": "[994]",
+      "VertexArray": "[993]",
       "Meta": "",
       "ID": "4ed647b8-baca-4ee6-991e-11f6b532d67c"
     },

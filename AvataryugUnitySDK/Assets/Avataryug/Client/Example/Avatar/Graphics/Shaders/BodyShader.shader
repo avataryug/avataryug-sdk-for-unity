@@ -16,8 +16,8 @@ Shader "Avataryug/BodyShader"
         _RightFootTattoo("RightFootTattoo", 2D) = "white" {}
         _LeftFootTattoo("LeftFootTattoo", 2D) = "white" {}
         _BumpMap ("Normal Map", 2D) = "bump" {}
-        _RoughnessMap ("Roughness Map", 2D) = "white" {}
-        _RoughnessRange("Roughness", Range(0.0, 1.0)) = 0.0
+        //_RoughnessMap ("Roughness Map", 2D) = "white" {}
+        //_RoughnessRange("Roughness", Range(0.0, 1.0)) = 0.0
     }
     SubShader
     {
@@ -27,7 +27,7 @@ Shader "Avataryug/BodyShader"
         CGPROGRAM
          #pragma surface surf Standard fullforwardshadows
 
-        #pragma target 5.0
+        #pragma target 3.5
 
         sampler2D _MainTex;
         //sampler2D _FrontBodyTattoo;
@@ -43,8 +43,8 @@ Shader "Avataryug/BodyShader"
         sampler2D _RightFootTattoo;
         sampler2D _LeftFootTattoo;
         sampler2D _BumpMap;
-        sampler2D _RoughnessMap;
-        float _RoughnessRange;
+        //sampler2D _RoughnessMap;
+        //float _RoughnessRange;
         struct Input
         {
             float2 uv_MainTex;
@@ -61,7 +61,6 @@ Shader "Avataryug/BodyShader"
             float2 uv_LeftHandTattoo;
             float2 uv_RightFootTattoo;
             float2 uv_LeftFootTattoo;
-            float2 uv_RoughnessMap;
         };
 
 
@@ -113,7 +112,7 @@ Shader "Avataryug/BodyShader"
             o.Albedo = base10;
             o.Alpha = base10.a;
             o.Normal = UnpackNormal(tex2D(_BumpMap, IN.uv_MainTex));
-            o.Smoothness = tex2D(_RoughnessMap, IN.uv_MainTex) * _RoughnessRange;
+           // o.Smoothness = tex2D(_RoughnessMap, IN.uv_MainTex) * 1;
             //o.Specular = tex2D(_SpecularMap, IN.uv_MainTex);
             
               

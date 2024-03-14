@@ -105,14 +105,14 @@ namespace Com.Avataryug
 
         public static string[] BodyTattoCategory = new string[]
         {
-        "LeftHandTattoo",
-        "RightHandTattoo",
+        //"LeftHandTattoo",
+        //"RightHandTattoo",
 
         "LeftArmTattoo",
         "RightArmTattoo",
 
-        "LeftFootTattoo",
-        "RightFootTattoo",
+        //"LeftFootTattoo",
+        //"RightFootTattoo",
 
         "FrontLeftLegTattoo",
         "FrontRightLegTattoo",

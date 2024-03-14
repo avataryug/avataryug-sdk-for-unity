@@ -697,7 +697,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: GRANT AVATAR PRESET ITEM TO USER
+  m_Text: GRANT AVATARPRESET ITEM TO USER
 --- !u!222 &54072657
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6322,7 +6322,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: GRANT AVATAR PRESET TO USER
+  m_Text: GRANT AVATARPRESET TO USER
 --- !u!222 &596938720
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7378,7 +7378,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'SUBTRACT USER VIRTUAL CURRENCY  '
+  m_Text: 'SUBTRACT USER VIRTUALCURRENCY  '
 --- !u!222 &789203544
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7899,7 +7899,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: GET ECONOMY ITEMS
+  m_Text: GET ECONOMY ITEMS TOP
 --- !u!222 &836693653
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9844,7 +9844,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: ADD VIRTUAL CURRENCY TO USER
+  m_Text: ADD VIRTUALCURRENCY TO USER
 --- !u!222 &1029482378
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -13,8 +13,8 @@ Shader "Avataryug/HeadShader"
         _LipsTexture ("Lip Texture", 2D) = "white" {}
         _LipsColor ("Lip Color", Color) = (1,1,1,1)
         _BumpMap ("Normal Map", 2D) = "bump" {}
-        _RoughnessMap("Roughness Map", 2D) = "white" {}
-        _RoughnessRange("Metallic", Range(0.0, 1.0)) = 0.0
+        //_RoughnessMap("Roughness Map", 2D) = "white" {}
+        //_RoughnessRange("Metallic", Range(0.0, 1.0)) = 0.0
     }
     SubShader
     {
@@ -24,7 +24,7 @@ Shader "Avataryug/HeadShader"
         CGPROGRAM
          #pragma surface surf Standard fullforwardshadows
 
-        #pragma target 5.0
+        #pragma target 3.5
 
         sampler2D _MainTex;
         sampler2D _TatooTexture;
@@ -33,7 +33,7 @@ Shader "Avataryug/HeadShader"
         sampler2D _EyebrowTexture;
         sampler2D _LipsTexture;
         sampler2D _BumpMap;
-        sampler2D _RoughnessMap;
+       // sampler2D _RoughnessMap;
         struct Input
         {
             float2 uv_MainTex;
@@ -69,7 +69,7 @@ Shader "Avataryug/HeadShader"
             fixed4 fthbeeXlip = lerp(fthbXeyebro,lipTex,lipTex.a);
             o.Albedo = fthbeeXlip ;
             o.Normal = UnpackNormal(tex2D(_BumpMap, IN.uv_MainTex));
-            o.Smoothness = tex2D(_RoughnessMap, IN.uv_MainTex) * _RoughnessRange;
+            //o.Smoothness = tex2D(_RoughnessMap, IN.uv_MainTex) * _RoughnessRange;
         }
         ENDCG
     }

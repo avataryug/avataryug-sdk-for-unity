@@ -179,6 +179,7 @@ namespace Com.Avataryug
         {
             RuntimeAnimatorController animatorController = Resources.Load<RuntimeAnimatorController>(TAnimatorControllerName);
             animatorControllers = animatorControllers.FindAll(f => f != null).ToList();
+            m_ModelForAnimation = m_ModelForAnimation.FindAll(f => f != null).ToList();
             foreach (var item in animatorControllers)
             {
                 item.runtimeAnimatorController = animatorController;
@@ -193,6 +194,7 @@ namespace Com.Avataryug
         /// <param name="play"></param>
         public void PlayStopAnimation(bool play)
         {
+            animatorControllers = animatorControllers.FindAll(f => f != null).ToList();
             foreach (var item in animatorControllers)
             {
                 item.enabled = play;
@@ -207,7 +209,7 @@ namespace Com.Avataryug
             RuntimeAnimatorController animatorController = Resources.Load<RuntimeAnimatorController>(AnimatorControllerName);
             Avatar animationAvatar = Resources.Load<Avatar>(AnimationTargetName);
             animatorControllers = animatorControllers.FindAll(f => f != null).ToList();
-
+            m_ModelForAnimation = m_ModelForAnimation.FindAll(f => f != null).ToList();
             foreach (var item in animatorControllers)
             {
                 RemoveMixamo(item.transform);
@@ -217,12 +219,12 @@ namespace Com.Avataryug
             }
             foreach (var item in m_ModelForAnimation)
             {
-                    if (item.GetComponent<Animation>() != null)
-                    {
-                        Animation animation = item.GetComponent<Animation>();
-                        animation.enabled = tpose;
-                        animation.Play();
-                    }
+                if (item.GetComponent<Animation>() != null)
+                {
+                    Animation animation = item.GetComponent<Animation>();
+                    animation.enabled = tpose;
+                    animation.Play();
+                }
             }
         }
 
@@ -235,6 +237,7 @@ namespace Com.Avataryug
             RuntimeAnimatorController animatorController = Resources.Load<RuntimeAnimatorController>(AnimatorControllerName);
             Avatar animationAvatar = Resources.Load<Avatar>(AnimationTargetName);
             animatorControllers = animatorControllers.FindAll(f => f != null).ToList();
+            m_ModelForAnimation = m_ModelForAnimation.FindAll(f => f != null).ToList();
             foreach (var item in animatorControllers)
             {
                 item.runtimeAnimatorController = animatorController;
@@ -323,10 +326,10 @@ namespace Com.Avataryug
                                 ApiEvents.OnApiResponce?.Invoke(null, null);
                                 if (clips.Length > 0)
                                 {
-                                    SetPose(clips[clips.Length-1]);
+                                    SetPose(clips[clips.Length - 1]);
                                 }
                             });
-                        
+
                         },
                         (err) =>
                         {
@@ -355,7 +358,7 @@ namespace Com.Avataryug
                             ApiEvents.OnApiResponce?.Invoke(null, null);
                             if (clips.Length > 0)
                             {
-                                SetPose(clips[clips.Length-1]);
+                                SetPose(clips[clips.Length - 1]);
                             }
                         });
                     }, (err) =>
@@ -420,13 +423,16 @@ namespace Com.Avataryug
         /// <param name="clip"></param>
         public void SetPose(AnimationClip clip)
         {
+            animatorControllers = animatorControllers.FindAll(f => f != null).ToList();
+            m_ModelForAnimation = m_ModelForAnimation.FindAll(f => f != null).ToList();
+
             foreach (var item in m_ModelForAnimation)
             {
                 if (item.GetComponent<Animator>() != null)
                 {
                     item.GetComponent<Animator>().enabled = false;
                 }
-                if(item.GetComponent<SetArmature>() == null)
+                if (item.GetComponent<SetArmature>() == null)
                 {
                     SetArmature armature = item.AddComponent<SetArmature>();
                     armature.AddExtraArmature();
