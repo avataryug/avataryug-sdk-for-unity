@@ -10,13 +10,14 @@ using System.Threading.Tasks;
 using UnityEngine.EventSystems;
 using Com.Avataryug.Model;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 
 namespace Com.Avataryug
 {
 
     public static class ExtensionMethods
     {
-      
+
         public static string ToJson(this object obj)
         {
             return JsonUtility.ToJson(obj);
@@ -150,7 +151,7 @@ namespace Com.Avataryug
         {
             return JsonUtility.FromJson<ConflictingBuckets>("{" + "\"buckets\":" + result.ConflictingBuckets + "}");
         }
-   
+
         public static BlendShapes GetEconomyItemBlendShapes(this GetUserAvatarAllDataResponseDataInner result)
         {
             return JsonUtility.FromJson<BlendShapes>("{" + "\"blendShapes\":" + result.BlendshapeKeys + "}");
@@ -556,6 +557,11 @@ namespace Com.Avataryug
                 //image.color = Color.white;
             }
         }
+        public static AvatarLocalData GetLocalData()
+        {
+            return Resources.Load<AvatarLocalData>("AvatarLocalData");
+        }
+
         public static string GetRandomFourDigit()
         {
             string no = string.Empty;

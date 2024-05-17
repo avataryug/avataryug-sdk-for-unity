@@ -37,7 +37,7 @@ namespace Com.Avataryug
         public static Action<AvatarPoseClip, bool, bool> SetClip;
 
         public static EventHandler<ApiException> OnApiError;
-        public static Action<SaveAvatarClass,Action> OnSaveModelResponse;
+        public static Action<SaveAvatarClass, Action> OnSaveModelResponse;
         public static EventHandler<EconomyItems> OnEconomyItemClick;
         public static EventHandler<Button> OnShapeClick;
         public static EventHandler<Color> OnChangeColor;
@@ -52,7 +52,7 @@ namespace Com.Avataryug
         public static EventHandler UpdateUiAfterChanges;
         public static bool modeOn;
 
-
+        public static EventHandler<BodyType> OnSetBodyType;
     }
 
     [Serializable]

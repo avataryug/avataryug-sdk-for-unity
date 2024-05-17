@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System;
 using Com.Avataryug.Client;
 using Com.Avataryug.Model;
 using Com.Avataryug.Api;
@@ -28,7 +27,7 @@ namespace Com.Avataryug.Handler
         /// </summary>
         /// <param name="result"></param>
         /// <param name="error"></param>
-        public void GetClips(Action<GetClipsResponse> result, Action<ApiException> error)
+        public void GetClips(System.Action<GetClipsResponse> result, System.Action<ApiException> error)
         {
             baseApiCall.CallApi((r) => { result?.Invoke((GetClipsResponse)r); }, error);
         }
@@ -39,7 +38,7 @@ namespace Com.Avataryug.Handler
         /// </summary>
         /// <param name="result"></param>
         /// <param name="error"></param>
-        public void SyncAvatars(Action<string> result, Action<ApiException> error)
+        public void SyncAvatars(System.Action<string> result, System.Action<ApiException> error)
         {
             baseApiCall.CallApi((r) => { result?.Invoke((string)r); }, error);
         }
@@ -49,7 +48,7 @@ namespace Com.Avataryug.Handler
         /// </summary>
         /// <param name="result"></param>
         /// <param name="error"></param>
-        public void GetClipsByID(Action<GetClipsByIDResponse> result, Action<ApiException> error)
+        public void GetClipsByID(System.Action<GetClipsByIDResponse> result, System.Action<ApiException> error)
         {
             baseApiCall.CallApi((r) => { result?.Invoke((GetClipsByIDResponse)r); }, error);
         }
@@ -59,7 +58,7 @@ namespace Com.Avataryug.Handler
         /// </summary>
         /// <param name="result"></param>
         /// <param name="error"></param>
-        public void GetExpressionByID(Action<GetExpressionByIDResponse> result, Action<ApiException> error)
+        public void GetExpressionByID(System.Action<GetExpressionByIDResponse> result, System.Action<ApiException> error)
         {
             baseApiCall.CallApi((r) => { result?.Invoke((GetExpressionByIDResponse)r); }, error);
         }
@@ -73,7 +72,7 @@ namespace Com.Avataryug.Handler
         /// </summary>
         /// <param name="result"></param>
         /// <param name="error"></param>
-        public void GetExpressions(Action<GetExpressionsResponse> result, Action<ApiException> error)
+        public void GetExpressions(System.Action<GetExpressionsResponse> result, System.Action<ApiException> error)
         {
             baseApiCall.CallApi((r) => { result?.Invoke((GetExpressionsResponse)r); }, error);
         }
@@ -83,7 +82,7 @@ namespace Com.Avataryug.Handler
         /// </summary>
         /// <param name="result"></param>
         /// <param name="error"></param>
-        public void GrantAvatarPresetToUser(Action<GrantAvatarToUserResponse> result, Action<ApiException> error)
+        public void GrantAvatarPresetToUser(System.Action<GrantAvatarToUserResponse> result, System.Action<ApiException> error)
         {
             baseApiCall.CallApi((r) => { result?.Invoke((GrantAvatarToUserResponse)r); }, error);
         }
@@ -93,7 +92,7 @@ namespace Com.Avataryug.Handler
         /// </summary>
         /// <param name="result"></param>
         /// <param name="error"></param>
-        public void GetAvatarPresets(Action<GetAvatarPresetsResult> result, Action<ApiException> error)
+        public void GetAvatarPresets(System.Action<GetAvatarPresetsResult> result, System.Action<ApiException> error)
         {
             baseApiCall.CallApi((r) => { result?.Invoke((GetAvatarPresetsResult)r); }, error);
         }
@@ -103,7 +102,7 @@ namespace Com.Avataryug.Handler
         /// </summary>
         /// <param name="result"></param>
         /// <param name="error"></param>
-        public void GetAvatarPresetsByID(Action<GetAvatarPresetByID200> result, Action<ApiException> error)
+        public void GetAvatarPresetsByID(System.Action<GetAvatarPresetByID200> result, System.Action<ApiException> error)
         {
             baseApiCall.CallApi((r) => { result?.Invoke((GetAvatarPresetByID200)r); }, error);
         }
@@ -113,7 +112,7 @@ namespace Com.Avataryug.Handler
         /// </summary>
         /// <param name="result"></param>
         /// <param name="error"></param>
-        public void GrantAvatarPresetItemsToUser(Action<GrantAvatarPresetItemsToUserResponse> result, Action<ApiException> error)
+        public void GrantAvatarPresetItemsToUser(System.Action<GrantAvatarPresetItemsToUserResponse> result, System.Action<ApiException> error)
         {
             baseApiCall.CallApi((r) => { result?.Invoke((GrantAvatarPresetItemsToUserResponse)r); }, error);
         }
@@ -123,7 +122,7 @@ namespace Com.Avataryug.Handler
         /// </summary>
         /// <param name="result"></param>
         /// <param name="error"></param>
-        public void GenerateAvatarMesh(Action<GenerateAvatarMeshResponse> result, Action<ApiException> error)
+        public void GenerateAvatarMesh(System.Action<GenerateAvatarMeshResponse> result, System.Action<ApiException> error)
         {
             baseApiCall.CallApi((r) => { result?.Invoke((GenerateAvatarMeshResponse)r); }, error);
         }
@@ -133,7 +132,7 @@ namespace Com.Avataryug.Handler
         /// </summary>
         /// <param name="result"></param>
         /// <param name="error"></param>
-        public void GetAllBucketVertices(Action<GetAllBucketVerticesResult> result, Action<ApiException> error)
+        public void GetAllBucketVertices(System.Action<GetAllBucketVerticesResult> result, System.Action<ApiException> error)
         {
             baseApiCall.CallApi((r) => { result?.Invoke((GetAllBucketVerticesResult)r); }, error);
         }
@@ -144,17 +143,37 @@ namespace Com.Avataryug.Handler
         /// </summary>
         /// <param name="result"></param>
         /// <param name="error"></param>
-        public void RenderAvatarImage(Action<RenderAvatarImageResponse> result, Action<ApiException> error)
+        public void RenderAvatarImage(System.Action<RenderAvatarImageResponse> result, System.Action<ApiException> error)
         {
             baseApiCall.CallApi((r) => { result?.Invoke((RenderAvatarImageResponse)r); }, error);
         }
 
-        public void GetUserAvatarAllData(Action<GetUserAvatarAllDataResponse> result, Action<ApiException> error)
+        public void GetUserAvatarAllData(System.Action<GetUserAvatarAllDataResponse> result, System.Action<ApiException> error)
         {
             baseApiCall.CallApi((r) => { result?.Invoke((GetUserAvatarAllDataResponse)r); }, error);
         }
 
+
+        public void BuildAvatarMesh(System.Action<GenerateAvatarMeshResponse> result, System.Action<ApiException> error)
+        {
+            baseApiCall.CallApi((r) => { result?.Invoke((GenerateAvatarMeshResponse)r); }, error);
+        }
+
+        public void BuildAvatarImage(System.Action<RenderAvatarImageResponse> result, System.Action<ApiException> error)
+        {
+            baseApiCall.CallApi((r) => { result?.Invoke((RenderAvatarImageResponse)r); }, error);
+        }
+        public void CreateAvatar(System.Action<CreateAvatarResponse> result, System.Action<ApiException> error)
+        {
+            baseApiCall.CallApi((r) => { result?.Invoke((CreateAvatarResponse)r); }, error);
+        }
+        public void UpdateAvatar(System.Action<string> result, System.Action<ApiException> error)
+        {
+            baseApiCall.CallApi((r) => { result?.Invoke((string)r); }, error);
+        }
+
     }
+
 
     /// <summary>
     /// Creates missing avatars into the mentioned platform for the user
@@ -164,7 +183,7 @@ namespace Com.Avataryug.Handler
         public bool Image;
         public bool Mesh;
         public string Platform;
-        public override void CallApi(Action<object> result, Action<ApiException> error)
+        public override void CallApi(System.Action<object> result, System.Action<ApiException> error)
         {
             if (Configuration.ProjectIdPresent)
             {
@@ -184,7 +203,7 @@ namespace Com.Avataryug.Handler
     {
         public string Platfrom;
         public string AvatarID;
-        public override void CallApi(Action<object> result, Action<ApiException> error)
+        public override void CallApi(System.Action<object> result, System.Action<ApiException> error)
         {
             if (Configuration.ProjectIdPresent)
             {
@@ -201,7 +220,7 @@ namespace Com.Avataryug.Handler
     public class GetExpressionByID : Base
     {
         public string expressionID;
-        public override void CallApi(Action<object> result, Action<ApiException> error)
+        public override void CallApi(System.Action<object> result, System.Action<ApiException> error)
         {
             if (Configuration.ProjectIdPresent)
             {
@@ -219,7 +238,8 @@ namespace Com.Avataryug.Handler
         public string AvatarID;
         public string Platform;
 
-        public override void CallApi(Action<object> result, Action<ApiException> error)
+
+        public override void CallApi(System.Action<object> result, System.Action<ApiException> error)
         {
             if (Configuration.ProjectIdPresent)
             {
@@ -240,7 +260,7 @@ namespace Com.Avataryug.Handler
     public class GrantAvatarPresetToUser : Base
     {
         public string AvatarData;
-        public override void CallApi(Action<object> result, Action<ApiException> error)
+        public override void CallApi(System.Action<object> result, System.Action<ApiException> error)
         {
             if (Configuration.ProjectIdPresent)
             {
@@ -259,7 +279,7 @@ namespace Com.Avataryug.Handler
     public class GetExpressions : Base
     {
         public int Status;
-        public override void CallApi(Action<object> result, Action<ApiException> error)
+        public override void CallApi(System.Action<object> result, System.Action<ApiException> error)
         {
             if (Configuration.ProjectIdPresent)
             {
@@ -275,7 +295,7 @@ namespace Com.Avataryug.Handler
     public class GetClips : Base
     {
         public int Status;
-        public override void CallApi(Action<object> result, Action<ApiException> error)
+        public override void CallApi(System.Action<object> result, System.Action<ApiException> error)
         {
             if (Configuration.ProjectIdPresent)
             {
@@ -291,7 +311,7 @@ namespace Com.Avataryug.Handler
     public class GetClipsByID : Base
     {
         public string clipID;
-        public override void CallApi(Action<object> result, Action<ApiException> error)
+        public override void CallApi(System.Action<object> result, System.Action<ApiException> error)
         {
             if (Configuration.ProjectIdPresent)
             {
@@ -307,7 +327,7 @@ namespace Com.Avataryug.Handler
     public class GrantAvatarPresetItemsToUser : Base
     {
         public List<string> itemId = new List<string>();
-        public override void CallApi(Action<object> result, Action<ApiException> error)
+        public override void CallApi(System.Action<object> result, System.Action<ApiException> error)
         {
             if (Configuration.ProjectIdPresent)
             {
@@ -330,7 +350,7 @@ namespace Com.Avataryug.Handler
     {
         public int Status;
         public int Gender;
-        public override void CallApi(Action<object> result, Action<ApiException> error)
+        public override void CallApi(System.Action<object> result, System.Action<ApiException> error)
         {
             if (Configuration.ProjectIdPresent)
             {
@@ -346,7 +366,7 @@ namespace Com.Avataryug.Handler
     public class GetAvatarPresetsByID : Base
     {
         public string avatarPresetID;
-        public override void CallApi(Action<object> result, Action<ApiException> error)
+        public override void CallApi(System.Action<object> result, System.Action<ApiException> error)
         {
             if (Configuration.ProjectIdPresent)
             {
@@ -362,7 +382,7 @@ namespace Com.Avataryug.Handler
     public class GetAllBucketVertices : Base
     {
         public string platform;
-        public override void CallApi(Action<object> result, Action<ApiException> error)
+        public override void CallApi(System.Action<object> result, System.Action<ApiException> error)
         {
             if (Configuration.ProjectIdPresent)
             {
@@ -379,7 +399,7 @@ namespace Com.Avataryug.Handler
     {
         public string AvatarID;
         public string Platform;
-        public override void CallApi(Action<object> result, Action<ApiException> error)
+        public override void CallApi(System.Action<object> result, System.Action<ApiException> error)
         {
             if (Configuration.ProjectIdPresent)
             {
@@ -389,6 +409,92 @@ namespace Com.Avataryug.Handler
                 {
                     AvatarID = AvatarID,
                     Platform = Platform,
+                }, result, error);
+            }
+        }
+    }
+
+    public class BuildAvatarMesh : Base
+    {
+        public string AvatarID;
+        public string Platform;
+        public string AvatarData;
+
+        public override void CallApi(System.Action<object> result, System.Action<ApiException> error)
+        {
+            if (Configuration.ProjectIdPresent)
+            {
+                Configuration.SetApi();
+                var auth = new AvatarManagementApi();
+                auth.BuildAvatarMesh(new BuildAvatarMeshRequest()
+                {
+                    AvatarID = AvatarID,
+                    Platform = Platform,
+                    AvatarData = AvatarData
+                }, result, error);
+            }
+        }
+    }
+
+    public class BuildAvatarImage : Base
+    {
+        public string AvatarID;
+        public string Platform;
+        public string AvatarData;
+
+        public override void CallApi(System.Action<object> result, System.Action<ApiException> error)
+        {
+            if (Configuration.ProjectIdPresent)
+            {
+                Configuration.SetApi();
+                var auth = new AvatarManagementApi();
+                auth.BuildAvatarImage(new BuildAvatarImageRequest()
+                {
+                    AvatarID = AvatarID,
+                    Platform = Platform,
+                    AvatarData = AvatarData
+                }, result, error);
+            }
+        }
+    }
+
+    public class CreateAvatar : Base
+    {
+        public string Platform;
+        public string AvatarData;
+        public override void CallApi(System.Action<object> result, System.Action<ApiException> error)
+        {
+            if (Configuration.ProjectIdPresent)
+            {
+                Configuration.SetApi();
+                var auth = new AvatarManagementApi();
+                auth.CreateAvatar(new CreateAvatarRequest()
+                {
+                    Platform = Platform,
+                    AvatarData = AvatarData
+                }, result, error);
+            }
+        }
+    }
+
+    public class UpdateAvatar : Base
+    {
+        public string Action;
+        public string AvatarID;
+        public string PatchData;
+        public string PatchDataType;
+        public override void CallApi(System.Action<object> result, System.Action<ApiException> error)
+        {
+            if (Configuration.ProjectIdPresent)
+            {
+                Configuration.SetApi();
+                var auth = new AvatarManagementApi();
+                auth.UpdateAvatar(new UpdateAvatarRequest()
+                {
+                    Action = Action,
+                    AvatarID = AvatarID,
+                    PatchData = PatchData,
+                    PatchDataType = PatchDataType
                 }, result, error);
             }
         }

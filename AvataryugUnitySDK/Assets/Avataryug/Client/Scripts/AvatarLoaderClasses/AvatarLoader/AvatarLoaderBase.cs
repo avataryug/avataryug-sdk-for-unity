@@ -1,7 +1,9 @@
 using System;
 using System.Linq;
 using UnityEngine;
+using Newtonsoft.Json;
 using Com.Avataryug.Model;
+using Newtonsoft.Json.Linq;
 using Com.Avataryug.Handler;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -108,13 +110,14 @@ namespace Com.Avataryug
         //Holds multiple model to destry before loading next model
         private List<GameObject> objToDestroy = new List<GameObject>();
 
+        //Holds currnet body type
+        public BodyType currentBodyType;
+        [SerializeField]
+        public Dictionary<string, Vector3> scaleMap = new Dictionary<string, Vector3>();
         /// <summary>
         /// Add your animation clip path here 
         /// </summary>
         ///
-
-
-
         public const string AnimationTargetName = "AnimationTargets/standard_idel";
         public const string AnimatorControllerName = "AnimatorControllers/FullBody";
         public const string TAnimatorControllerName = "AnimatorControllers/ClipController";
@@ -142,6 +145,23 @@ namespace Com.Avataryug
             return tempGender;
         }
 
+        public void ApplyScaleToBody(Transform parent, Dictionary<string, Vector3> scaleMap)
+        {
+            foreach (Transform child in parent)
+            {
+                string childName = child.name;
+                // Check if the child name exists in the scale map
+                if (scaleMap.ContainsKey(childName))
+                {
+                    // Apply the corresponding scale value from the map
+                    child.localScale = scaleMap[childName];
+                }
+
+                // Optionally, apply the scale recursively to child objects
+                if (child.childCount > 0)
+                    ApplyScaleToBody(child, scaleMap);
+            }
+        }
         /// <summary>
         /// Load Default Texture
         /// </summary>
@@ -163,8 +183,6 @@ namespace Com.Avataryug
                     m_HeadMaterial.SetColor("_LipsColor", Utility.GetColor(avatarLocalData.DefaultLipColor));
                     break;
             }
-
-
             m_HeadMaterial.SetTexture("_TatooTexture", avatarLocalData.empty);
             m_HeadMaterial.SetTexture("_HairTexture", avatarLocalData.empty);
             m_HeadMaterial.SetTexture("_BeardTexture", avatarLocalData.empty);
@@ -176,6 +194,8 @@ namespace Com.Avataryug
             {
                 m_BodyMaterial.SetTexture("_" + AvataryugData.bodytattos[i], avatarLocalData.empty);
             }
+
+            //avatarLocalData.bodyTypeData
         }
 
         /// <summary>
@@ -472,6 +492,7 @@ namespace Com.Avataryug
                 gObject.transform.localEulerAngles = Vector3.zero;
                 gObject.name = bucketname;
                 bodyPoints.Add(gObject);
+
                 ppin = gObject;
             }
 
@@ -484,6 +505,7 @@ namespace Com.Avataryug
             model.transform.SetParent(ppin.transform);
             model.transform.localPosition = Vector3.zero;
             model.transform.localEulerAngles = Vector3.zero;
+
             AfterFileImport(model, 0);
             onComplete?.Invoke();
 
@@ -536,6 +558,11 @@ namespace Com.Avataryug
                 transform.gameObject.SetActive(true);
                 animatorControllers.Add(animator);
                 model.transform.localEulerAngles = new Vector3(angle, 0, 0);
+
+                SetBodyType(currentBodyType, () =>
+                {
+                    ApplyScaleToBody(transform, scaleMap);
+                });
             }
             m_ModelForAnimation.Add(obj);
             Utility.DelayCall(50, () =>
@@ -1683,6 +1710,7 @@ namespace Com.Avataryug
                     ppin = gObject;
                     ppin.transform.localEulerAngles = Vector3.zero;
                     ppin.transform.localPosition = Vector3.zero;
+
                 }
             }
             if (modelData.ItemCategory != "Wristwear")
@@ -1692,12 +1720,15 @@ namespace Com.Avataryug
                 bodyTexture.bodyMaterial = m_BodyMaterial;
                 bodyTexture.Initialize();
                 model.name = modelData.ID;
+
                 model.gameObject.name = modelData.ID;
                 model.transform.SetParent(ppin.transform);
                 model.transform.localPosition = Vector3.zero;
                 model.transform.localEulerAngles = Vector3.zero;
+
                 AfterFileImport(model, 0);
             }
+
             else
             {
                 model.name = modelData.ID;
@@ -1705,6 +1736,7 @@ namespace Com.Avataryug
                 model.transform.SetParent(ppin.transform);
                 model.transform.localPosition = Vector3.zero;
                 model.transform.localEulerAngles = Vector3.zero;
+
             }
             model.name = modelData.ID;
             if (objToDestroy.Count > 0)
@@ -1749,6 +1781,12 @@ namespace Com.Avataryug
             AvatarHandler.Instance.currentSelectedBodyParts.Clear();
 #endif
             avatarLocalData = Resources.Load<AvatarLocalData>("AvatarLocalData");
+
+            BodyTypeData myDeserializedClass = JsonConvert.DeserializeObject<BodyTypeData>(avatarLocalData.bodyTypeData.text);
+            #if DEMO_AVATARYUG
+            CurrentAvatarChanges.Instance.currentBodyType = myDeserializedClass.Data.BodyTypes[0];
+#endif
+            currentBodyType = myDeserializedClass.Data.BodyTypes[0];
             HeadCoreBuck = "";
             m_HeadMaterial.SetTexture("_TatooTexture", avatarLocalData.empty);
             m_HeadMaterial.SetTexture("_HairTexture", avatarLocalData.empty);
@@ -1831,7 +1869,9 @@ namespace Com.Avataryug
                 CurrentAvatarChanges.Instance.changePropColors.FacialHairColor = CurrentAvatarChanges.Instance.currentpropColors.FacialHairColor;
                 CurrentAvatarChanges.Instance.changePropColors.LipColor = CurrentAvatarChanges.Instance.currentpropColors.LipColor;
                 CurrentAvatarChanges.Instance.changePropColors.EyebrowColor = CurrentAvatarChanges.Instance.currentpropColors.EyebrowColor;
+                CurrentAvatarChanges.Instance.changedBodyType = CurrentAvatarChanges.Instance.currentBodyType;
                 CurrentAvatarChanges.Instance.changeblendShapes = new List<Blendshape>();
+
                 foreach (var item in CurrentAvatarChanges.Instance.currentblendShapes)
                 {
                     headModelScript.SetBlendShape(item);
@@ -1861,6 +1901,11 @@ namespace Com.Avataryug
             AvatarHandler.Instance.currentSelectedProp = new EconomyItems();
 #endif
             avatarLocalData = Resources.Load<AvatarLocalData>("AvatarLocalData");
+            BodyTypeData myDeserializedClass = JsonConvert.DeserializeObject<BodyTypeData>(avatarLocalData.bodyTypeData.text);
+            currentBodyType = myDeserializedClass.Data.BodyTypes[0];
+            #if DEMO_AVATARYUG
+            CurrentAvatarChanges.Instance.currentBodyType = myDeserializedClass.Data.BodyTypes[0];
+#endif
             HeadCoreBuck = "";
             m_HeadMaterial.SetTexture("_TatooTexture", avatarLocalData.empty);
             m_HeadMaterial.SetTexture("_HairTexture", avatarLocalData.empty);
@@ -1930,7 +1975,6 @@ namespace Com.Avataryug
                     }
                 }
             }
-
             for (int i = 0; i < headModelScript.m_VertexPointerData.Count; i++)
             {
                 if (headModelScript.m_VertexPointerData[i].pointTransform.childCount > 0)
@@ -1946,9 +1990,7 @@ namespace Com.Avataryug
                 {
                     facialHairScript.SetBlendshape(blendshapename, 0);
                 }
-
             }
-
             for (int i = 0; i < DefaultAvatarData.GetDefaultModelList(GetGender()).Count; i++)
             {
                 loadDefaultModellist.Add(DefaultAvatarData.GetDefaultModelList(GetGender())[i]);
@@ -3132,6 +3174,7 @@ namespace Com.Avataryug
                                                 obj.transform.parent = headModelScript.m_VertexPointerData[i].pointTransform;
                                                 obj.transform.localEulerAngles = Vector3.zero;
                                                 obj.transform.localPosition = Vector3.zero;
+                                                obj.transform.localScale = Vector3.one;
                                                 obj.name = bucketname + "+" + modelData.ID;
                                             }
                                         }
@@ -3346,6 +3389,7 @@ namespace Com.Avataryug
                                                 obj.transform.parent = headModelScript.m_VertexPointerData[i].pointTransform;
                                                 obj.transform.localEulerAngles = Vector3.zero;
                                                 obj.transform.localPosition = Vector3.zero;
+                                                obj.transform.localScale = Vector3.one;
                                                 obj.name = bucketname + "+" + modelData.ID;
                                             }
                                         }
@@ -3399,6 +3443,92 @@ namespace Com.Avataryug
 
                 }
             }
+        }
+
+        public void SetBodyType(BodyType e, Action onComplete)
+        {
+            if (e != null && !string.IsNullOrEmpty(e.ID))
+            {
+                currentBodyType = e;
+                BodyType bodyType = e;
+                if (bodyType.BodyValues != null)
+                {
+                    scaleMap.Clear();
+                    BodyValues bodyValues = bodyType.BodyValues;
+
+                    // Add entries to the scale map for each child object
+                    scaleMap.Add("Armature", GetParsedValues(bodyValues.Armature));
+                    scaleMap.Add("Hips", GetParsedValues(bodyValues.Hips));
+                    scaleMap.Add("Spine", GetParsedValues(bodyValues.Spine));
+                    scaleMap.Add("Spine1", GetParsedValues(bodyValues.Spine1));
+                    scaleMap.Add("Spine2", GetParsedValues(bodyValues.Spine2));
+                    scaleMap.Add("Neck", GetParsedValues(bodyValues.Neck));
+                    scaleMap.Add("Head", GetParsedValues(bodyValues.Head));
+
+                    scaleMap.Add("LeftShoulder", GetParsedValues(bodyValues.LeftShoulder));
+                    scaleMap.Add("LeftArm", GetParsedValues(bodyValues.LeftArm));
+                    scaleMap.Add("LeftForeArm", GetParsedValues(bodyValues.LeftForeArm));
+                    scaleMap.Add("LeftHand", GetParsedValues(bodyValues.LeftHand));
+                    scaleMap.Add("LeftHandThumb1", GetParsedValues(bodyValues.LeftHandThumb1));
+                    scaleMap.Add("LeftHandThumb2", GetParsedValues(bodyValues.LeftHandThumb2));
+                    scaleMap.Add("LeftHandThumb3", GetParsedValues(bodyValues.LeftHandThumb3));
+                    scaleMap.Add("LeftHandIndex1", GetParsedValues(bodyValues.LeftHandIndex1));
+                    scaleMap.Add("LeftHandIndex2", GetParsedValues(bodyValues.LeftHandIndex2));
+                    scaleMap.Add("LeftHandIndex3", GetParsedValues(bodyValues.LeftHandIndex3));
+                    scaleMap.Add("LeftHandMiddle1", GetParsedValues(bodyValues.LeftHandMiddle1));
+                    scaleMap.Add("LeftHandMiddle2", GetParsedValues(bodyValues.LeftHandMiddle2));
+                    scaleMap.Add("LeftHandMiddle3", GetParsedValues(bodyValues.LeftHandMiddle3));
+                    scaleMap.Add("LeftHandRing1", GetParsedValues(bodyValues.LeftHandRing1));
+                    scaleMap.Add("LeftHandRing2", GetParsedValues(bodyValues.LeftHandRing2));
+                    scaleMap.Add("LeftHandRing3", GetParsedValues(bodyValues.LeftHandRing3));
+                    scaleMap.Add("LeftHandPinky1", GetParsedValues(bodyValues.LeftHandPinky1));
+                    scaleMap.Add("LeftHandPinky2", GetParsedValues(bodyValues.LeftHandPinky2));
+                    scaleMap.Add("LeftHandPinky3", GetParsedValues(bodyValues.LeftHandPinky3));
+
+                    scaleMap.Add("RightShoulder", GetParsedValues(bodyValues.RightShoulder));
+                    scaleMap.Add("RightArm", GetParsedValues(bodyValues.RightArm));
+                    scaleMap.Add("RightForeArm", GetParsedValues(bodyValues.RightForeArm));
+                    scaleMap.Add("RightHand", GetParsedValues(bodyValues.RightHand));
+                    scaleMap.Add("RightHandThumb1", GetParsedValues(bodyValues.RightHandThumb1));
+                    scaleMap.Add("RightHandThumb2", GetParsedValues(bodyValues.RightHandThumb2));
+                    scaleMap.Add("RightHandThumb3", GetParsedValues(bodyValues.RightHandThumb3));
+                    scaleMap.Add("RightHandIndex1", GetParsedValues(bodyValues.RightHandIndex1));
+                    scaleMap.Add("RightHandIndex2", GetParsedValues(bodyValues.RightHandIndex2));
+                    scaleMap.Add("RightHandIndex3", GetParsedValues(bodyValues.RightHandIndex3));
+                    scaleMap.Add("RightHandMiddle1", GetParsedValues(bodyValues.RightHandMiddle1));
+                    scaleMap.Add("RightHandMiddle2", GetParsedValues(bodyValues.RightHandMiddle2));
+                    scaleMap.Add("RightHandMiddle3", GetParsedValues(bodyValues.RightHandMiddle3));
+                    scaleMap.Add("RightHandRing1", GetParsedValues(bodyValues.RightHandRing1));
+                    scaleMap.Add("RightHandRing2", GetParsedValues(bodyValues.RightHandRing2));
+                    scaleMap.Add("RightHandRing3", GetParsedValues(bodyValues.RightHandRing3));
+                    scaleMap.Add("RightHandPinky1", GetParsedValues(bodyValues.RightHandPinky1));
+                    scaleMap.Add("RightHandPinky2", GetParsedValues(bodyValues.RightHandPinky2));
+                    scaleMap.Add("RightHandPinky3", GetParsedValues(bodyValues.RightHandPinky3));
+
+                    scaleMap.Add("LeftUpLeg", GetParsedValues(bodyValues.LeftUpLeg));
+                    scaleMap.Add("LeftLeg", GetParsedValues(bodyValues.LeftLeg));
+                    scaleMap.Add("LeftFoot", GetParsedValues(bodyValues.LeftFoot));
+                    scaleMap.Add("LeftToeBase", GetParsedValues(bodyValues.LeftToeBase));
+                    scaleMap.Add("LeftToe_End", GetParsedValues(bodyValues.LeftToe_End));
+
+                    scaleMap.Add("RightUpLeg", GetParsedValues(bodyValues.RightUpLeg));
+                    scaleMap.Add("RightLeg", GetParsedValues(bodyValues.RightLeg));
+                    scaleMap.Add("RightFoot", GetParsedValues(bodyValues.RightFoot));
+                    scaleMap.Add("RightToeBase", GetParsedValues(bodyValues.RightToeBase));
+                    scaleMap.Add("RightToe_End", GetParsedValues(bodyValues.RightToe_End));
+                }
+                onComplete.Invoke();
+            }
+
+        }
+        // Access x, y, z values
+        Vector3 GetParsedValues(string obj)
+        {
+            JObject armatureObject = JObject.Parse(obj);
+            float x = (float)armatureObject["x"];
+            float y = (float)armatureObject["y"];
+            float z = (float)armatureObject["z"];
+            return new Vector3(x, y, z);
         }
     }
 }

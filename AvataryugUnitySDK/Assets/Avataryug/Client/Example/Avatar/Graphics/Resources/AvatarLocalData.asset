@@ -27,8 +27,8 @@ MonoBehaviour:
   DefaultFacialHairColor: '#3b3b3b'
   DefaultEyebrowColor: '#272727'
   DefaultHairColor: '#2a2a2a'
-  DefaultLipColor: '#ff9e7e'
-  DefaultMaleLipColor: '#ff9e7e'
+  DefaultLipColor: '#8E8E8E'
+  DefaultMaleLipColor: '#8E8E8E'
   headModel: {fileID: 6635245195314443262, guid: ca30b69ef4a31f346bdf44973ee01343, type: 3}
   female_standard_top: {fileID: 4527062261214958364, guid: 984521aba94dc47378c2da0c825bf258, type: 3}
   female_standard_bottom: {fileID: 1398125374305086310, guid: 16cd2c2da19c24a62bce605dbaa4308b, type: 3}
@@ -37,3 +37,4 @@ MonoBehaviour:
   standard_footwear: {fileID: 5636277397024935326, guid: b2bc03ed4febe4ff08c12d14219f73a1, type: 3}
   standard_hand: {fileID: 7165147417191593336, guid: eee5ff7f41bca46ce8ca93439f524b08, type: 3}
   vertexData: {fileID: 4900000, guid: 5ecacd27e65258c4483bc7ef2c0dd6d5, type: 3}
+  bodyTypeData: {fileID: 4900000, guid: fd56039729aea48c485db127793d2b79, type: 3}

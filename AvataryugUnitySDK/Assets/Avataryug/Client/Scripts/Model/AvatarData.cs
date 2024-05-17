@@ -8,6 +8,37 @@ using UnityEngine;
 namespace Com.Avataryug.Model
 {
     [System.Serializable]
+    public class AvatarData1
+    {
+        public string MetaData;
+        public string AgeRange;
+        public PropColors ColorMeta = new PropColors();
+        public List<BucketDatum> BucketData = new List<BucketDatum>();
+        public List<Blendshape1> Blendshapes = new List<Blendshape1>();
+        public string Race;
+        public int Gender;
+        public string CustomMetaData;
+    }
+    [System.Serializable]
+    public class Blendshape1
+    {
+        public string v;
+        public string k;
+    }
+    [System.Serializable]
+    public class BucketDatum
+    {
+        public string ID;
+        public string CoreBucket;
+        public string TemplateID;
+        public string ItemSkin;
+        public string Config;
+        public string ConflictingBuckets;
+        public string Blendshapes;
+        public string MainCatID;
+    }
+
+    [System.Serializable]
     public class AvatarData
     {
         [DataMember(Name = "Race", EmitDefaultValue = false)]

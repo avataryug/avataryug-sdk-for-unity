@@ -45,11 +45,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HairModel: {fileID: 0}
   HeadwearModel: {fileID: 0}
-  FacialHairModel: {fileID: 0}
   avatarLocalData: {fileID: 0}
   m_HeadMaterial: {fileID: 0}
   m_BodyMaterial: {fileID: 0}
   m_EyeballMaterial: {fileID: 0}
+  m_InnerMaterial: {fileID: 0}
   currentTopData:
     ItemCategory: 
     ID: 
@@ -75,6 +75,7 @@ MonoBehaviour:
     RealCurrency: 0
     ConflictingBuckets:
       buckets: []
+    ConflictingBucketsString: 
     Config:
       isNormalUpload: 0
       isOpacityUpload: 0
@@ -86,11 +87,13 @@ MonoBehaviour:
       isTransparent: 0
       isGrid: 0
       isDiffuse: 0
+    ConfigString: 
     Entitlement:
       ByCount: 
       ByTime: 
       TimeData: 
       Type: 
+    EntitlementString: 
     ItemThumbnailsUrl:
       itemThumbnails: []
     VirtualCurrency:
@@ -99,6 +102,7 @@ MonoBehaviour:
       tags: []
     BlendshapeKeys:
       blendShapes: []
+    BlendshapeKeysString: 
   currentWristwearData:
     ItemCategory: 
     ID: 
@@ -124,6 +128,7 @@ MonoBehaviour:
     RealCurrency: 0
     ConflictingBuckets:
       buckets: []
+    ConflictingBucketsString: 
     Config:
       isNormalUpload: 0
       isOpacityUpload: 0
@@ -135,11 +140,13 @@ MonoBehaviour:
       isTransparent: 0
       isGrid: 0
       isDiffuse: 0
+    ConfigString: 
     Entitlement:
       ByCount: 
       ByTime: 
       TimeData: 
       Type: 
+    EntitlementString: 
     ItemThumbnailsUrl:
       itemThumbnails: []
     VirtualCurrency:
@@ -148,6 +155,7 @@ MonoBehaviour:
       tags: []
     BlendshapeKeys:
       blendShapes: []
+    BlendshapeKeysString: 
   currentBottomData:
     ItemCategory: 
     ID: 
@@ -173,6 +181,7 @@ MonoBehaviour:
     RealCurrency: 0
     ConflictingBuckets:
       buckets: []
+    ConflictingBucketsString: 
     Config:
       isNormalUpload: 0
       isOpacityUpload: 0
@@ -184,11 +193,13 @@ MonoBehaviour:
       isTransparent: 0
       isGrid: 0
       isDiffuse: 0
+    ConfigString: 
     Entitlement:
       ByCount: 
       ByTime: 
       TimeData: 
       Type: 
+    EntitlementString: 
     ItemThumbnailsUrl:
       itemThumbnails: []
     VirtualCurrency:
@@ -197,6 +208,7 @@ MonoBehaviour:
       tags: []
     BlendshapeKeys:
       blendShapes: []
+    BlendshapeKeysString: 
   currentOutfitData:
     ItemCategory: 
     ID: 
@@ -222,6 +234,7 @@ MonoBehaviour:
     RealCurrency: 0
     ConflictingBuckets:
       buckets: []
+    ConflictingBucketsString: 
     Config:
       isNormalUpload: 0
       isOpacityUpload: 0
@@ -233,11 +246,13 @@ MonoBehaviour:
       isTransparent: 0
       isGrid: 0
       isDiffuse: 0
+    ConfigString: 
     Entitlement:
       ByCount: 
       ByTime: 
       TimeData: 
       Type: 
+    EntitlementString: 
     ItemThumbnailsUrl:
       itemThumbnails: []
     VirtualCurrency:
@@ -246,6 +261,7 @@ MonoBehaviour:
       tags: []
     BlendshapeKeys:
       blendShapes: []
+    BlendshapeKeysString: 
   currentFootwearData:
     ItemCategory: 
     ID: 
@@ -271,6 +287,7 @@ MonoBehaviour:
     RealCurrency: 0
     ConflictingBuckets:
       buckets: []
+    ConflictingBucketsString: 
     Config:
       isNormalUpload: 0
       isOpacityUpload: 0
@@ -282,11 +299,13 @@ MonoBehaviour:
       isTransparent: 0
       isGrid: 0
       isDiffuse: 0
+    ConfigString: 
     Entitlement:
       ByCount: 
       ByTime: 
       TimeData: 
       Type: 
+    EntitlementString: 
     ItemThumbnailsUrl:
       itemThumbnails: []
     VirtualCurrency:
@@ -295,6 +314,7 @@ MonoBehaviour:
       tags: []
     BlendshapeKeys:
       blendShapes: []
+    BlendshapeKeysString: 
   currentHandwearData:
     ItemCategory: 
     ID: 
@@ -320,6 +340,7 @@ MonoBehaviour:
     RealCurrency: 0
     ConflictingBuckets:
       buckets: []
+    ConflictingBucketsString: 
     Config:
       isNormalUpload: 0
       isOpacityUpload: 0
@@ -331,11 +352,13 @@ MonoBehaviour:
       isTransparent: 0
       isGrid: 0
       isDiffuse: 0
+    ConfigString: 
     Entitlement:
       ByCount: 
       ByTime: 
       TimeData: 
       Type: 
+    EntitlementString: 
     ItemThumbnailsUrl:
       itemThumbnails: []
     VirtualCurrency:
@@ -344,6 +367,7 @@ MonoBehaviour:
       tags: []
     BlendshapeKeys:
       blendShapes: []
+    BlendshapeKeysString: 
   currentLispData:
     ItemCategory: 
     ID: 
@@ -369,6 +393,7 @@ MonoBehaviour:
     RealCurrency: 0
     ConflictingBuckets:
       buckets: []
+    ConflictingBucketsString: 
     Config:
       isNormalUpload: 0
       isOpacityUpload: 0
@@ -380,11 +405,13 @@ MonoBehaviour:
       isTransparent: 0
       isGrid: 0
       isDiffuse: 0
+    ConfigString: 
     Entitlement:
       ByCount: 
       ByTime: 
       TimeData: 
       Type: 
+    EntitlementString: 
     ItemThumbnailsUrl:
       itemThumbnails: []
     VirtualCurrency:
@@ -393,6 +420,7 @@ MonoBehaviour:
       tags: []
     BlendshapeKeys:
       blendShapes: []
+    BlendshapeKeysString: 
   currentfacialHairData:
     ItemCategory: 
     ID: 
@@ -418,6 +446,7 @@ MonoBehaviour:
     RealCurrency: 0
     ConflictingBuckets:
       buckets: []
+    ConflictingBucketsString: 
     Config:
       isNormalUpload: 0
       isOpacityUpload: 0
@@ -429,11 +458,13 @@ MonoBehaviour:
       isTransparent: 0
       isGrid: 0
       isDiffuse: 0
+    ConfigString: 
     Entitlement:
       ByCount: 
       ByTime: 
       TimeData: 
       Type: 
+    EntitlementString: 
     ItemThumbnailsUrl:
       itemThumbnails: []
     VirtualCurrency:
@@ -442,6 +473,7 @@ MonoBehaviour:
       tags: []
     BlendshapeKeys:
       blendShapes: []
+    BlendshapeKeysString: 
   currentEyeballData:
     ItemCategory: 
     ID: 
@@ -467,6 +499,7 @@ MonoBehaviour:
     RealCurrency: 0
     ConflictingBuckets:
       buckets: []
+    ConflictingBucketsString: 
     Config:
       isNormalUpload: 0
       isOpacityUpload: 0
@@ -478,11 +511,13 @@ MonoBehaviour:
       isTransparent: 0
       isGrid: 0
       isDiffuse: 0
+    ConfigString: 
     Entitlement:
       ByCount: 
       ByTime: 
       TimeData: 
       Type: 
+    EntitlementString: 
     ItemThumbnailsUrl:
       itemThumbnails: []
     VirtualCurrency:
@@ -491,6 +526,7 @@ MonoBehaviour:
       tags: []
     BlendshapeKeys:
       blendShapes: []
+    BlendshapeKeysString: 
   currentEyebrowData:
     ItemCategory: 
     ID: 
@@ -516,6 +552,7 @@ MonoBehaviour:
     RealCurrency: 0
     ConflictingBuckets:
       buckets: []
+    ConflictingBucketsString: 
     Config:
       isNormalUpload: 0
       isOpacityUpload: 0
@@ -527,11 +564,13 @@ MonoBehaviour:
       isTransparent: 0
       isGrid: 0
       isDiffuse: 0
+    ConfigString: 
     Entitlement:
       ByCount: 
       ByTime: 
       TimeData: 
       Type: 
+    EntitlementString: 
     ItemThumbnailsUrl:
       itemThumbnails: []
     VirtualCurrency:
@@ -540,6 +579,7 @@ MonoBehaviour:
       tags: []
     BlendshapeKeys:
       blendShapes: []
+    BlendshapeKeysString: 
   currentHairData:
     ItemCategory: 
     ID: 
@@ -565,6 +605,7 @@ MonoBehaviour:
     RealCurrency: 0
     ConflictingBuckets:
       buckets: []
+    ConflictingBucketsString: 
     Config:
       isNormalUpload: 0
       isOpacityUpload: 0
@@ -576,11 +617,13 @@ MonoBehaviour:
       isTransparent: 0
       isGrid: 0
       isDiffuse: 0
+    ConfigString: 
     Entitlement:
       ByCount: 
       ByTime: 
       TimeData: 
       Type: 
+    EntitlementString: 
     ItemThumbnailsUrl:
       itemThumbnails: []
     VirtualCurrency:
@@ -589,6 +632,7 @@ MonoBehaviour:
       tags: []
     BlendshapeKeys:
       blendShapes: []
+    BlendshapeKeysString: 
   currentHadwearData:
     ItemCategory: 
     ID: 
@@ -614,6 +658,7 @@ MonoBehaviour:
     RealCurrency: 0
     ConflictingBuckets:
       buckets: []
+    ConflictingBucketsString: 
     Config:
       isNormalUpload: 0
       isOpacityUpload: 0
@@ -625,11 +670,13 @@ MonoBehaviour:
       isTransparent: 0
       isGrid: 0
       isDiffuse: 0
+    ConfigString: 
     Entitlement:
       ByCount: 
       ByTime: 
       TimeData: 
       Type: 
+    EntitlementString: 
     ItemThumbnailsUrl:
       itemThumbnails: []
     VirtualCurrency:
@@ -638,6 +685,7 @@ MonoBehaviour:
       tags: []
     BlendshapeKeys:
       blendShapes: []
+    BlendshapeKeysString: 
   currentFaceshapeData:
     ItemCategory: 
     ID: 
@@ -663,6 +711,7 @@ MonoBehaviour:
     RealCurrency: 0
     ConflictingBuckets:
       buckets: []
+    ConflictingBucketsString: 
     Config:
       isNormalUpload: 0
       isOpacityUpload: 0
@@ -674,11 +723,13 @@ MonoBehaviour:
       isTransparent: 0
       isGrid: 0
       isDiffuse: 0
+    ConfigString: 
     Entitlement:
       ByCount: 
       ByTime: 
       TimeData: 
       Type: 
+    EntitlementString: 
     ItemThumbnailsUrl:
       itemThumbnails: []
     VirtualCurrency:
@@ -687,6 +738,7 @@ MonoBehaviour:
       tags: []
     BlendshapeKeys:
       blendShapes: []
+    BlendshapeKeysString: 
   currentEarshapeData:
     ItemCategory: 
     ID: 
@@ -712,6 +764,7 @@ MonoBehaviour:
     RealCurrency: 0
     ConflictingBuckets:
       buckets: []
+    ConflictingBucketsString: 
     Config:
       isNormalUpload: 0
       isOpacityUpload: 0
@@ -723,11 +776,13 @@ MonoBehaviour:
       isTransparent: 0
       isGrid: 0
       isDiffuse: 0
+    ConfigString: 
     Entitlement:
       ByCount: 
       ByTime: 
       TimeData: 
       Type: 
+    EntitlementString: 
     ItemThumbnailsUrl:
       itemThumbnails: []
     VirtualCurrency:
@@ -736,6 +791,7 @@ MonoBehaviour:
       tags: []
     BlendshapeKeys:
       blendShapes: []
+    BlendshapeKeysString: 
   currentNoseshapeData:
     ItemCategory: 
     ID: 
@@ -761,6 +817,7 @@ MonoBehaviour:
     RealCurrency: 0
     ConflictingBuckets:
       buckets: []
+    ConflictingBucketsString: 
     Config:
       isNormalUpload: 0
       isOpacityUpload: 0
@@ -772,11 +829,13 @@ MonoBehaviour:
       isTransparent: 0
       isGrid: 0
       isDiffuse: 0
+    ConfigString: 
     Entitlement:
       ByCount: 
       ByTime: 
       TimeData: 
       Type: 
+    EntitlementString: 
     ItemThumbnailsUrl:
       itemThumbnails: []
     VirtualCurrency:
@@ -785,6 +844,7 @@ MonoBehaviour:
       tags: []
     BlendshapeKeys:
       blendShapes: []
+    BlendshapeKeysString: 
   currentEyebrowshapeData:
     ItemCategory: 
     ID: 
@@ -810,6 +870,7 @@ MonoBehaviour:
     RealCurrency: 0
     ConflictingBuckets:
       buckets: []
+    ConflictingBucketsString: 
     Config:
       isNormalUpload: 0
       isOpacityUpload: 0
@@ -821,11 +882,13 @@ MonoBehaviour:
       isTransparent: 0
       isGrid: 0
       isDiffuse: 0
+    ConfigString: 
     Entitlement:
       ByCount: 
       ByTime: 
       TimeData: 
       Type: 
+    EntitlementString: 
     ItemThumbnailsUrl:
       itemThumbnails: []
     VirtualCurrency:
@@ -834,6 +897,7 @@ MonoBehaviour:
       tags: []
     BlendshapeKeys:
       blendShapes: []
+    BlendshapeKeysString: 
   currentEyeshapeData:
     ItemCategory: 
     ID: 
@@ -859,6 +923,7 @@ MonoBehaviour:
     RealCurrency: 0
     ConflictingBuckets:
       buckets: []
+    ConflictingBucketsString: 
     Config:
       isNormalUpload: 0
       isOpacityUpload: 0
@@ -870,11 +935,13 @@ MonoBehaviour:
       isTransparent: 0
       isGrid: 0
       isDiffuse: 0
+    ConfigString: 
     Entitlement:
       ByCount: 
       ByTime: 
       TimeData: 
       Type: 
+    EntitlementString: 
     ItemThumbnailsUrl:
       itemThumbnails: []
     VirtualCurrency:
@@ -883,6 +950,7 @@ MonoBehaviour:
       tags: []
     BlendshapeKeys:
       blendShapes: []
+    BlendshapeKeysString: 
   currentLipshapeData:
     ItemCategory: 
     ID: 
@@ -908,6 +976,7 @@ MonoBehaviour:
     RealCurrency: 0
     ConflictingBuckets:
       buckets: []
+    ConflictingBucketsString: 
     Config:
       isNormalUpload: 0
       isOpacityUpload: 0
@@ -919,11 +988,13 @@ MonoBehaviour:
       isTransparent: 0
       isGrid: 0
       isDiffuse: 0
+    ConfigString: 
     Entitlement:
       ByCount: 
       ByTime: 
       TimeData: 
       Type: 
+    EntitlementString: 
     ItemThumbnailsUrl:
       itemThumbnails: []
     VirtualCurrency:
@@ -932,6 +1003,7 @@ MonoBehaviour:
       tags: []
     BlendshapeKeys:
       blendShapes: []
+    BlendshapeKeysString: 
   currentskintoneData:
     ItemCategory: 
     ID: 
@@ -957,6 +1029,7 @@ MonoBehaviour:
     RealCurrency: 0
     ConflictingBuckets:
       buckets: []
+    ConflictingBucketsString: 
     Config:
       isNormalUpload: 0
       isOpacityUpload: 0
@@ -968,11 +1041,13 @@ MonoBehaviour:
       isTransparent: 0
       isGrid: 0
       isDiffuse: 0
+    ConfigString: 
     Entitlement:
       ByCount: 
       ByTime: 
       TimeData: 
       Type: 
+    EntitlementString: 
     ItemThumbnailsUrl:
       itemThumbnails: []
     VirtualCurrency:
@@ -981,6 +1056,7 @@ MonoBehaviour:
       tags: []
     BlendshapeKeys:
       blendShapes: []
+    BlendshapeKeysString: 
   bodyPoints: []
   loadDefaultModellist: []
   DefaultModellist: []
@@ -1006,7 +1082,9 @@ MonoBehaviour:
     BlendshapeKeys:
       blendShapes: []
     ThumbnailsUrl:
-      itemThumbnails: []
+    - device: 0
+      texture: 0
+      thumbnail_url: 
   currentClip:
     DisplayName: 
     Description: 
@@ -1020,15 +1098,79 @@ MonoBehaviour:
     ID: 
     ClipTemplateId: 
     ThumbnailsUrl:
-      itemThumbnails: []
+    - device: 0
+      texture: 0
+      thumbnail_url: 
     Artifacts:
-      artifacts: []
+    - device: 0
+      format: 0
+      url: 
   isResetToCurrent: 0
   HeadCoreBuck: 
   customizeAvatarLoader: {fileID: 0}
   headModelScript: {fileID: 0}
   facialHairScript: {fileID: 0}
+  currentBodyType:
+    ID: 
+    Name: 
+    Thumbnail: 
+    BodyValues:
+      Armature: 
+      Hips: 
+      Spine: 
+      Spine1: 
+      Spine2: 
+      Neck: 
+      Head: 
+      LeftShoulder: 
+      LeftArm: 
+      LeftForeArm: 
+      LeftHand: 
+      LeftHandThumb1: 
+      LeftHandThumb2: 
+      LeftHandThumb3: 
+      LeftHandIndex1: 
+      LeftHandIndex2: 
+      LeftHandIndex3: 
+      LeftHandMiddle1: 
+      LeftHandMiddle2: 
+      LeftHandMiddle3: 
+      LeftHandRing1: 
+      LeftHandRing2: 
+      LeftHandRing3: 
+      LeftHandPinky1: 
+      LeftHandPinky2: 
+      LeftHandPinky3: 
+      RightShoulder: 
+      RightArm: 
+      RightForeArm: 
+      RightHand: 
+      RightHandThumb1: 
+      RightHandThumb2: 
+      RightHandThumb3: 
+      RightHandIndex1: 
+      RightHandIndex2: 
+      RightHandIndex3: 
+      RightHandMiddle1: 
+      RightHandMiddle2: 
+      RightHandMiddle3: 
+      RightHandRing1: 
+      RightHandRing2: 
+      RightHandRing3: 
+      RightHandPinky1: 
+      RightHandPinky2: 
+      RightHandPinky3: 
+      LeftUpLeg: 
+      LeftLeg: 
+      LeftFoot: 
+      LeftToeBase: 
+      LeftToe_End: 
+      RightUpLeg: 
+      RightLeg: 
+      RightFoot: 
+      RightToeBase: 
+      RightToe_End: 
   networkModelQueue: []
-  gender: 2
-  m_FacialHair: {fileID: 0}
+  gender: 1
+  loadLocal: 1
   isStartDataLoadedforCustom: 0

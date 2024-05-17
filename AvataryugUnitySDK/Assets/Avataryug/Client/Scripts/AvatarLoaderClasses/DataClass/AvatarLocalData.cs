@@ -33,7 +33,7 @@ namespace Com.Avataryug
         public GameObject standard_footwear;
         public GameObject standard_hand;
         public TextAsset vertexData;
-
+        public TextAsset bodyTypeData;
     }
 
 }

@@ -247,7 +247,6 @@ namespace Com.Avataryug.Api
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
 
-            Debug.Log(">>>>>" + loginWithCustomIDRequest.ToJson());
             postBody = ApiClient.Serialize(loginWithCustomIDRequest); // http body (model) parameter
 
             // authentication setting, if any

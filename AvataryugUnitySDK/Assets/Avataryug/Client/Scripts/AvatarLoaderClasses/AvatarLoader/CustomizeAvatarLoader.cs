@@ -6,6 +6,7 @@ using Com.Avataryug.Model;
 using UnityEngine;
 using Com.Avataryug.Handler;
 using Com.Avataryug.UI;
+using Newtonsoft.Json.Linq;
 
 namespace Com.Avataryug
 {
@@ -64,6 +65,7 @@ namespace Com.Avataryug
             ApiEvents.SetClip += ApiEvents_SetClip;
             ApiEvents.SetDefaultClipForExpressionPanel += ApiEvents_SetDefaultClipForExpressionPanel;
             ApiEvents.SetExpressions += ApiEvents_SetExpressions;
+            ApiEvents.OnSetBodyType += ApiEvents_OnSetBodyType;
         }
 
         /// <summary>
@@ -289,8 +291,13 @@ namespace Com.Avataryug
             {
 #if DEMO_AVATARYUG
                 FindObjectOfType<ExpressionPosePanel>().selectedExpression = new Expression();
-#endif
+
                 currentexpression = new Expression();
+                foreach (var item in CurrentAvatarChanges.Instance.changeblendShapes)
+                {
+                    headModelScript.SetBlendShape(new Blendshape() { shapekeys = item.shapekeys, value = item.value }, true);
+                }
+#endif
             }
             else
             {
@@ -300,6 +307,12 @@ namespace Com.Avataryug
                     facialHairScript?.SetBlendshape(expression.BlendshapeKeys.blendShapes[i].selectedShape, expression.BlendshapeKeys.blendShapes[i].sliderValue);
                 }
                 headModelScript.SetExpression(expression.BlendshapeKeys.blendShapes, true);
+                #if DEMO_AVATARYUG
+                foreach (var item in CurrentAvatarChanges.Instance.changeblendShapes)
+                {
+                    headModelScript.SetBlendShape(new Blendshape() { shapekeys = item.shapekeys, value = item.value }, true);
+                }
+#endif
             }
         }
 
@@ -445,6 +458,15 @@ namespace Com.Avataryug
                     animation.clip = animation.GetClip(clip.name);
                     animation.Play();
                     animation.wrapMode = WrapMode.Loop;
+                    Utility.DelayCall(1, () =>
+                    {
+                        animation.enabled = false;
+                        SetBodyType(currentBodyType, () =>
+                        {
+                            ApplyScaleToBody(transform, scaleMap);
+                        });
+                    });
+
                 }
                 else
                 {
@@ -454,8 +476,17 @@ namespace Com.Avataryug
                     animation.clip = animation.GetClip(clip.name);
                     animation.Play();
                     animation.wrapMode = WrapMode.Loop;
+                    Utility.DelayCall(1, () =>
+                    {
+                        animation.enabled = false;
+                        SetBodyType(currentBodyType, () =>
+                        {
+                            ApplyScaleToBody(transform, scaleMap);
+                        });
+                    });
                 }
             }
+
         }
 
         /// <summary>
@@ -471,6 +502,15 @@ namespace Com.Avataryug
             ApiEvents.ResetAllExpression -= ApiEvents_ResetAllExpression;
             ApiEvents.GetHeadBlendhape -= ApiEvents_GetHeadBlendshape;
             ApiEvents.ResetAllHeadBlendshape -= ApiEvents_ResetAllHeadBlendshape;
+            ApiEvents.OnSetBodyType -= ApiEvents_OnSetBodyType;
+        }
+
+        private void ApiEvents_OnSetBodyType(object sender, BodyType e)
+        {
+            SetBodyType(e, () =>
+           {
+               ApplyScaleToBody(transform, scaleMap);
+           });
         }
 
     }

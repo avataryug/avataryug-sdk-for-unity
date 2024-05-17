@@ -1,9 +1,9 @@
 using System;
+using UnityEngine;
+using UnityEngine.UI;
 using Com.Avataryug.Client;
 using Com.Avataryug.Handler;
 using Com.Avataryug.Model;
-using UnityEngine;
-using UnityEngine.UI;
 
 namespace Com.Avataryug
 {
@@ -15,7 +15,8 @@ namespace Com.Avataryug
         public Button m_MoreButton;
         public GameObject m_LoadingObject;
         private CustomizeAvatarLoader customizeAvatarLoader;
-
+        public Button m_BuildModel;
+        //public GenerateAvatarPanel m_GenerateAvatarPanel;
         /// <summary>
         /// Subscribe events
         /// </summary>
@@ -24,7 +25,6 @@ namespace Com.Avataryug
             ApiEvents.OnApiRequest += ApiEvents_OnApiRequest;
             ApiEvents.OnApiResponce += ApiEvents_OnApiResponce;
         }
-
         /// <summary>
         /// Descuscribe events
         /// </summary>
@@ -33,18 +33,14 @@ namespace Com.Avataryug
             ApiEvents.OnApiRequest -= ApiEvents_OnApiRequest;
             ApiEvents.OnApiResponce -= ApiEvents_OnApiResponce;
         }
-
-
         private void ApiEvents_OnApiResponce(object sender, EventArgs e)
         {
             m_LoadingObject.SetActive(false);
         }
-
         private void ApiEvents_OnApiRequest(object sender, bool e)
         {
             m_LoadingObject.SetActive(true);
         }
-
         void Start()
         {
             m_LoadingObject.SetActive(false);
@@ -52,19 +48,16 @@ namespace Com.Avataryug
             ModelButtons.gameObject.SetActive(false);
             m_Login.onClick.RemoveAllListeners();
             m_Login.onClick.AddListener(LoginButtonClick);
-
             m_MoreButton.onClick.RemoveAllListeners();
             m_MoreButton.onClick.AddListener(LoadMore);
-
+            m_BuildModel.onClick.RemoveAllListeners();
+            m_BuildModel.onClick.AddListener(BuildModel);
         }
-
-
         void LoadMore()
         {
             string text = "For additional categories, please refer to the demo project or consult the documentation for more information";
             ApiEvents.OnShowTextPopup?.Invoke(null, text);
         }
-
         void LoginButtonClick()
         {
             ApiEvents.OnApiRequest?.Invoke(null, false);
@@ -93,16 +86,29 @@ namespace Com.Avataryug
                 }
             });
         }
-
         private void LoadModel()
         {
-            Debug.LogError("LoginwithCustomID----LoadModel->>");
+            //Debug.LogError("LoginwithCustomID----LoadModel->>");
             if (customizeAvatarLoader == null)
             {
                 customizeAvatarLoader = FindObjectOfType<CustomizeAvatarLoader>();
             }
             customizeAvatarLoader.LoadDefaultModel();
+            AvatarHandler.Instance.CreateDefaultAvatar(CustomizeAvatarLoader.Instance.gender == Gender.Male ? 0 : 1);
         }
-
+        void BuildModel()
+        {
+            ApiEvents.OnApiRequest?.Invoke(null, false);
+            AvatarHandler.Instance.ExportGlb((urlmesh) =>
+            {
+                Debug.Log(urlmesh);
+                AvatarHandler.Instance.ExportThumbnail((urlthumb) =>
+                {
+                    Debug.Log(urlmesh);
+                    ApiEvents.OnApiResponce?.Invoke(null, null);
+                    // m_GenerateAvatarPanel.SetDetail(() => { }, new SaveAvatarClass() { MeshUrl = urlmesh, RenderImageUrl = urlthumb });
+                });
+            });
+        }
     }
 }

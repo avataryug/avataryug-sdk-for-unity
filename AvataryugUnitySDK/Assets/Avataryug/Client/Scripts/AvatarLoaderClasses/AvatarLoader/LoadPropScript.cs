@@ -30,8 +30,8 @@ namespace Com.Avataryug.UI
         private Button m_Button;
 
         // After loading model detail we store in this variable
-        private EconomyItems loadedItem;
-
+        private EconomyItems loadedItem = new EconomyItems();
+        private EconomyItems lastLoadedItem = new EconomyItems();
         /// <summary>
         /// Get button on enable
         /// </summary>
@@ -56,6 +56,16 @@ namespace Com.Avataryug.UI
             {
                 ApiEvents.OnApiResponce?.Invoke(null, null);
                 ApiEvents.LoadNetworkModel?.Invoke(null, loadedItem);
+                if (lastLoadedItem.ID == loadedItem.ID)
+                {
+                    AvatarHandler.Instance.PatchAvatarRemoveBucket(loadedItem);
+                    lastLoadedItem = new EconomyItems();
+                }
+                else
+                {
+                    lastLoadedItem = loadedItem;
+                    AvatarHandler.Instance.PatchAvatarAddBucket(loadedItem, () => { });
+                }
             });
         }
 
@@ -72,6 +82,7 @@ namespace Com.Avataryug.UI
                 gender = 3; //Apart from Top, Bottom, Outfit reset all category maintain as gender 3
             }
             var auth = new EconomyHandler(new GetEconomyItems() { category = category, gender = gender, status = 1, limit = 500, offset = 0 });
+
 
             auth.GetEconomyItems((result) =>
             {
@@ -102,9 +113,12 @@ namespace Com.Avataryug.UI
                     economyItems.LimitedEditionIntialCount = result.Data[index].LimitedEditionIntialCount.Value;
                     economyItems.Status = result.Data[index].Status.Value;
                     economyItems.RealCurrency = result.Data[index].RealCurrency.Value;
+                    economyItems.EntitlementString = result.Data[index].Entitlement;
                     economyItems.Entitlement = JsonUtility.FromJson<Entitlements>(result.Data[index].Entitlement);
+                    economyItems.ConfigString = result.Data[index].Config;
                     economyItems.tags = JsonUtility.FromJson<Tags>("{" + "\"tags\":" + result.Data[index].Tags + "}");
                     economyItems.Config = JsonUtility.FromJson<Configs>(result.Data[index].Config);
+                    economyItems.ConflictingBucketsString = result.Data[index].ConflictingBuckets;
                     string conflictData = result.Data[index].ConflictingBuckets;
                     if (!string.IsNullOrEmpty(conflictData))
                     {
@@ -117,6 +131,7 @@ namespace Com.Avataryug.UI
                     economyItems.VirtualCurrency = JsonUtility.FromJson<VirtualCurrencysResult>("{" + "\"virtualCurrencys\":" + result.Data[index].VirtualCurrency + "}");
                     economyItems.ItemThumbnailsUrl = JsonUtility.FromJson<ItemThumbUrls>("{" + "\"itemThumbnails\":" + result.Data[index].ItemThumbnailsUrl + "}");
                     economyItems.BlendshapeKeys = JsonUtility.FromJson<BlendShapes>("{" + "\"blendShapes\":" + result.Data[index].BlendshapeKeys + "}");
+                    economyItems.BlendshapeKeysString = result.Data[index].BlendshapeKeys;
                     loadedItem = economyItems;
                     onComplete?.Invoke();
                 }

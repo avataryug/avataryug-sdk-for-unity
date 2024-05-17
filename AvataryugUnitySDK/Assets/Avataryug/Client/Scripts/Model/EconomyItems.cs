@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
@@ -11,163 +10,67 @@ namespace Com.Avataryug.Model
     [Serializable]
     public class EconomyItems
     {
-        [DataMember(Name = "ItemCategory", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "ItemCategory")]
         public string ItemCategory = "";
 
-        [DataMember(Name = "ID", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "ID")]
         public string ID = "";
 
-        [DataMember(Name = "TemplateID", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "TemplateID")]
         public string TemplateID = "";
 
-        [DataMember(Name = "ItemSubCategory", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "ItemSubCategory")]
         public string ItemSubCategory = "";
 
-        [DataMember(Name = "DisplayName", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "DisplayName")]
         public string DisplayName = "";
 
-        [DataMember(Name = "Description", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "Description")]
         public string Description = "";
 
-        [DataMember(Name = "CustomMetaData", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "CustomMetaData")]
         public string CustomMetaData = "";
 
-        [DataMember(Name = "Style", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "Style")]
         public string Style = "";
 
-        [DataMember(Name = "Artifacts", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "Artifacts")]
         public string Artifacts = "";
 
-        [DataMember(Name = "ItemSkin", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "ItemSkin")]
         public string ItemSkin = "";
 
-        [DataMember(Name = "CoreBucket", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "CoreBucket")]
         public string CoreBucket = "";
 
-        [DataMember(Name = "OccupiedBuckets", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "OccupiedBuckets")]
         public string OccupiedBuckets = "";
 
-        [DataMember(Name = "Blendshapes", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "Blendshapes")]
         public string Blendshapes = "";
 
-        [DataMember(Name = "Code", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "Code")]
         public string MeshData = "";
 
-        [DataMember(Name = "BonesPhysics", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "BonesPhysics")]
         public string BonesPhysics = "";
 
-        [DataMember(Name = "BoneAdjustments", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "BoneAdjustments")]
         public string BoneAdjustments = "";
 
-        [DataMember(Name = "ItemGender", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "ItemGender")]
         public int ItemGender;
 
-        [DataMember(Name = "IsStackable", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "IsStackable")]
         public int IsStackable;
 
-        [DataMember(Name = "IsLimitedEdition", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "IsLimitedEdition")]
         public int IsLimitedEdition;
 
-        [DataMember(Name = "LimitedEditionIntialCount", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "LimitedEditionIntialCount")]
         public int LimitedEditionIntialCount;
 
-        [DataMember(Name = "Status", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "Status")]
         public int Status;
 
-        [DataMember(Name = "RealCurrency", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "RealCurrency")]
         public int RealCurrency;
 
-        [DataMember(Name = "ConflictingBuckets", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "ConflictingBuckets")]
         public ConflictingBuckets ConflictingBuckets = new ConflictingBuckets();
+        public string ConflictingBucketsString;
 
-        [DataMember(Name = "Config", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "Config")]
         public Configs Config = new Configs();
+        public string ConfigString;
 
-        [DataMember(Name = "Entitlement", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "Entitlement")]
         public Entitlements Entitlement = new Entitlements();
+        public string EntitlementString;
 
-        [DataMember(Name = "ItemThumbnailsUrl", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "ItemThumbnailsUrl")]
         public ItemThumbUrls ItemThumbnailsUrl = new ItemThumbUrls();
 
-        [DataMember(Name = "VirtualCurrency", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "VirtualCurrency")]
         public VirtualCurrencysResult VirtualCurrency = new VirtualCurrencysResult();
 
-        [DataMember(Name = "tags", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "tags")]
         public Tags tags = new Tags();
 
-        [DataMember(Name = "BlendshapeKeys", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "BlendshapeKeys")]
         public BlendShapes BlendshapeKeys = new BlendShapes();
-
-        /// <summary>
-        /// Get the string presentation of the object
-        /// </summary>
-        /// <returns>String presentation of the object</returns>
-        public override string ToString()
-        {
-            var sb = new StringBuilder();
-            sb.Append("class EconomyItems {\n");
-            sb.Append("  ItemCategory: ").Append(ItemCategory).Append("\n");
-            sb.Append("  ID: ").Append(ID).Append("\n");
-            sb.Append("  TemplateID: ").Append(TemplateID).Append("\n");
-            sb.Append("  ItemSubCategory: ").Append(ItemSubCategory).Append("\n");
-            sb.Append("  DisplayName: ").Append(DisplayName).Append("\n");
-            sb.Append("  Description: ").Append(Description).Append("\n");
-            sb.Append("  CustomMetaData: ").Append(CustomMetaData).Append("\n");
-            sb.Append("  Style: ").Append(Style).Append("\n");
-            sb.Append("  Artifacts: ").Append(Artifacts).Append("\n");
-            sb.Append("  ItemSkin: ").Append(ItemSkin).Append("\n");
-            sb.Append("  CoreBucket: ").Append(CoreBucket).Append("\n");
-            sb.Append("  OccupiedBuckets: ").Append(OccupiedBuckets).Append("\n");
-            sb.Append("  Blendshapes: ").Append(Blendshapes).Append("\n");
-            sb.Append("  MeshData: ").Append(MeshData).Append("\n");
-            sb.Append("  BonesPhysics: ").Append(BonesPhysics).Append("\n");
-            sb.Append("  BoneAdjustments: ").Append(BoneAdjustments).Append("\n");
-            sb.Append("  ItemGender: ").Append(ItemGender).Append("\n");
-            sb.Append("  IsStackable: ").Append(IsStackable).Append("\n");
-            sb.Append("  IsLimitedEdition: ").Append(IsLimitedEdition).Append("\n");
-            sb.Append("  LimitedEditionIntialCount: ").Append(LimitedEditionIntialCount).Append("\n");
-            sb.Append("  Status: ").Append(Status).Append("\n");
-            sb.Append("  RealCurrency: ").Append(RealCurrency).Append("\n");
-            sb.Append("  ConflictingBuckets: ").Append(ConflictingBuckets).Append("\n");
-            sb.Append("  Config: ").Append(Config).Append("\n");
-            sb.Append("  Entitlement: ").Append(Entitlement).Append("\n");
-            sb.Append("  ItemThumbnailsUrl: ").Append(ItemThumbnailsUrl).Append("\n");
-            sb.Append("  VirtualCurrency: ").Append(VirtualCurrency).Append("\n");
-            sb.Append("  tags: ").Append(tags).Append("\n");
-            sb.Append("  BlendshapeKeys: ").Append(BlendshapeKeys).Append("\n");
-            sb.Append("}\n");
-            return sb.ToString();
-        }
-
+        public string BlendshapeKeysString;
         /// <summary>
         /// Get the JSON string presentation of the object
         /// </summary>

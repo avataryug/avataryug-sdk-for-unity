@@ -43,7 +43,7 @@ namespace Com.Avataryug
         public SkinnedMeshRenderer eyeRenderer;
         public SkinnedMeshRenderer mouthRenderer;
 
-       public VertexDataClass verticesResult;
+        public VertexDataClass verticesResult;
 
 #if DEMO_AVATARYUG
         public EyeBlink m_EyeBlink;
@@ -116,7 +116,7 @@ namespace Com.Avataryug
         /// Update facewear point position when changes
         /// </summary>
 
-        public void  UpdateFacePoints()
+        public void UpdateFacePoints()
         {
             Mesh mesh = new Mesh();
             headRenderer.BakeMesh(mesh);
@@ -148,83 +148,83 @@ namespace Com.Avataryug
             }
 
             VertexDataClass result = JsonUtility.FromJson<VertexDataClass>(customizeAvatarLoader.avatarLocalData.vertexData.text);
-            
-                verticesResult = result;
-                for (int i = 0; i < verticesResult.Data.Count; i++)
+
+            verticesResult = result;
+            for (int i = 0; i < verticesResult.Data.Count; i++)
+            {
+                var toInt = verticesResult.Data[i].VertexArray.Replace("[", "").Replace("]", "");
+
+                if (toInt.Contains(","))
                 {
-                    var toInt = verticesResult.Data[i].VertexArray.Replace("[", "").Replace("]", "");
+                    var data = toInt.Split(',');
+                    int num = int.Parse(data[0]);
+                    int num2 = int.Parse(data[1]);
 
-                    if (toInt.Contains(","))
+                    string Vertexname = result.Data[i].BucketName + "_Left";
+                    GameObject tempHolder = new GameObject();
+                    tempHolder.name = Vertexname;
+                    m_VertexPointerData.Add(new VertexDatas()
                     {
-                        var data = toInt.Split(',');
-                        int num = int.Parse(data[0]);
-                        int num2 = int.Parse(data[1]);
+                        BucketName = verticesResult.Data[i].BucketName,
+                        MainCatID = verticesResult.Data[i].MainCatID,
+                        Platform = verticesResult.Data[i].Platform,
+                        SinglePointIndex = num,
+                        Meta = verticesResult.Data[i].Meta,
+                        ID = verticesResult.Data[i].ID,
+                        pointTransform = tempHolder.transform,
+                        VertexArray = verticesResult.Data[i].VertexArray
+                    });
 
-                        string Vertexname = result.Data[i].BucketName + "_Left";
-                        GameObject tempHolder = new GameObject();
-                        tempHolder.name = Vertexname;
-                        m_VertexPointerData.Add(new VertexDatas()
-                        {
-                            BucketName = verticesResult.Data[i].BucketName,
-                            MainCatID = verticesResult.Data[i].MainCatID,
-                            Platform = verticesResult.Data[i].Platform,
-                            SinglePointIndex = num,
-                            Meta = verticesResult.Data[i].Meta,
-                            ID = verticesResult.Data[i].ID,
-                            pointTransform = tempHolder.transform,
-                            VertexArray = verticesResult.Data[i].VertexArray
-                        });
+                    tempHolder.transform.rotation = Quaternion.identity;
+                    tempHolder.transform.SetParent(headParent.transform);
+                    tempHolder.transform.position = headParent.localToWorldMatrix.MultiplyPoint3x4(headPosition[num]);
+                    tempHolder.transform.localRotation = pointRotation;
+                    string Vertexname2 = result.Data[i].BucketName + "_right";
+                    GameObject tempHolder2 = new GameObject();
+                    tempHolder2.name = Vertexname2;
 
-                        tempHolder.transform.rotation = Quaternion.identity;
+                    m_VertexPointerData.Add(new VertexDatas()
+                    { BucketName = verticesResult.Data[i].BucketName, MainCatID = verticesResult.Data[i].MainCatID, Platform = verticesResult.Data[i].Platform, SinglePointIndex = num2, Meta = verticesResult.Data[i].Meta, ID = verticesResult.Data[i].ID, pointTransform = tempHolder2.transform, VertexArray = verticesResult.Data[i].VertexArray });
+
+                    tempHolder2.transform.rotation = Quaternion.identity;
+                    tempHolder2.transform.SetParent(headParent.transform);
+                    tempHolder2.transform.position = headParent.localToWorldMatrix.MultiplyPoint3x4(headPosition[num2]);
+                    tempHolder.transform.localRotation = pointRotation;
+                }
+                else
+                {
+                    int num = int.Parse(toInt);
+                    GameObject tempHolder = new GameObject();
+                    tempHolder.name = result.Data[i].BucketName;
+
+                    m_VertexPointerData.Add(new VertexDatas()
+                    {
+                        BucketName = verticesResult.Data[i].BucketName,
+                        MainCatID = verticesResult.Data[i].MainCatID,
+                        Platform = verticesResult.Data[i].Platform,
+                        SinglePointIndex = num,
+                        Meta = verticesResult.Data[i].Meta,
+                        ID = verticesResult.Data[i].ID,
+                        pointTransform = tempHolder.transform,
+                        VertexArray = verticesResult.Data[i].VertexArray
+                    });
+
+                    Vector3 worldPosVertex = headParent.localToWorldMatrix.MultiplyPoint3x4(headPosition[num]);
+                    tempHolder.transform.rotation = Quaternion.identity;
+
+                    if (headParent != null)
+                    {
                         tempHolder.transform.SetParent(headParent.transform);
-                        tempHolder.transform.position = headParent.localToWorldMatrix.MultiplyPoint3x4(headPosition[num]);
-                        tempHolder.transform.localRotation = pointRotation;
-                        string Vertexname2 = result.Data[i].BucketName + "_right";
-                        GameObject tempHolder2 = new GameObject();
-                        tempHolder2.name = Vertexname2;
-
-                        m_VertexPointerData.Add(new VertexDatas()
-                        { BucketName = verticesResult.Data[i].BucketName, MainCatID = verticesResult.Data[i].MainCatID, Platform = verticesResult.Data[i].Platform, SinglePointIndex = num2, Meta = verticesResult.Data[i].Meta, ID = verticesResult.Data[i].ID, pointTransform = tempHolder2.transform, VertexArray = verticesResult.Data[i].VertexArray });
-
-                        tempHolder2.transform.rotation = Quaternion.identity;
-                        tempHolder2.transform.SetParent(headParent.transform);
-                        tempHolder2.transform.position = headParent.localToWorldMatrix.MultiplyPoint3x4(headPosition[num2]);
-                        tempHolder.transform.localRotation = pointRotation;
                     }
                     else
                     {
-                        int num = int.Parse(toInt);
-                        GameObject tempHolder = new GameObject();
-                        tempHolder.name = result.Data[i].BucketName;
-
-                        m_VertexPointerData.Add(new VertexDatas()
-                        {
-                            BucketName = verticesResult.Data[i].BucketName,
-                            MainCatID = verticesResult.Data[i].MainCatID,
-                            Platform = verticesResult.Data[i].Platform,
-                            SinglePointIndex = num,
-                            Meta = verticesResult.Data[i].Meta,
-                            ID = verticesResult.Data[i].ID,
-                            pointTransform = tempHolder.transform,
-                            VertexArray = verticesResult.Data[i].VertexArray
-                        });
-
-                        Vector3 worldPosVertex = headParent.localToWorldMatrix.MultiplyPoint3x4(headPosition[num]);
-                        tempHolder.transform.rotation = Quaternion.identity;
-
-                        if (headParent != null)
-                        {
-                            tempHolder.transform.SetParent(headParent.transform);
-                        }
-                        else
-                        {
-                            tempHolder.transform.SetParent(headRenderer.transform);
-                        }
-                        tempHolder.transform.position = worldPosVertex;
-                        tempHolder.transform.localRotation = pointRotation;
+                        tempHolder.transform.SetParent(headRenderer.transform);
                     }
+                    tempHolder.transform.position = worldPosVertex;
+                    tempHolder.transform.localRotation = pointRotation;
                 }
-                OnComplete?.Invoke();
+            }
+            OnComplete?.Invoke();
         }
 
         /// <summary>
@@ -411,15 +411,11 @@ namespace Com.Avataryug
                         StartCoroutine(Utility.ValueTo(headRenderer.GetBlendShapeWeight(a), (float)blendShape.value, 0.5f, (value) =>
                         {
                             headRenderer.SetBlendShapeWeight(a, value);
-                            //eyeRenderer.SetBlendShapeWeight(a, value);
-                          //  mouthRenderer.SetBlendShapeWeight(a, value);
                         }));
                     }
                     else
                     {
                         headRenderer.SetBlendShapeWeight(a, (float)blendShape.value);
-                       // eyeRenderer.SetBlendShapeWeight(a, (float)blendShape.value);
-                       // mouthRenderer.SetBlendShapeWeight(a, (float)blendShape.value);
                     }
                     break;
                 }

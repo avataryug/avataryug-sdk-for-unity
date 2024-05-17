@@ -96,7 +96,46 @@ namespace Com.Avataryug.Api
         /// <returns>GetExpressionsResponse</returns>
         void GetExpressions(int Status, Action<GetExpressionsResponse> result, Action<ApiException> error);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="AvatarID"></param>
+        /// <param name="Platform"></param>
+        /// <param name="result"></param>
+        /// <param name="error"></param>
         void GetUserAvatarAllData(string AvatarID, string Platform, Action<GetUserAvatarAllDataResponse> result, Action<ApiException> error);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="generateAvatarMeshRequest"></param>
+        /// <param name="result"></param>
+        /// <param name="error"></param>
+        void BuildAvatarMesh(BuildAvatarMeshRequest generateAvatarMeshRequest, Action<GenerateAvatarMeshResponse> result, Action<ApiException> error);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="renderAvatarImageRequest"></param>
+        /// <param name="result"></param>
+        /// <param name="error"></param>
+        void BuildAvatarImage(BuildAvatarImageRequest renderAvatarImageRequest, Action<RenderAvatarImageResponse> result, Action<ApiException> error);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="createAvatarRequest"></param>
+        /// <param name="result"></param>
+        /// <param name="error"></param>
+        void CreateAvatar(CreateAvatarRequest createAvatarRequest, Action<CreateAvatarResponse> result, Action<ApiException> error);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="updateAvatarRequest"></param>
+        /// <param name="result"></param>
+        /// <param name="error"></param>
+        void UpdateAvatar(UpdateAvatarRequest updateAvatarRequest, Action<string> result, Action<ApiException> error);
     }
 
     /// <summary>
@@ -765,6 +804,183 @@ namespace Com.Avataryug.Api
                 return;
             }
             result?.Invoke((GetUserAvatarAllDataResponse)ApiClient.Deserialize(response.Content, typeof(GetUserAvatarAllDataResponse), response.Headers));
+        }
+
+        /// <summary>
+        /// Generate Avatar Mesh This will generated 3D mesh of the Avatar
+        /// </summary>
+        /// <param name="generateAvatarMeshRequest"></param>
+        /// <returns>GenerateAvatarMeshResponse</returns>
+        public async void BuildAvatarMesh(BuildAvatarMeshRequest generateAvatarMeshRequest, Action<GenerateAvatarMeshResponse> result, Action<ApiException> error)
+        {
+            if (!Configuration.ProjectIdPresent)
+            {
+                if (Configuration.avatarProjectSettings.DebugLog)
+                {
+                    Debug.LogError("ProjectId is not present");
+                }
+                ApiEvents.OnShowTextPopup?.Invoke(null, "Project Id is not set");
+                return;
+            }
+
+            var path = "/BuildAvatarMesh";
+            path = path.Replace("{format}", "json");
+
+            var queryParams = new Dictionary<String, String>();
+            var headerParams = new Dictionary<String, String>();
+            var formParams = new Dictionary<String, String>();
+            var fileParams = new Dictionary<String, FileParameter>();
+            String postBody = null;
+
+            postBody = ApiClient.Serialize(generateAvatarMeshRequest); // http body (model) parameter
+
+            // authentication setting, if any
+            String[] authSettings = new String[] { "bearerAuth" };
+
+            // make the HTTP request
+            IRestResponse response = (IRestResponse)await ApiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+
+            if (((int)response.StatusCode) >= 400)
+            {
+                error?.Invoke(new ApiException((int)response.StatusCode, "Error calling GenerateAvatarMesh: " + response.Content, response.Content));
+                return;
+            }
+            else if (((int)response.StatusCode) == 0)
+            {
+                error?.Invoke(new ApiException((int)response.StatusCode, "Error calling GenerateAvatarMesh: " + response.ErrorMessage, response.ErrorMessage));
+            }
+            result?.Invoke((GenerateAvatarMeshResponse)ApiClient.Deserialize(response.Content, typeof(GenerateAvatarMeshResponse), response.Headers));
+        }
+
+        public async void BuildAvatarImage(BuildAvatarImageRequest generateAvatarMeshRequest, Action<RenderAvatarImageResponse> result, Action<ApiException> error)
+        {
+            if (!Configuration.ProjectIdPresent)
+            {
+                if (Configuration.avatarProjectSettings.DebugLog)
+                {
+                    Debug.LogError("ProjectId is not present");
+                }
+                ApiEvents.OnShowTextPopup?.Invoke(null, "Project Id is not set");
+                return;
+            }
+
+            var path = "/BuildAvatarImage";
+            path = path.Replace("{format}", "json");
+
+            var queryParams = new Dictionary<String, String>();
+            var headerParams = new Dictionary<String, String>();
+            var formParams = new Dictionary<String, String>();
+            var fileParams = new Dictionary<String, FileParameter>();
+            String postBody = null;
+
+            postBody = ApiClient.Serialize(generateAvatarMeshRequest); // http body (model) parameter
+
+            // authentication setting, if any
+            String[] authSettings = new String[] { "bearerAuth" };
+
+            // make the HTTP request
+            IRestResponse response = (IRestResponse)await ApiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+
+            if (((int)response.StatusCode) >= 400)
+            {
+                error?.Invoke(new ApiException((int)response.StatusCode, "Error calling GenerateAvatarMesh: " + response.Content, response.Content));
+                return;
+            }
+            else if (((int)response.StatusCode) == 0)
+            {
+                error?.Invoke(new ApiException((int)response.StatusCode, "Error calling GenerateAvatarMesh: " + response.ErrorMessage, response.ErrorMessage));
+            }
+            result?.Invoke((RenderAvatarImageResponse)ApiClient.Deserialize(response.Content, typeof(RenderAvatarImageResponse), response.Headers));
+        }
+
+        public async void CreateAvatar(CreateAvatarRequest createAvatarRequest, Action<CreateAvatarResponse> result, Action<ApiException> error)
+        {
+            if (!Configuration.ProjectIdPresent)
+            {
+                if (Configuration.avatarProjectSettings.DebugLog)
+                {
+                    Debug.LogError("ProjectId is not present");
+                }
+                ApiEvents.OnShowTextPopup?.Invoke(null, "Project Id is not set");
+                return;
+            }
+
+            var path = "/CreateAvatar";
+            path = path.Replace("{format}", "json");
+
+            var queryParams = new Dictionary<String, String>();
+            var headerParams = new Dictionary<String, String>();
+            var formParams = new Dictionary<String, String>();
+            var fileParams = new Dictionary<String, FileParameter>();
+            String postBody = null;
+
+            postBody = ApiClient.Serialize(createAvatarRequest); // http body (model) parameter
+
+            // authentication setting, if any
+            String[] authSettings = new String[] { "bearerAuth" };
+
+            // make the HTTP request
+            IRestResponse response = (IRestResponse)await ApiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+
+            if (((int)response.StatusCode) >= 400)
+            {
+                error?.Invoke(new ApiException((int)response.StatusCode, "Error calling GenerateAvatarMesh: " + response.Content, response.Content));
+                return;
+            }
+            else if (((int)response.StatusCode) == 0)
+            {
+                error?.Invoke(new ApiException((int)response.StatusCode, "Error calling GenerateAvatarMesh: " + response.ErrorMessage, response.ErrorMessage));
+            }
+            result?.Invoke((CreateAvatarResponse)ApiClient.Deserialize(response.Content, typeof(CreateAvatarResponse), response.Headers));
+        }
+
+        public async void UpdateAvatar(UpdateAvatarRequest updateAvatarRequest, Action<string> result, Action<ApiException> error)
+        {
+            if (!Configuration.ProjectIdPresent)
+            {
+                if (Configuration.avatarProjectSettings.DebugLog)
+                {
+                    Debug.LogError("ProjectId is not present");
+                }
+                ApiEvents.OnShowTextPopup?.Invoke(null, "Project Id is not set");
+                return;
+            }
+
+            var path = "/UpdateAvatar";
+            path = path.Replace("{format}", "json");
+
+            var queryParams = new Dictionary<String, String>();
+            var headerParams = new Dictionary<String, String>();
+            var formParams = new Dictionary<String, String>();
+            var fileParams = new Dictionary<String, FileParameter>();
+            String postBody = null;
+
+            postBody = ApiClient.Serialize(updateAvatarRequest); // http body (model) parameter
+
+            // authentication setting, if any
+            String[] authSettings = new String[] { "bearerAuth" };
+
+            // make the HTTP request
+            IRestResponse response = (IRestResponse)await ApiClient.CallApi(path, Method.PATCH, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+
+            if (((int)response.StatusCode) >= 400)
+            {
+                error?.Invoke(new ApiException((int)response.StatusCode, "Error calling GenerateAvatarMesh: " + response.Content, response.Content));
+                return;
+            }
+            else if (((int)response.StatusCode) == 0)
+            {
+                error?.Invoke(new ApiException((int)response.StatusCode, "Error calling GenerateAvatarMesh: " + response.ErrorMessage, response.ErrorMessage));
+            }
+            if(response.Content == null)
+            {
+                result?.Invoke("");
+            }
+            else
+            {
+                result?.Invoke(response.Content);
+            }
+            
         }
 
     }

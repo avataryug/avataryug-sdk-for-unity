@@ -60,7 +60,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: ac2815613d2464344837ae32485203a0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -116,7 +116,7 @@ Material:
     - _EyebrowColor: {r: 0.15294118, g: 0.15294118, b: 0.15294118, a: 1}
     - _EyelinerColor: {r: 1, g: 1, b: 1, a: 0.54509807}
     - _HairColor: {r: 0.16470589, g: 0.16470589, b: 0.16470589, a: 1}
-    - _LipsColor: {r: 1, g: 0.61960787, b: 0.49411765, a: 1}
+    - _LipsColor: {r: 0.5568628, g: 0.5568628, b: 0.5568628, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - _TatooColor: {r: 0.3726415, g: 0.56620216, b: 1, a: 0}
   m_BuildTextureStacks: []

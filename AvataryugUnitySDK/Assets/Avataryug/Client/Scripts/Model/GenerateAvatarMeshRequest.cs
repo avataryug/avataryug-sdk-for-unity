@@ -51,4 +51,24 @@ namespace Com.Avataryug.Model
         }
 
     }
+
+
+    [System.Serializable]
+    public class BuildAvatarMeshRequest
+    {
+        public string AvatarID;
+        public string Platform;
+        public string AvatarData;
+    }
+
+    [System.Serializable]
+    public class BuildAvatarImageRequest
+    {
+        public string AvatarID;
+        public string Platform;
+        public string AvatarData;
+    }
+
+
+
 }
