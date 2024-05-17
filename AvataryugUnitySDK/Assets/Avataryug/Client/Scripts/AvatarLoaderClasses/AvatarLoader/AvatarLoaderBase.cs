@@ -913,7 +913,7 @@ namespace Com.Avataryug
                 if (isPresentLatstId)
                 {
 #if DEMO_AVATARYUG
-                    AvatarHandler.Instance.RemovePart(modelData);
+                    AvatarBuildHandler.Instance.RemovePart(modelData);
 #endif
                     lastLoadedTattoos.RemoveAt(tatooSameIDindex);
                     OnProcessModelTexture();
@@ -925,7 +925,7 @@ namespace Com.Avataryug
                 else
                 {
 #if DEMO_AVATARYUG
-                    AvatarHandler.Instance.RemovePart(modelData);
+                    AvatarBuildHandler.Instance.RemovePart(modelData);
 #endif
                     lastLoadedTattoos.RemoveAt(tatooSameCatindex);
                     addNew = true;
@@ -960,7 +960,7 @@ namespace Com.Avataryug
                             });
 
 #if DEMO_AVATARYUG
-                            AvatarHandler.Instance.AddCurrentBodyPart(modelData);
+                            AvatarBuildHandler.Instance.AddCurrentBodyPart(modelData);
 #endif
                             OnProcessModelTexture();
                             Utility.DelayCall(delayTime, () =>
@@ -1027,7 +1027,7 @@ namespace Com.Avataryug
             {
 
 #if DEMO_AVATARYUG
-                AvatarHandler.Instance.RemovePart(modelData);
+                AvatarBuildHandler.Instance.RemovePart(modelData);
 #endif
                 currentskintoneData = new EconomyItems();
                 m_BodyMaterial.SetTexture("_MainTex", avatarLocalData.bodyTexture);
@@ -1058,7 +1058,7 @@ namespace Com.Avataryug
                                         bodytex.filterMode = FilterMode.Point;
                                         currentskintoneData = modelData;
 #if DEMO_AVATARYUG
-                                        AvatarHandler.Instance.AddCurrentBodyPart(modelData);
+                                        AvatarBuildHandler.Instance.AddCurrentBodyPart(modelData);
 #endif
                                         m_HeadMaterial.SetTexture("_MainTex", facetex);
                                         m_HeadMaterial.SetColor("_Color", Color.white);
@@ -1142,7 +1142,7 @@ namespace Com.Avataryug
                         objtoDestroy.transform.parent = transform;
                     }
 #if DEMO_AVATARYUG
-                    AvatarHandler.Instance.RemovePart(currentTopData);
+                    AvatarBuildHandler.Instance.RemovePart(currentTopData);
 #endif
                     currentTopData = new EconomyItems();
                     CheckMissingModelAfterRemovingSameModel(modelData, objtoDestroy);
@@ -1151,8 +1151,8 @@ namespace Com.Avataryug
                 {
 
 #if DEMO_AVATARYUG
-                    AvatarHandler.Instance.AddCurrentBodyPart(modelData);
-                    AvatarHandler.Instance.RemovePart("Outfit");
+                    AvatarBuildHandler.Instance.AddCurrentBodyPart(modelData);
+                    AvatarBuildHandler.Instance.RemovePart("Outfit");
 #endif
                     currentTopData = modelData;
                     currentOutfitData = new EconomyItems();
@@ -1182,7 +1182,7 @@ namespace Com.Avataryug
                         objtoDestroy.transform.parent = transform;
                     }
 #if DEMO_AVATARYUG
-                    AvatarHandler.Instance.RemovePart(currentBottomData);
+                    AvatarBuildHandler.Instance.RemovePart(currentBottomData);
 #endif
                     currentBottomData = new EconomyItems();
                     CheckMissingModelAfterRemovingSameModel(modelData, objtoDestroy);
@@ -1191,8 +1191,8 @@ namespace Com.Avataryug
                 else
                 {
 #if DEMO_AVATARYUG
-                    AvatarHandler.Instance.AddCurrentBodyPart(modelData);
-                    AvatarHandler.Instance.RemovePart("Outfit");
+                    AvatarBuildHandler.Instance.AddCurrentBodyPart(modelData);
+                    AvatarBuildHandler.Instance.RemovePart("Outfit");
 #endif
                     currentBottomData = modelData;
                     currentOutfitData = new EconomyItems();
@@ -1222,7 +1222,7 @@ namespace Com.Avataryug
                         objtoDestroy.transform.parent = transform;
                     }
 #if DEMO_AVATARYUG
-                    AvatarHandler.Instance.RemovePart(currentOutfitData);
+                    AvatarBuildHandler.Instance.RemovePart(currentOutfitData);
 #endif
                     currentOutfitData = new EconomyItems();
                     CheckMissingModelAfterRemovingSameModel(modelData, objtoDestroy);
@@ -1232,19 +1232,19 @@ namespace Com.Avataryug
                 else
                 {
 #if DEMO_AVATARYUG
-                    AvatarHandler.Instance.AddCurrentBodyPart(modelData);
+                    AvatarBuildHandler.Instance.AddCurrentBodyPart(modelData);
 #endif
                     currentOutfitData = modelData;
                     currentTopData = new EconomyItems();
                     currentBottomData = new EconomyItems();
 #if DEMO_AVATARYUG
-                    AvatarHandler.Instance.RemovePart("Top");
-                    AvatarHandler.Instance.RemovePart("Bottom");
+                    AvatarBuildHandler.Instance.RemovePart("Top");
+                    AvatarBuildHandler.Instance.RemovePart("Bottom");
 #endif
                     if (modelData.ConflictingBuckets.buckets.Find(f => f.name == "lowerbody_foot_both") != null)
                     {
 #if DEMO_AVATARYUG
-                        AvatarHandler.Instance.RemovePart("Footwear");
+                        AvatarBuildHandler.Instance.RemovePart("Footwear");
 #endif
                     }
                 }
@@ -1274,7 +1274,7 @@ namespace Com.Avataryug
                     }
 
 #if DEMO_AVATARYUG
-                    AvatarHandler.Instance.RemovePart(currentFootwearData);
+                    AvatarBuildHandler.Instance.RemovePart(currentFootwearData);
 #endif
                     currentFootwearData = new EconomyItems();
                     CheckMissingModelAfterRemovingSameModel(modelData, objtoDestroy);
@@ -1283,7 +1283,7 @@ namespace Com.Avataryug
                 else
                 {
 #if DEMO_AVATARYUG
-                    AvatarHandler.Instance.AddCurrentBodyPart(modelData);
+                    AvatarBuildHandler.Instance.AddCurrentBodyPart(modelData);
 #endif
                     currentFootwearData = modelData;
 
@@ -1313,7 +1313,7 @@ namespace Com.Avataryug
                         objtoDestroy.transform.parent = transform;
                     }
 #if DEMO_AVATARYUG
-                    AvatarHandler.Instance.RemovePart(currentHandwearData);
+                    AvatarBuildHandler.Instance.RemovePart(currentHandwearData);
 #endif
                     currentHandwearData = new EconomyItems();
                     CheckMissingModelAfterRemovingSameModel(modelData, objtoDestroy);
@@ -1321,7 +1321,7 @@ namespace Com.Avataryug
                 else
                 {
 #if DEMO_AVATARYUG
-                    AvatarHandler.Instance.AddCurrentBodyPart(modelData);
+                    AvatarBuildHandler.Instance.AddCurrentBodyPart(modelData);
 #endif
                     currentHandwearData = modelData;
                 }
@@ -1350,14 +1350,14 @@ namespace Com.Avataryug
                         DestroyImmediate(objtoDestroy);
                     }
 #if DEMO_AVATARYUG
-                    AvatarHandler.Instance.RemovePart(currentWristwearData);
+                    AvatarBuildHandler.Instance.RemovePart(currentWristwearData);
 #endif
                     currentWristwearData = new EconomyItems();
                 }
                 else
                 {
 #if DEMO_AVATARYUG
-                    AvatarHandler.Instance.AddCurrentBodyPart(modelData);
+                    AvatarBuildHandler.Instance.AddCurrentBodyPart(modelData);
 #endif
                     currentWristwearData = modelData;
                 }
@@ -1458,7 +1458,7 @@ namespace Com.Avataryug
                         m_EyeballMaterial.mainTexture = avatarLocalData.eyeballTexture;
                         addnew = false;
 #if DEMO_AVATARYUG
-                        AvatarHandler.Instance.RemovePart(modelData);
+                        AvatarBuildHandler.Instance.RemovePart(modelData);
 #endif
                         Utility.DelayCall(delayTime, () =>
                         {
@@ -1469,7 +1469,7 @@ namespace Com.Avataryug
                 if (addnew)
                 {
 #if DEMO_AVATARYUG
-                    AvatarHandler.Instance.AddCurrentBodyPart(modelData);
+                    AvatarBuildHandler.Instance.AddCurrentBodyPart(modelData);
 #endif
                     currentEyeballData = modelData;
                     TwoDArtifacts artifacts = JsonUtility.FromJson<TwoDArtifacts>("{" + "\"artifacts\":" + modelData.Artifacts + "}");
@@ -1509,7 +1509,7 @@ namespace Com.Avataryug
                         m_HeadMaterial.SetTexture("_LipsTexture", avatarLocalData.DefaultLipTexture);
                         addnew = false;
 #if DEMO_AVATARYUG
-                        AvatarHandler.Instance.RemovePart(modelData);
+                        AvatarBuildHandler.Instance.RemovePart(modelData);
 #endif
                         Utility.DelayCall(delayTime, () =>
                         {
@@ -1520,7 +1520,7 @@ namespace Com.Avataryug
                 if (addnew)
                 {
 #if DEMO_AVATARYUG
-                    AvatarHandler.Instance.AddCurrentBodyPart(modelData);
+                    AvatarBuildHandler.Instance.AddCurrentBodyPart(modelData);
 #endif
                     currentLispData = modelData;
                     TwoDArtifacts artifacts = JsonUtility.FromJson<TwoDArtifacts>("{" + "\"artifacts\":" + modelData.Artifacts + "}");
@@ -1562,7 +1562,7 @@ namespace Com.Avataryug
                         m_HeadMaterial.SetTexture("_EyebrowTexture", avatarLocalData.DefaultEyebrowTexture);
                         addnew = false;
 #if DEMO_AVATARYUG
-                        AvatarHandler.Instance.RemovePart(modelData);
+                        AvatarBuildHandler.Instance.RemovePart(modelData);
 #endif
                         Utility.DelayCall(delayTime, () =>
                         {
@@ -1573,7 +1573,7 @@ namespace Com.Avataryug
                 if (addnew)
                 {
 #if DEMO_AVATARYUG
-                    AvatarHandler.Instance.AddCurrentBodyPart(modelData);
+                    AvatarBuildHandler.Instance.AddCurrentBodyPart(modelData);
 #endif
                     currentEyebrowData = modelData;
                     TwoDArtifacts artifacts = JsonUtility.FromJson<TwoDArtifacts>("{" + "\"artifacts\":" + modelData.Artifacts + "}");
@@ -1631,7 +1631,7 @@ namespace Com.Avataryug
                         if (item.transform.childCount > 0)
                         {
 #if DEMO_AVATARYUG
-                            AvatarHandler.Instance.AddCurrentBodyPartWithid(new EconomyItems() { ID = item.transform.GetChild(0).gameObject.name });
+                            AvatarBuildHandler.Instance.AddCurrentBodyPartWithid(new EconomyItems() { ID = item.transform.GetChild(0).gameObject.name });
 #endif
                             objToDestroy.Add(item.transform.GetChild(0).gameObject);
                             break;
@@ -1778,12 +1778,12 @@ namespace Com.Avataryug
         public void ResetToDefaultData(Action OnComplete = null)
         {
 #if DEMO_AVATARYUG
-            AvatarHandler.Instance.currentSelectedBodyParts.Clear();
+            AvatarBuildHandler.Instance.currentSelectedBodyParts.Clear();
 #endif
             avatarLocalData = Resources.Load<AvatarLocalData>("AvatarLocalData");
 
             BodyTypeData myDeserializedClass = JsonConvert.DeserializeObject<BodyTypeData>(avatarLocalData.bodyTypeData.text);
-            #if DEMO_AVATARYUG
+#if DEMO_AVATARYUG
             CurrentAvatarChanges.Instance.currentBodyType = myDeserializedClass.Data.BodyTypes[0];
 #endif
             currentBodyType = myDeserializedClass.Data.BodyTypes[0];
@@ -1897,13 +1897,13 @@ namespace Com.Avataryug
         {
             ApiEvents.OnApiRequest?.Invoke(null, false);
 #if DEMO_AVATARYUG
-            AvatarHandler.Instance.currentSelectedBodyParts.Clear();
-            AvatarHandler.Instance.currentSelectedProp = new EconomyItems();
+            AvatarBuildHandler.Instance.currentSelectedBodyParts.Clear();
+            AvatarBuildHandler.Instance.currentSelectedProp = new EconomyItems();
 #endif
             avatarLocalData = Resources.Load<AvatarLocalData>("AvatarLocalData");
             BodyTypeData myDeserializedClass = JsonConvert.DeserializeObject<BodyTypeData>(avatarLocalData.bodyTypeData.text);
             currentBodyType = myDeserializedClass.Data.BodyTypes[0];
-            #if DEMO_AVATARYUG
+#if DEMO_AVATARYUG
             CurrentAvatarChanges.Instance.currentBodyType = myDeserializedClass.Data.BodyTypes[0];
 #endif
             HeadCoreBuck = "";
@@ -2013,7 +2013,7 @@ namespace Com.Avataryug
                 networkModelQueue.RemoveAt(0);
                 DownloadNetworkModel(modelData);
 #if DEMO_AVATARYUG
-                AvatarHandler.Instance.currentSelectedProp = modelData;
+                AvatarBuildHandler.Instance.currentSelectedProp = modelData;
 #endif
                 Utility.ClearCatche();
             }
@@ -2067,7 +2067,7 @@ namespace Com.Avataryug
                         if (currentFaceshapeData.ID == modelData.ID)
                         {
 #if DEMO_AVATARYUG
-                            AvatarHandler.Instance.RemovePart(modelData.ItemCategory);
+                            AvatarBuildHandler.Instance.RemovePart(modelData.ItemCategory);
 #endif
                             currentFaceshapeData = new EconomyItems();
 
@@ -2092,7 +2092,7 @@ namespace Com.Avataryug
                                 }
                             }
 #if DEMO_AVATARYUG
-                            AvatarHandler.Instance.AddCurrentBodyPart(modelData);
+                            AvatarBuildHandler.Instance.AddCurrentBodyPart(modelData);
 #endif
                         }
                     }
@@ -2118,7 +2118,7 @@ namespace Com.Avataryug
                         if (currentEyeshapeData.ID == modelData.ID)
                         {
 #if DEMO_AVATARYUG
-                            AvatarHandler.Instance.RemovePart(modelData.ItemCategory);
+                            AvatarBuildHandler.Instance.RemovePart(modelData.ItemCategory);
 #endif
                             currentEyeshapeData = new EconomyItems();
                         }
@@ -2141,7 +2141,7 @@ namespace Com.Avataryug
                                 }
                             }
 #if DEMO_AVATARYUG
-                            AvatarHandler.Instance.AddCurrentBodyPart(modelData);
+                            AvatarBuildHandler.Instance.AddCurrentBodyPart(modelData);
 #endif
                         }
                     }
@@ -2168,7 +2168,7 @@ namespace Com.Avataryug
                         if (currentEyebrowshapeData.ID == modelData.ID)
                         {
 #if DEMO_AVATARYUG
-                            AvatarHandler.Instance.RemovePart(modelData.ItemCategory);
+                            AvatarBuildHandler.Instance.RemovePart(modelData.ItemCategory);
 #endif
                             currentEyebrowshapeData = new EconomyItems();
                         }
@@ -2191,7 +2191,7 @@ namespace Com.Avataryug
                                 }
                             }
 #if DEMO_AVATARYUG
-                            AvatarHandler.Instance.AddCurrentBodyPart(modelData);
+                            AvatarBuildHandler.Instance.AddCurrentBodyPart(modelData);
 #endif
                         }
                     }
@@ -2217,7 +2217,7 @@ namespace Com.Avataryug
                         if (currentNoseshapeData.ID == modelData.ID)
                         {
 #if DEMO_AVATARYUG
-                            AvatarHandler.Instance.RemovePart(modelData.ItemCategory);
+                            AvatarBuildHandler.Instance.RemovePart(modelData.ItemCategory);
 #endif
                             currentNoseshapeData = new EconomyItems();
                         }
@@ -2240,7 +2240,7 @@ namespace Com.Avataryug
                                 }
                             }
 #if DEMO_AVATARYUG
-                            AvatarHandler.Instance.AddCurrentBodyPart(modelData);
+                            AvatarBuildHandler.Instance.AddCurrentBodyPart(modelData);
 #endif
                         }
                     }
@@ -2265,7 +2265,7 @@ namespace Com.Avataryug
                         if (currentLipshapeData.ID == modelData.ID)
                         {
 #if DEMO_AVATARYUG
-                            AvatarHandler.Instance.RemovePart(modelData.ItemCategory);
+                            AvatarBuildHandler.Instance.RemovePart(modelData.ItemCategory);
 #endif
                             currentLipshapeData = new EconomyItems();
                         }
@@ -2288,7 +2288,7 @@ namespace Com.Avataryug
                                 }
                             }
 #if DEMO_AVATARYUG
-                            AvatarHandler.Instance.AddCurrentBodyPart(modelData);
+                            AvatarBuildHandler.Instance.AddCurrentBodyPart(modelData);
 #endif
                         }
                     }
@@ -2313,7 +2313,7 @@ namespace Com.Avataryug
                         if (currentEarshapeData.ID == modelData.ID)
                         {
 #if DEMO_AVATARYUG
-                            AvatarHandler.Instance.RemovePart(modelData.ItemCategory);
+                            AvatarBuildHandler.Instance.RemovePart(modelData.ItemCategory);
 #endif
                             currentEarshapeData = new EconomyItems();
                         }
@@ -2336,7 +2336,7 @@ namespace Com.Avataryug
                                 }
                             }
 #if DEMO_AVATARYUG
-                            AvatarHandler.Instance.AddCurrentBodyPart(modelData);
+                            AvatarBuildHandler.Instance.AddCurrentBodyPart(modelData);
 #endif
 
                         }
@@ -2437,7 +2437,7 @@ namespace Com.Avataryug
                 if (isModelPresent)
                 {
 #if DEMO_AVATARYUG
-                    AvatarHandler.Instance.RemovePart(modelData);
+                    AvatarBuildHandler.Instance.RemovePart(modelData);
 #endif
                     Utility.DelayCall(delayTime, () =>
                     {
@@ -2465,7 +2465,7 @@ namespace Com.Avataryug
                                             id = objname[1];
                                         }
 #if DEMO_AVATARYUG
-                                        AvatarHandler.Instance.RemovePart(new EconomyItems() { ID = id });
+                                        AvatarBuildHandler.Instance.RemovePart(new EconomyItems() { ID = id });
 #endif
                                         Destroy(headModelScript.m_VertexPointerData[i].pointTransform.GetChild(0).gameObject);
                                     }
@@ -2482,7 +2482,7 @@ namespace Com.Avataryug
                                         id = objname[1];
                                     }
 #if DEMO_AVATARYUG
-                                    AvatarHandler.Instance.RemovePart(new EconomyItems() { ID = id });
+                                    AvatarBuildHandler.Instance.RemovePart(new EconomyItems() { ID = id });
 #endif
                                     Destroy(headModelScript.m_VertexPointerData[i].pointTransform.GetChild(0).gameObject);
                                 }
@@ -2498,7 +2498,7 @@ namespace Com.Avataryug
                             if (!string.IsNullOrWhiteSpace(artifact.url))
                             {
 #if DEMO_AVATARYUG
-                                AvatarHandler.Instance.AddCurrentBodyPartWithid(modelData);
+                                AvatarBuildHandler.Instance.AddCurrentBodyPartWithid(modelData);
 #endif
                                 FileDownloder.GetByteData(artifact.url, (result) =>
                                 {
@@ -2635,7 +2635,7 @@ namespace Com.Avataryug
                         ResetHairBlendshape();
                     }
 #if DEMO_AVATARYUG
-                    AvatarHandler.Instance.RemovePart(modelData);
+                    AvatarBuildHandler.Instance.RemovePart(modelData);
 #endif
                     Utility.DelayCall(delayTime, () =>
                     {
@@ -2687,7 +2687,7 @@ namespace Com.Avataryug
                             if (!string.IsNullOrWhiteSpace(artifact.url))
                             {
 #if DEMO_AVATARYUG
-                                AvatarHandler.Instance.AddCurrentBodyPart(modelData);
+                                AvatarBuildHandler.Instance.AddCurrentBodyPart(modelData);
 #endif
                                 FileDownloder.GetByteData(artifact.url, (result) =>
                                 {
@@ -2971,7 +2971,7 @@ namespace Com.Avataryug
             foreach (var item in CurrentAvatarChanges.Instance.currentProps.props)
             {
                 var modelData = EconomyItemHolder.Instance.GetEconomyCurrentItemWithId(item.ID);
-                AvatarHandler.Instance.AddCurrentBodyPart(modelData);
+                AvatarBuildHandler.Instance.AddCurrentBodyPart(modelData);
                 var economydata = EconomyItemHolder.Instance.GetCurrentEconomyTex(modelData.ID);
                 if (modelData.ItemCategory == "SkinTone")
                 {
@@ -3044,14 +3044,14 @@ namespace Com.Avataryug
                     addNew = false;
 
 #if DEMO_AVATARYUG
-                    AvatarHandler.Instance.RemovePart(modelData);
+                    AvatarBuildHandler.Instance.RemovePart(modelData);
 #endif
                 }
                 else
                 {
                     currentHairData = modelData;
 #if DEMO_AVATARYUG
-                    AvatarHandler.Instance.AddCurrentBodyPart(modelData);
+                    AvatarBuildHandler.Instance.AddCurrentBodyPart(modelData);
 #endif
                 }
             }
@@ -3059,7 +3059,7 @@ namespace Com.Avataryug
             {
                 currentHairData = modelData;
 #if DEMO_AVATARYUG
-                AvatarHandler.Instance.AddCurrentBodyPart(modelData);
+                AvatarBuildHandler.Instance.AddCurrentBodyPart(modelData);
 #endif
             }
             if (isModelPresent)
@@ -3161,7 +3161,7 @@ namespace Com.Avataryug
                             if (!string.IsNullOrWhiteSpace(artifact.url))
                             {
 #if DEMO_AVATARYUG
-                                AvatarHandler.Instance.AddCurrentBodyPart(modelData);
+                                AvatarBuildHandler.Instance.AddCurrentBodyPart(modelData);
 #endif
                                 FileDownloder.GetByteData(artifact.url, (result) =>
                                 {
@@ -3263,14 +3263,14 @@ namespace Com.Avataryug
                     addNew = false;
 
 #if DEMO_AVATARYUG
-                    AvatarHandler.Instance.RemovePart(modelData);
+                    AvatarBuildHandler.Instance.RemovePart(modelData);
 #endif
                 }
                 else
                 {
                     currentfacialHairData = modelData;
 #if DEMO_AVATARYUG
-                    AvatarHandler.Instance.AddCurrentBodyPart(modelData);
+                    AvatarBuildHandler.Instance.AddCurrentBodyPart(modelData);
 #endif
                 }
             }
@@ -3278,7 +3278,7 @@ namespace Com.Avataryug
             {
                 currentfacialHairData = modelData;
 #if DEMO_AVATARYUG
-                AvatarHandler.Instance.AddCurrentBodyPart(modelData);
+                AvatarBuildHandler.Instance.AddCurrentBodyPart(modelData);
 #endif
             }
             if (isModelPresent)
@@ -3376,7 +3376,7 @@ namespace Com.Avataryug
                             if (!string.IsNullOrWhiteSpace(artifact.url))
                             {
 #if DEMO_AVATARYUG
-                                AvatarHandler.Instance.AddCurrentBodyPart(modelData);
+                                AvatarBuildHandler.Instance.AddCurrentBodyPart(modelData);
 #endif
                                 FileDownloder.GetByteData(artifact.url, (result) =>
                                 {

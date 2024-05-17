@@ -58,13 +58,13 @@ namespace Com.Avataryug.UI
                 ApiEvents.LoadNetworkModel?.Invoke(null, loadedItem);
                 if (lastLoadedItem.ID == loadedItem.ID)
                 {
-                    AvatarHandler.Instance.PatchAvatarRemoveBucket(loadedItem);
+                    AvatarBuildHandler.Instance.PatchAvatarRemoveBucket(loadedItem);
                     lastLoadedItem = new EconomyItems();
                 }
                 else
                 {
                     lastLoadedItem = loadedItem;
-                    AvatarHandler.Instance.PatchAvatarAddBucket(loadedItem, () => { });
+                    AvatarBuildHandler.Instance.PatchAvatarAddBucket(loadedItem, () => { });
                 }
             });
         }

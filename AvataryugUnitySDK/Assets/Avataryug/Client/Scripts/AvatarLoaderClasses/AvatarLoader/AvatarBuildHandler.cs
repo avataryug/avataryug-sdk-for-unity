@@ -5,9 +5,9 @@ using Com.Avataryug.Model;
 using Com.Avataryug.Handler;
 using System.Collections.Generic;
 
-public class AvatarHandler : Singleton<AvatarHandler>
+public class AvatarBuildHandler : Singleton<AvatarBuildHandler>
 {
-    protected AvatarHandler() { }
+    protected AvatarBuildHandler() { }
     [HideInInspector] public EconomyItems currentTopData = new EconomyItems();
     [HideInInspector] public EconomyItems currentHairData = new EconomyItems();
     [HideInInspector] public EconomyItems currentLipsData = new EconomyItems();
@@ -703,7 +703,7 @@ public class AvatarHandler : Singleton<AvatarHandler>
         avatarData.Race = "Custom";
         avatarData.Gender = clipExpressionData.gender;
         avatarData.ColorMeta = CurrentAvatarChanges.Instance.changePropColors;
-        foreach (var item in AvatarHandler.Instance.currentSelectedBodyParts)
+        foreach (var item in AvatarBuildHandler.Instance.currentSelectedBodyParts)
         {
             avatarData.BucketData.Add(new BucketDatum()
             {
@@ -719,11 +719,11 @@ public class AvatarHandler : Singleton<AvatarHandler>
         }
         avatarData.CustomMetaData = "[]";
 
-        for (int a = 0; a < AvatarHandler.Instance.ForCustomizeAvatar.headModelScript.headRenderer.sharedMesh.blendShapeCount; a++)
+        for (int a = 0; a < AvatarBuildHandler.Instance.ForCustomizeAvatar.headModelScript.headRenderer.sharedMesh.blendShapeCount; a++)
         {
             int index = a;
-            string blendshapename = AvatarHandler.Instance.ForCustomizeAvatar.headModelScript.headRenderer.sharedMesh.GetBlendShapeName(index);
-            float weight = AvatarHandler.Instance.ForCustomizeAvatar.headModelScript.headRenderer.GetBlendShapeWeight(index);
+            string blendshapename = AvatarBuildHandler.Instance.ForCustomizeAvatar.headModelScript.headRenderer.sharedMesh.GetBlendShapeName(index);
+            float weight = AvatarBuildHandler.Instance.ForCustomizeAvatar.headModelScript.headRenderer.GetBlendShapeWeight(index);
             if (weight != 0 && !CommonFunction.IsPresntinExpression(blendshapename))
             {
                 avatarData.Blendshapes.Add(new Blendshape1()
@@ -930,7 +930,7 @@ public class AvatarHandler : Singleton<AvatarHandler>
     public void PatchAvatarBlendshape(System.Action onUpdate)
     {
 #if DEMO_AVATARYUG
-        SkinnedMeshRenderer head = AvatarHandler.Instance.ForCustomizeAvatar.headModelScript.headRenderer;
+        SkinnedMeshRenderer head = AvatarBuildHandler.Instance.ForCustomizeAvatar.headModelScript.headRenderer;
         BlendsahpePatch blendsahpePatch = new BlendsahpePatch();
         for (int a = 0; a < head.sharedMesh.blendShapeCount; a++)
         {
@@ -962,7 +962,7 @@ public class AvatarHandler : Singleton<AvatarHandler>
     public void PatchAvatarExpression(System.Action onUpdate)
     {
 #if DEMO_AVATARYUG
-        SkinnedMeshRenderer head = AvatarHandler.Instance.ForCustomizeAvatar.headModelScript.headRenderer;
+        SkinnedMeshRenderer head = AvatarBuildHandler.Instance.ForCustomizeAvatar.headModelScript.headRenderer;
         BlendsahpePatch blendsahpePatch = new BlendsahpePatch();
         for (int a = 0; a < head.sharedMesh.blendShapeCount; a++)
         {

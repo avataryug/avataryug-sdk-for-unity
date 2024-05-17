@@ -94,15 +94,15 @@ namespace Com.Avataryug
                 customizeAvatarLoader = FindObjectOfType<CustomizeAvatarLoader>();
             }
             customizeAvatarLoader.LoadDefaultModel();
-            AvatarHandler.Instance.CreateDefaultAvatar(CustomizeAvatarLoader.Instance.gender == Gender.Male ? 0 : 1);
+            AvatarBuildHandler.Instance.CreateDefaultAvatar(CustomizeAvatarLoader.Instance.gender == Gender.Male ? 0 : 1);
         }
         void BuildModel()
         {
             ApiEvents.OnApiRequest?.Invoke(null, false);
-            AvatarHandler.Instance.ExportGlb((urlmesh) =>
+            AvatarBuildHandler.Instance.ExportGlb((urlmesh) =>
             {
                 Debug.Log(urlmesh);
-                AvatarHandler.Instance.ExportThumbnail((urlthumb) =>
+                AvatarBuildHandler.Instance.ExportThumbnail((urlthumb) =>
                 {
                     Debug.Log(urlmesh);
                     ApiEvents.OnApiResponce?.Invoke(null, null);
